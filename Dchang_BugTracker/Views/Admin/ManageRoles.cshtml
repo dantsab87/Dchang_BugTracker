@@ -1,0 +1,88 @@
+﻿@model IEnumerable<Dchang_BugTracker.Models.ManageRolesViewModel>
+@{
+    ViewBag.Title = "ManageRoles";
+}
+
+<style>
+    .Wide {
+        width: 100%;
+    }
+</style>
+
+<div class="page-header">
+    <h4 class="page-title">Manage Roles</h4>
+    <ul class="breadcrumbs">
+        <li class="nav-home">
+            <a href="#">
+                <i class="flaticon-home"></i>
+            </a>
+        </li>
+        <li class="separator">
+            <i class="flaticon-right-arrow"></i>
+        </li>
+        <li class="nav-item">
+            <a href="#">Manage Roles</a>
+        </li>
+
+    </ul>
+</div>
+<div class="card">
+    <div class="card-body">
+
+        <div class="row">
+            <div class="col-md-6">
+                @using (Html.BeginForm())
+                {
+                    @Html.AntiForgeryToken()
+
+                    <div class="row">
+                        <div class="col">
+                            @Html.ListBox("UserIds", null, new { @class = "Wide" })
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            @Html.DropDownList("Role", null, "--Select Role--", new { @class = "Wide" })
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <button type="submit" class="btn btn-primary btn-block">Submit</button>
+                        </div>
+                    </div>
+                }
+            </div>
+            <div class="col-md-6">
+
+                <table class="table table-hover table-head-bg-primary table-striped Dtable">
+                    <thead>
+                        <tr>
+                            <th scope="col">
+                                @Html.DisplayName("User Name")
+                            </th>
+                            <th scope="col">
+                                @Html.DisplayName("Role")
+                            </th>
+                        </tr>
+                    </thead>
+                    @foreach (var user in Model)
+                    {
+                        <tr width="100%">
+                            <td>
+                                @Html.DisplayFor(model => user.UserName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(model => user.RoleName)
+                            </td>
+                        </tr>
+                    }
+
+                </table>
+
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
