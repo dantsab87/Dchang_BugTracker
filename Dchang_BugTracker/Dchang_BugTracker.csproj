@@ -261,11 +261,6 @@
     <Content Include="Images\mlane.jpg" />
     <Content Include="Images\profile.jpg" />
     <Content Include="Images\profile2.jpg" />
-    <Content Include="Images\sort_asc.png" />
-    <Content Include="Images\sort_asc_disabled.png" />
-    <Content Include="Images\sort_both.png" />
-    <Content Include="Images\sort_desc.png" />
-    <Content Include="Images\sort_desc_disabled.png" />
     <Content Include="Images\talha.jpg" />
     <Content Include="Images\test.png" />
     <Content Include="Images\Users\dwallace.jpg" />
