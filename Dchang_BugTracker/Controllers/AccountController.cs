@@ -9,6 +9,8 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using Dchang_BugTracker.Models;
+using Dchang_BugTracker.Helper;
+using System.IO;
 
 namespace Dchang_BugTracker.Controllers
 {
@@ -147,11 +149,36 @@ namespace Dchang_BugTracker.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Register(RegisterViewModel model)
+        public async Task<ActionResult> Register(RegisterViewModel model, HttpPostedFileBase avatar)
         {
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email, FirstName = model.FirstName, LastName = model.LastName, DisplayName = model.DisplayName};
+                var user = new ApplicationUser 
+                { 
+                    UserName = model.Email, 
+                    Email = model.Email, 
+                    FirstName = model.FirstName, 
+                    LastName = model.LastName, 
+                    DisplayName = model.DisplayName,
+                    AvatarPath = "/Avatars/default.png"
+                };
+
+                if (avatar != null) 
+                {
+
+                    if (ImageUploadValidator.IsWebFriendlyImage(avatar)) 
+                    {
+                        var fileName = Path.GetFileName(avatar.FileName);
+                        var justFileName = Path.GetFileNameWithoutExtension(fileName);
+                        justFileName = StringUtilities.URLFriendly(justFileName);
+                        fileName = $"{justFileName}_{DateTime.Now.Ticks}{Path.GetExtension(fileName)}";
+                        avatar.SaveAs(Path.Combine(Server.MapPath("~/Avatars/"), fileName));
+                        user.AvatarPath = "/Avatars/" + fileName;
+                    }
+
+
+                }
+
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
@@ -159,11 +186,12 @@ namespace Dchang_BugTracker.Controllers
                     
                     // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
                     // Send an email with this link
-                    // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
-                    // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
+                    string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
+                    var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
                     // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
 
-                    return RedirectToAction("Dashboard", "Home");
+                    await EmailHelper.ComposeEmailAsync(model, callbackUrl);
+                    return RedirectToAction("Index", "Home");
                 }
                 AddErrors(result);
             }
@@ -212,10 +240,13 @@ namespace Dchang_BugTracker.Controllers
 
                 // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
                 // Send an email with this link
-                // string code = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
-                // var callbackUrl = Url.Action("ResetPassword", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);		
+                string code = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
+                var callbackUrl = Url.Action("ResetPassword", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
                 // await UserManager.SendEmailAsync(user.Id, "Reset Password", "Please reset your password by clicking <a href=\"" + callbackUrl + "\">here</a>");
                 // return RedirectToAction("ForgotPasswordConfirmation", "Account");
+
+                await EmailHelper.ComposeEmailAsync(model, callbackUrl);
+                return RedirectToAction("ForgotPasswordConfirmation", "Account");
             }
 
             // If we got this far, something failed, redisplay form

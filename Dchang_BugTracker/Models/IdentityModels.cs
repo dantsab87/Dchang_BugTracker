@@ -12,16 +12,18 @@ namespace Dchang_BugTracker.Models
     public class ApplicationUser : IdentityUser
     {
         [Display(Name = "First Name")] 
-        [StringLength(50, MinimumLength = 3, ErrorMessage ="First Name must have a minimum length of 3 and max length of 50." )]
+        [StringLength(20, MinimumLength = 3, ErrorMessage ="First Name must have a minimum length of 3 and max length of 50." )]
         public string FirstName { get; set; }
 
         [Display(Name = "Last Name")]
-        [StringLength(50, MinimumLength = 3, ErrorMessage = "First Name must have a minimum length of 3 and max length of 50.")]
+        [StringLength(20, MinimumLength = 3, ErrorMessage = "First Name must have a minimum length of 3 and max length of 50.")]
         public string LastName { get; set; }
 
         [Display(Name = "Display Name")]
-        [StringLength(50, MinimumLength = 3, ErrorMessage = "First Name must have a minimum length of 3 and max length of 50.")]
+        [StringLength(25, MinimumLength = 3, ErrorMessage = "First Name must have a minimum length of 3 and max length of 50.")]
         public string DisplayName { get; set; }
+
+        public string AvatarPath { get; set; }
 
         public virtual ICollection<TicketComment> TicketComments { get; set; }
         public virtual ICollection<Project> Projects { get; set; }

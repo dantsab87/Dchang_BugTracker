@@ -4,46 +4,52 @@
     ViewBag.Title = "Index";
 }
 
+<style>
+.table td, .table th {
+        font-size: 9pt;
+    }
+</style>
+
 <h2>Index</h2>
 
 <p>
     @Html.ActionLink("Create New", "Create")
 </p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.AssignedToUser.FirstName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.OwnerUser.FirstName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Project.Name)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.TicketPriority.PriorityName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.TicketStatus.StatusName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.TicketType.TypeName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Title)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Description)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Created)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Updated)
-        </th>
-        <th></th>
-    </tr>
-
+<table class="table Dtable table-head-bg-primary">
+    <thead>
+        <tr>
+            <th>
+                @*@Html.DisplayNameFor(model => model.AssignedToUser.FirstName)*@ Developer
+            </th>
+            <th>
+                @*@Html.DisplayNameFor(model => model.OwnerUser.FirstName)*@ Submitter
+            </th>
+            <th>
+                @*@Html.DisplayNameFor(model => model.Project.Name)*@ Project Name
+            </th>
+            <th>
+                @*@Html.DisplayNameFor(model => model.TicketPriority.PriorityName)*@ Priority
+            </th>
+            <th>
+                @*@Html.DisplayNameFor(model => model.TicketStatus.StatusName)*@ Status
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TicketType.TypeName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Created)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Updated)
+            </th>
+        </tr>
+    </thead>
 @foreach (var item in Model) {
     <tr>
         <td>
@@ -56,7 +62,7 @@
             @Html.DisplayFor(modelItem => item.Project.Name)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.TicketPriority.PriorityName)
+            <span class="badge badge-danger">@Html.DisplayFor(modelItem => item.TicketPriority.PriorityName)</span>
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.TicketStatus.StatusName)
@@ -73,9 +79,9 @@
         <td>
             @Html.DisplayFor(modelItem => item.Created)
         </td>
-        <td>
+        @*<td>
             @Html.DisplayFor(modelItem => item.Updated)
-        </td>
+        </td>*@
         <td>
             @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
             @Html.ActionLink("Details", "Details", new { id=item.Id }) |

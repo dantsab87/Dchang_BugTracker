@@ -183,12 +183,18 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helper\EmailHelper.cs" />
+    <Compile Include="Helper\ImageUploadValidator.cs" />
     <Compile Include="Helper\ProjectHelper.cs" />
     <Compile Include="Helper\RoleHelper.cs" />
+    <Compile Include="Helper\StringUtilities.cs" />
+    <Compile Include="Helper\TicketHelper.cs" />
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\EmailModel.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\ProfileViewModel.cs" />
     <Compile Include="Models\Project.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
@@ -202,6 +208,7 @@
     <Compile Include="Models\TIcketType.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Avatars\default.png" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\Login\animate.css" />
     <Content Include="Content\Login\animsition.min.css" />
@@ -263,7 +270,20 @@
     <Content Include="Images\profile2.jpg" />
     <Content Include="Images\talha.jpg" />
     <Content Include="Images\test.png" />
-    <Content Include="Images\Users\dwallace.jpg" />
+    <Content Include="Avatars\angela.jpg" />
+    <Content Include="Avatars\charles.jpg" />
+    <Content Include="Avatars\creed.jpg" />
+    <Content Include="Avatars\dwallace.jpg" />
+    <Content Include="Avatars\dwight.jpg" />
+    <Content Include="Avatars\erin.jpg" />
+    <Content Include="Avatars\jan.jpg" />
+    <Content Include="Avatars\jim.jpg" />
+    <Content Include="Avatars\kelly.jpg" />
+    <Content Include="Avatars\kevin.jpg" />
+    <Content Include="Avatars\mscott.jpg" />
+    <Content Include="Avatars\pam.jpg" />
+    <Content Include="Avatars\ryan.jpg" />
+    <Content Include="Avatars\toby.jpg" />
     <Content Include="Scripts\atlantis.min.js" />
     <Content Include="Scripts\bootstrap-notify.min.js" />
     <Content Include="Scripts\bootstrap.min.js" />
@@ -284,6 +304,7 @@
     <Content Include="Scripts\Login\countdowntime.js" />
     <Content Include="Scripts\Login\daterangepicker.js" />
     <Content Include="Scripts\Login\jquery-3.2.1.min.js" />
+    <Content Include="Scripts\Login\jquery.validate.min.js" />
     <Content Include="Scripts\Login\main.js" />
     <Content Include="Scripts\Login\moment.js" />
     <Content Include="Scripts\Login\popper.js" />
@@ -302,7 +323,6 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Home\EditProfile.cshtml" />
     <Content Include="Views\Home\UserSettings.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Account\_ExternalLoginsListPartial.cshtml" />
@@ -403,7 +423,10 @@
     <None Include="packages.config" />
     <Content Include="Views\Admin\ManageProjectUsers.cshtml" />
     <Content Include="Views\Projects\ManageUsers.cshtml" />
-    <Content Include="Views\Home\Profile.cshtml" />
+    <Content Include="Views\Home\Contacts.cshtml" />
+    <Content Include="private.config" />
+    <Content Include="Views\Account\NewRegister.cshtml" />
+    <Content Include="Views\Home\EditProfile.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

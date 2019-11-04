@@ -32,7 +32,8 @@ namespace Dchang_BugTracker.Controllers
             //        currentPm = user.Id;
             //    }
             //}
-            ViewBag.ProjectManagerId = new SelectList(roleHelper.UsersInRole("Project Manager"), "Id", "Email", projectHelper.ListUsersOnProjectInRole(id, "Project Manager").FirstOrDefault());
+            var pmId = projectHelper.ListUsersOnProjectInRole(id, "Project Manager").FirstOrDefault();
+            ViewBag.ProjectManagerId = new SelectList(roleHelper.UsersInRole("Project Manager"), "Id", "Email", pmId);
             #endregion
 
             #region Dev section
@@ -61,19 +62,17 @@ namespace Dchang_BugTracker.Controllers
             ViewBag.Submitters = new MultiSelectList(roleHelper.UsersInRole("Submitter"), "Id", "Email", projectHelper.ListUsersOnProjectInRole(id, "Submitter"));
             #endregion
 
-            return View();
+            return View(db.Projects.Find(id));
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult ManageUsers(int projectId, string projectManagerId, List<string> developers, List<string> submitters) 
         {
-            foreach (var user in projectHelper.UsersNotOnProject(projectId).ToList()) 
+            foreach (var user in projectHelper.UsersOnProject(projectId).ToList()) 
             {
                 projectHelper.RemoveUserFromProject(user.Id, projectId);
             }
-
-
 
             //In order to ensure that I always have the correct and current set of assign users 
             //I will first remove all users from the selected project, then I will add back the selected users

@@ -1,0 +1,205 @@
+﻿@{
+    ViewBag.Title = "Contact Directory";
+}
+
+<style>
+    .card-title {
+            font-size: 14px;
+            font-weight: 600;
+            font-family: inherit;
+    }
+    .card-img-overlay {
+        margin-top: -20px;
+        margin-left: -10px;
+    }
+</style>
+
+<div class="page-header">
+    <h4 class="page-title">@ViewBag.Title</h4>
+    @*<ul class="breadcrumbs">
+            <li class="nav-home">
+                <a href="#">
+                    <i class="flaticon-home"></i>
+                </a>
+            </li>
+            <li class="separator">
+                <i class="flaticon-right-arrow"></i>
+            </li>
+            <li class="nav-item">
+                <a href="#">Base</a>
+            </li>
+            <li class="separator">
+                <i class="flaticon-right-arrow"></i>
+            </li>
+            <li class="nav-item">
+                <a href="#">Grid System</a>
+            </li>
+        </ul>*@
+</div>
+<div class="card">
+    <div class="card-body">
+    <div class="container">
+        <div class="row">
+            <div class="col-3">
+                <div class="card" style="width: 13rem;">
+                    <img class="card-img-top" src="~/Avatars/dwallace.jpg" alt="Card image cap">
+                    <div class="card-img-overlay">
+                        <span class="badge badge-success">Admin</span>
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">David Wallace</h5>
+                        <p class="card-text">Email: </p>
+                        <p class="card-text">Phone: </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-3">
+                <div class="card" style="width: 13rem;">
+                    <img class="card-img-top" src="~/Avatars/jan.jpg" alt="Card image cap">
+                    <div class="card-img-overlay">
+                        <span class="badge badge-success">Admin</span>
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">Jan Levinson</h5>
+                        <p class="card-text">Email: </p>
+                        <p class="card-text">Phone: </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-3">
+                <div class="card" style="width: 13rem;">
+                    <img class="card-img-top" src="~/Avatars/toby.jpg" alt="Card image cap">
+                    <div class="card-img-overlay">
+                        <span class="badge badge-success">Admin</span>
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">Toby Flenderson</h5>
+                        <p class="card-text">Email: </p>
+                        <p class="card-text">Phone: </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-3">
+                <div class="card" style="width: 13rem;">
+                    <img class="card-img-top" src="~/Avatars/charles.jpg" alt="Card image cap">
+                    <div class="card-img-overlay">
+                        <span class="badge badge-primary">Project Manager</span>
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">Charles Miner</h5>
+                        <p class="card-text">Email: </p>
+                        <p class="card-text">Phone: </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-3">
+                <div class="card" style="width: 13rem;">
+                    <img class="card-img-top" src="~/Avatars/mscott.jpg" alt="Card image cap">
+                    <div class="card-img-overlay">
+                        <span class="badge badge-primary">Project Manager</span>
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">Michael Scott</h5>
+                        <p class="card-text">Email: </p>
+                        <p class="card-text">Phone: </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-3">
+                <div class="card" style="width: 13rem;">
+                    <img class="card-img-top" src="~/Avatars/jim.jpg" alt="Card image cap">
+                    <div class="card-img-overlay">
+                        <span class="badge badge-info">Developer</span>
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">Jim Halpert</h5>
+                        <p class="card-text">Email: </p>
+                        <p class="card-text">Phone: </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-3">
+                <div class="card" style="width: 13rem;">
+                    <img class="card-img-top" src="~/Avatars/dwight.jpg" alt="Card image cap">
+                    <div class="card-img-overlay">
+                        <span class="badge badge-info">Developer</span>
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">Dwight Schrute</h5>
+                        <p class="card-text">Email: </p>
+                        <p class="card-text">Phone: </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-3">
+                <div class="card" style="width: 13rem;">
+                    <img class="card-img-top" src="~/Avatars/creed.jpg" alt="Card image cap">
+                    <div class="card-img-overlay">
+                        <span class="badge badge-info">Developer</span>
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">Creed Bratton</h5>
+                        <p class="card-text">Email: </p>
+                        <p class="card-text">Phone: </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        @*<div class="row">
+            <div class="col-3">
+                <div class="card" style="width: 13rem;">
+                    <img class="card-img-top" src="~/Avatars/kelly.jpg" alt="Card image cap">
+                    <div class="card-img-overlay">
+                        <span class="badge badge-default">Submitter</span>
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">Kelly Kapoor</h5>
+                        <p class="card-text">Email: </p>
+                        <p class="card-text">Phone: </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-3">
+                <div class="card" style="width: 13rem;">
+                    <img class="card-img-top" src="~/Avatars/erin.jpg" alt="Card image cap">
+                    <div class="card-img-overlay">
+                        <span class="badge badge-default">Submitter</span>
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">Erin Hannon</h5>
+                        <p class="card-text">Email: </p>
+                        <p class="card-text">Phone: </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-3">
+                <div class="card" style="width: 13rem;">
+                    <img class="card-img-top" src="~/Avatars/pam.jpg" alt="Card image cap">
+                    <div class="card-img-overlay">
+                        <span class="badge badge-default">Submitter</span>
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">Pam Beesley</h5>
+                        <p class="card-text">Email: </p>
+                        <p class="card-text">Phone: </p>
+                    </div>
+                </div>
+            </div>
+
+        </div>*@
+    </div>
+    </div>
+</div>
+

@@ -1,7 +1,135 @@
-﻿@{
-    ViewBag.Title = "About";
+﻿@model Dchang_BugTracker.Models.ProfileViewModel
+@using Dchang_BugTracker.Models
+@using Microsoft.AspNet.Identity
+@using Dchang_BugTracker.Helper
+@{
+    ViewBag.Title = "Profile";
 }
-<h2>@ViewBag.Title.</h2>
-<h3>@ViewBag.Message</h3>
 
-<p>Use this area to provide additional information.</p>
+<style>
+    .avatarsize {
+        max-width: 280px;
+        max-height: 280px;
+    }
+</style>
+
+@{
+    var db = new ApplicationDbContext();
+    var user = db.Users.Find(User.Identity.GetUserId());
+
+    var helper = new RoleHelper();
+
+
+
+
+}
+
+
+
+<div class="page-header">
+    <h4 class="page-title">@ViewBag.Title</h4>
+    @*<ul class="breadcrumbs">
+            <li class="nav-home">
+                <a href="#">
+                    <i class="flaticon-home"></i>
+                </a>
+            </li>
+            <li class="separator">
+                <i class="flaticon-right-arrow"></i>
+            </li>
+            <li class="nav-item">
+                <a href="#">Base</a>
+            </li>
+            <li class="separator">
+                <i class="flaticon-right-arrow"></i>
+            </li>
+            <li class="nav-item">
+                <a href="#">Grid System</a>
+            </li>
+        </ul>*@
+</div>
+<div class="card">
+    <div class="card-body">
+        <div class="row">
+            <div class="col-6">
+
+                @Html.DisplayName("Role")
+                @Html.DisplayFor(model => user.Roles)
+
+                @if (user != null)
+                {
+                    <div class="">
+                        <img src="@user.AvatarPath" class="avatarsize">
+                    </div>
+                    <div class="">
+                        <label class="placeholder">First Name</label>: @user.FirstName
+                    </div>
+
+                    <div class="">
+                        <label class="placeholder">Last Name</label>: @user.LastName
+                    </div>
+
+                    <div class="">
+                        <label class="placeholder">Display Name</label>: @user.DisplayName
+                    </div>
+                    <div class="">
+                        <label class="placeholder">Email</label>: @user.Email
+                    </div>
+                    <div class="pull-left">
+                        <button type="button" class="btn btn-primary btn-sm" id="showedit">Edit Profile</button>
+                    </div>
+                }
+                else
+                {
+                    <p>ERROR</p>
+                }
+            </div>
+            <div id="div1"></div>
+
+
+
+            <div class="col-6" id="divedit">
+
+                <div class="card-body">
+
+                    <div class="row">
+                        @using (Html.BeginForm("EditProfile", "Home", FormMethod.Post, new { @class = "col", role = "form" }))
+                        {
+                            @Html.AntiForgeryToken()
+                            @Html.ValidationSummary("", new { @class = "text-danger" })
+                            @Html.HiddenFor(model => model.Id)
+                            <div class="col">
+                                <div class="form-group form-floating-label">
+                                    @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control input-solid col", @id = "inputFloatingLabel1" })
+                                    <label for="inputFloatingLabel1" class="placeholder">First Name</label>
+                                </div>
+
+                                <div class="form-group form-floating-label">
+                                    @Html.TextBoxFor(m => m.LastName, new { @class = "form-control input-solid", @id = "inputFloatingLabel2" })
+                                    <label for="inputFloatingLabel2" class="placeholder">Last Name</label>
+                                </div>
+
+                                <div class="form-group form-floating-label">
+                                    @Html.TextBoxFor(m => m.DisplayName, new { @class = "form-control input-solid", @id = "inputFloatingLabel3" })
+                                    <label for="inputFloatingLabel3" class="placeholder">Display Name</label>
+                                </div>
+
+                                <div class="form-group form-floating-label">
+                                    @Html.TextBoxFor(m => m.Email, new { @class = "form-control input-solid", @id = "inputFloatingLabel4" })
+                                    <label for="inputFloatingLabel4" class="placeholder">Email</label>
+                                </div>
+                                <div class="pull-right">
+                                    <input type="submit" class="btn btn-primary btn-sm" value="Submit Changes" />
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
