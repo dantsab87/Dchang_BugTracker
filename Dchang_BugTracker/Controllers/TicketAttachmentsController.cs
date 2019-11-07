@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using Dchang_BugTracker.Helper;
 using Dchang_BugTracker.Models;
 
 namespace Dchang_BugTracker.Controllers
@@ -49,13 +51,30 @@ namespace Dchang_BugTracker.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,TicketId,FilePath,Description,Created,UserId")] TicketAttachment ticketAttachment)
+        public ActionResult Create([Bind(Include = "Id,TicketId,FilePath,Description,Created,UserId")] TicketAttachment ticketAttachment, HttpPostedFileBase attachments)
         {
+            
             if (ModelState.IsValid)
             {
+
+                ticketAttachment.Created = DateTime.Now;
+
+                if (AttachmentHelper.IsWebFriendlyImage(attachments))
+                {
+                    var fileName = Path.GetFileName(attachments.FileName);
+                    var justFileName = Path.GetFileNameWithoutExtension(fileName);
+                    justFileName = StringUtilities.URLFriendly(justFileName);
+                    fileName = $"{justFileName}_{DateTime.Now.Ticks}{Path.GetExtension(fileName)}";
+                    attachments.SaveAs(Path.Combine(Server.MapPath("~/Attachments/"), fileName));
+                    ticketAttachment.FilePath = "/Attachments/" + fileName;
+                }
+
+
                 db.TicketAttachments.Add(ticketAttachment);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+
+                var tkattach = db.Tickets.Where(ta => ta.TicketAttachments == ticketAttachment).FirstOrDefault();
+                RedirectToAction("Details", "Tickets", new { id = tkattach });
             }
 
             ViewBag.TicketId = new SelectList(db.Tickets, "Id", "OwnerUserId", ticketAttachment.TicketId);

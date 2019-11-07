@@ -1,5 +1,6 @@
 ﻿@using Dchang_BugTracker.Models
 @using Microsoft.AspNet.Identity
+@using Dchang_BugTracker.Helper
 
 
 <!DOCTYPE html>
@@ -339,7 +340,7 @@
                                     {
                                         <p>Hey, Welcome!</p>
                                     }
-                                    <span class="user-level">ROLE</span>
+                                    <span class="user-level">@user.MyRole</span>
                                     <span class="caret"></span>
                                 </span>
                             </a>
@@ -405,8 +406,15 @@
                             <div class="collapse" id="base">
                                 <ul class="nav nav-collapse">
                                     <li>@Html.ActionLink("View All", "Index", "Tickets", null, new { @class = "sub-item" })</li>
-                                    <li>@Html.ActionLink("Create", "Create", "Tickets", null, new { @class = "sub-item" })</li>
-                                    <li>@Html.ActionLink("My Tickets", "Index", "Tickets", null, new { @class = "sub-item" })</li>
+                                    @if (User.IsInRole("Submitter"))
+                                    {
+                                        <li>@Html.ActionLink("Create", "Create", "Tickets", null, new { @class = "sub-item" })</li>
+
+                                        <li>@Html.ActionLink("My Tickets", "Index", "Tickets", null, new { @class = "sub-item" })</li>
+                                    }
+                                    <li>@Html.ActionLink("Ticket History", "Index", "TicketHistories", null, new { @class = "sub-item" })</li>
+
+                                    <li>@Html.ActionLink("Ticket Notifications", "Index", "TicketNotifications", null, new { @class = "sub-item" })</li>
                                 </ul>
                             </div>
                         </li>

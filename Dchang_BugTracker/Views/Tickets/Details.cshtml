@@ -1,5 +1,6 @@
 ﻿@model Dchang_BugTracker.Models.Ticket
 
+
 @{
     ViewBag.Title = "Details";
 }
@@ -11,7 +12,7 @@
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.AssignedToUser.FirstName)
+            @*@Html.DisplayNameFor(model => model.AssignedToUser.FirstName)*@Developer
         </dt>
 
         <dd>
@@ -19,7 +20,7 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.OwnerUser.FirstName)
+            @*@Html.DisplayNameFor(model => model.OwnerUser.FirstName)*@ Submitter
         </dt>
 
         <dd>
@@ -27,7 +28,7 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Project.Name)
+            @*@Html.DisplayNameFor(model => model.Project.Name)*@ Project Name
         </dt>
 
         <dd>
@@ -35,7 +36,7 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.TicketPriority.PriorityName)
+            @*@Html.DisplayNameFor(model => model.TicketPriority.PriorityName)*@Priority
         </dt>
 
         <dd>
@@ -43,7 +44,7 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.TicketStatus.StatusName)
+            @*@Html.DisplayNameFor(model => model.TicketStatus.StatusName)*@ Status
         </dt>
 
         <dd>
@@ -51,7 +52,7 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.TicketType.TypeName)
+            @*@Html.DisplayNameFor(model => model.TicketType.TypeName)*@Ticket Type
         </dt>
 
         <dd>
@@ -92,7 +93,67 @@
 
     </dl>
 </div>
+
 <p>
     @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Assign", "AssignTicket", new { id = Model.Id }) |
     @Html.ActionLink("Back to List", "Index")
 </p>
+
+<div class="col">
+
+    <div id="addComment">
+        @using (Html.BeginForm("Create", "TicketComments", FormMethod.Post))
+        {
+            @Html.AntiForgeryToken()
+            @Html.Hidden("TicketId", Model.Id)
+            <div class="row-12">
+                <div class="col-3"></div>
+                <div class="offset-1 col-md-6">
+                    @Html.TextArea("CommentBody", new { rows = 5, cols = 70, placeholder = "Add Comment", id = "comadd" })
+                </div>
+                <div class="col-3"></div>
+            </div>
+            <div class="row">
+                <div class="offset-3 col-md-6">
+                    <button type="submit" class="btn btn-sm btn-dark">Add Comment</button>
+                </div>
+            </div>
+        }
+    </div>
+
+    <div class="col">
+        @using (Html.BeginForm("Create", "TicketAttachments", FormMethod.Post, new { enctype = "Multipart/form-data" }))
+        {
+            @Html.AntiForgeryToken()
+            @Html.Hidden("TicketId", Model.Id)
+            <div class="">
+                @Html.TextBox("attachments", null, new { type = "file" })
+                <button class="btn btn-sm btn-dark">Add Attachment</button>
+            </div>
+        }
+    </div>
+
+
+
+    @foreach (var comment in Model.TicketComments.OrderByDescending(c => c.Created))
+    {
+        <div class="container mt-3 compost">
+            <div class="media">
+                <img src="~/Images/anonymous.png" class="align-self-start mr-3" style="width:60px">
+                <div class="media-body">
+                    <p>@comment.Created.ToString("MM/dd/yyyy h:mm tt")</p>
+                    <p><strong>@comment.User.DisplayName</strong> says: </p>
+                    <p>@comment.CommentBody</p>
+                </div>
+            </div>
+        </div>
+    }
+    <div>
+    @foreach (var atch in Model.TicketAttachments.OrderByDescending(c => c.Created))
+    {
+        <img src="@atch.FilePath" />
+    }
+    </div>
+
+</div>

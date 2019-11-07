@@ -1,24 +1,24 @@
 ﻿@model IEnumerable<Dchang_BugTracker.Models.TicketHistory>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Ticket History";
 }
 
-<h2>Index</h2>
+<h2>@ViewBag.Title</h2>
 
-<p>
+@*<p>
     @Html.ActionLink("Create New", "Create")
-</p>
+</p>*@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.Ticket.OwnerUserId)
+            @*@Html.DisplayNameFor(model => model.Ticket.OwnerUserId)*@ Submitter
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.User.FirstName)
+            @*@Html.DisplayNameFor(model => model.User.FirstName)*@ Developer
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Property)
+            @Html.DisplayNameFor(model => model.Property) Changed
         </th>
         <th>
             @Html.DisplayNameFor(model => model.OldValue)
@@ -27,7 +27,7 @@
             @Html.DisplayNameFor(model => model.NewValue)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Changed)
+            @Html.DisplayNameFor(model => model.Changed) On
         </th>
         <th></th>
     </tr>
@@ -35,7 +35,7 @@
 @foreach (var item in Model) {
     <tr>
         <td>
-            @Html.DisplayFor(modelItem => item.Ticket.OwnerUserId)
+            @Html.DisplayFor(modelItem => item.Ticket.OwnerUser.FirstName)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.User.FirstName)

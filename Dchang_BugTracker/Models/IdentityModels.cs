@@ -1,8 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity;
+using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using Dchang_BugTracker.Helper;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 
@@ -11,6 +14,8 @@ namespace Dchang_BugTracker.Models
     // You can add profile data for the user by adding more properties to your ApplicationUser class, please visit https://go.microsoft.com/fwlink/?LinkID=317594 to learn more.
     public class ApplicationUser : IdentityUser
     {
+        private RoleHelper roleHelper = new RoleHelper();
+
         [Display(Name = "First Name")] 
         [StringLength(20, MinimumLength = 3, ErrorMessage ="First Name must have a minimum length of 3 and max length of 50." )]
         public string FirstName { get; set; }
@@ -24,6 +29,17 @@ namespace Dchang_BugTracker.Models
         public string DisplayName { get; set; }
 
         public string AvatarPath { get; set; }
+
+        [NotMapped]
+        public string MyRole 
+        {
+            get 
+            {
+                return $"{roleHelper.ListUserRoles(Id).FirstOrDefault()}";
+            } 
+        }
+
+
 
         public virtual ICollection<TicketComment> TicketComments { get; set; }
         public virtual ICollection<Project> Projects { get; set; }

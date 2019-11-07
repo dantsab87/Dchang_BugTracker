@@ -183,12 +183,15 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helper\AttachmentHelper.cs" />
     <Compile Include="Helper\EmailHelper.cs" />
     <Compile Include="Helper\ImageUploadValidator.cs" />
+    <Compile Include="Helper\NotificationHelper.cs" />
     <Compile Include="Helper\ProjectHelper.cs" />
     <Compile Include="Helper\RoleHelper.cs" />
     <Compile Include="Helper\StringUtilities.cs" />
     <Compile Include="Helper\TicketHelper.cs" />
+    <Compile Include="Helper\TicketHistoryHelper.cs" />
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\EmailModel.cs" />
@@ -395,6 +398,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Attachments\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
@@ -427,6 +431,7 @@
     <Content Include="private.config" />
     <Content Include="Views\Account\NewRegister.cshtml" />
     <Content Include="Views\Home\EditProfile.cshtml" />
+    <Content Include="Views\Tickets\AssignTicket.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using Dchang_BugTracker.Models;
+using Microsoft.AspNet.Identity;
 
 namespace Dchang_BugTracker.Controllers
 {
@@ -53,9 +54,14 @@ namespace Dchang_BugTracker.Controllers
         {
             if (ModelState.IsValid)
             {
+                ticketComment.Created = DateTime.Now;
+                ticketComment.UserId = User.Identity.GetUserId();
                 db.TicketComments.Add(ticketComment);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+
+                var tkId = db.Tickets.Find(ticketComment.TicketId).Id;
+                
+                return RedirectToAction("Details", "Tickets", new { id = tkId });
             }
 
             ViewBag.TicketId = new SelectList(db.Tickets, "Id", "OwnerUserId", ticketComment.TicketId);

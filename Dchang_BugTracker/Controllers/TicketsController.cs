@@ -4,6 +4,7 @@ using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using Dchang_BugTracker.Helper;
@@ -17,6 +18,8 @@ namespace Dchang_BugTracker.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
         private TicketHelper ticketHelper = new TicketHelper();
         private RoleHelper roleHelper = new RoleHelper();
+        private TicketHistoryHelper tkHistory = new TicketHistoryHelper();
+        private NotificationHelper notificationHelper = new NotificationHelper();
 
         // GET: Tickets
         public ActionResult Index()
@@ -42,9 +45,10 @@ namespace Dchang_BugTracker.Controllers
         }
 
         // GET: Tickets/Create
+       
         public ActionResult Create()
         {
-            //ViewBag.AssignedToUserId = new SelectList(db.Users, "Id", "FirstName");
+            ViewBag.AssignedToUserId = new SelectList(db.Users, "Id", "FirstName");
             //ViewBag.OwnerUserId = new SelectList(db.Users, "Id", "FirstName");
             ViewBag.ProjectId = new SelectList(db.Projects, "Id", "Name");
             //ViewBag.TicketPriorityId = new SelectList(db.TicketPriorities, "Id", "PriorityName");
@@ -111,8 +115,20 @@ namespace Dchang_BugTracker.Controllers
         {
             if (ModelState.IsValid)
             {
+                var oldTicket = db.Tickets.AsNoTracking().FirstOrDefault(t => t.Id == ticket.Id);
+
+                ticket.Updated = DateTime.Now;
                 db.Entry(ticket).State = EntityState.Modified;
                 db.SaveChanges();
+
+                var newTicket = db.Tickets.AsNoTracking().FirstOrDefault(t => t.Id == ticket.Id);
+
+                tkHistory.RecordHistoricalChanges(oldTicket, newTicket);
+
+                //decide for yourself NotificationHelper if a Notification needs to be generated
+
+                notificationHelper.ManageNotifications(oldTicket, newTicket);
+
                 return RedirectToAction("Index");
             }
             ViewBag.AssignedToUserId = new SelectList(db.Users, "Id", "FirstName", ticket.AssignedToUserId);
@@ -158,5 +174,52 @@ namespace Dchang_BugTracker.Controllers
             }
             base.Dispose(disposing);
         }
+
+
+        // GET Tickets/Assign Tickets
+        public ActionResult AssignTicket(int? id) 
+        {
+            RoleHelper helper = new RoleHelper();
+            var ticket = db.Tickets.Find(id);
+            var users = helper.UsersInRole("Developer").ToList();
+            ViewBag.AssignedToUserId = new SelectList(users, "Id", "DisplayName", ticket.AssignedToUserId);
+
+            return View(ticket);
+        }
+
+        //POST Tickets/Assign Tickets
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> AssignTicket(Ticket model) 
+        {
+            var ticket = db.Tickets.Find(model.Id);
+            ticket.AssignedToUserId = model.AssignedToUserId;
+
+            db.SaveChanges();
+
+            var callbackUrl = Url.Action("Details", "Tickets", new { id = ticket.Id }, protocol:Request.Url.Scheme);
+
+            try
+            {
+                EmailService ems = new EmailService();
+                IdentityMessage msg = new IdentityMessage();
+                ApplicationUser user = db.Users.Find(model.AssignedToUserId);
+
+                msg.Body = $"You have been assigned a Ticket.{Environment.NewLine} Please click the following link to view the details <a href=\"{callbackUrl}\">NEW TICKET</a>";
+                msg.Destination = user.Email;
+                msg.Subject = "Invite to Household";
+
+                await ems.SendMailAsync(msg);
+            }
+            catch (Exception ex) 
+            {
+                await Task.FromResult(0);
+            }
+
+            return RedirectToAction("Index");
+
+
+        }
+
     }
 }

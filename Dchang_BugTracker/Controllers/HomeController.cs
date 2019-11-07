@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -19,7 +20,7 @@ namespace Dchang_BugTracker.Controllers
 
         public ActionResult Index()
         {
-            return RedirectToAction("Index", "Home");
+            return View();
         }
 
         public ActionResult Dashboard() 
@@ -44,7 +45,7 @@ namespace Dchang_BugTracker.Controllers
         //POST Home/EditProfile
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult EditProfile([Bind(Include = "Id, FirstName, LastName, DisplayName, Email")] ProfileViewModel user)
+        public ActionResult EditProfile([Bind(Include = "Id, FirstName, LastName, DisplayName, Email, AvatarPath")] ProfileViewModel user, HttpPostedFileBase avatar)
         {
             var myuser = db.Users.Find(user.Id);
             myuser.FirstName = user.FirstName;
@@ -52,6 +53,29 @@ namespace Dchang_BugTracker.Controllers
             myuser.DisplayName = user.DisplayName;
             myuser.Email = user.Email;
             myuser.UserName = user.Email;
+            myuser.AvatarPath = myuser.AvatarPath;
+
+
+            if (avatar == null)
+            {
+                myuser.AvatarPath = myuser.AvatarPath;
+            }
+            else
+            {
+                if (ImageUploadValidator.IsWebFriendlyImage(avatar))
+                {
+                    var fileName = Path.GetFileName(avatar.FileName);
+                    fileName = StringUtilities.URLFriendly(Path.GetFileNameWithoutExtension(fileName));
+                    fileName += "_" + DateTime.Now.Ticks + Path.GetExtension(avatar.FileName);
+                    avatar.SaveAs(Path.Combine(Server.MapPath("~/Uploads/"), fileName));
+                    myuser.AvatarPath = "/Uploads/" + fileName;
+
+                }
+            }
+
+
+
+
             db.SaveChanges();
             return RedirectToAction("EditProfile", "Home");
 
