@@ -185,7 +185,7 @@
     </Compile>
     <Compile Include="Helper\AttachmentHelper.cs" />
     <Compile Include="Helper\EmailHelper.cs" />
-    <Compile Include="Helper\ImageUploadValidator.cs" />
+    <Compile Include="Helper\UploadValidator.cs" />
     <Compile Include="Helper\NotificationHelper.cs" />
     <Compile Include="Helper\ProjectHelper.cs" />
     <Compile Include="Helper\RoleHelper.cs" />

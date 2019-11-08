@@ -32,7 +32,14 @@ namespace Dchang_BugTracker.Controllers
         //GET Home/EditProfile
         public ActionResult EditProfile()
         {
+
             var sourceUser = db.Users.Find(User.Identity.GetUserId());
+            if (sourceUser.AvatarPath == null) 
+            {
+                sourceUser.AvatarPath = "/Avatar/default.png";
+                db.SaveChanges();
+            }
+
             var userVM = new ProfileViewModel();
             userVM.FirstName = sourceUser.FirstName;
             userVM.LastName = sourceUser.LastName;
@@ -53,28 +60,25 @@ namespace Dchang_BugTracker.Controllers
             myuser.DisplayName = user.DisplayName;
             myuser.Email = user.Email;
             myuser.UserName = user.Email;
-            myuser.AvatarPath = myuser.AvatarPath;
 
-
-            if (avatar == null)
+            if (ModelState.IsValid)
             {
-                myuser.AvatarPath = myuser.AvatarPath;
-            }
-            else
-            {
-                if (ImageUploadValidator.IsWebFriendlyImage(avatar))
+                if (myuser.AvatarPath != user.AvatarPath)
                 {
-                    var fileName = Path.GetFileName(avatar.FileName);
-                    fileName = StringUtilities.URLFriendly(Path.GetFileNameWithoutExtension(fileName));
-                    fileName += "_" + DateTime.Now.Ticks + Path.GetExtension(avatar.FileName);
-                    avatar.SaveAs(Path.Combine(Server.MapPath("~/Uploads/"), fileName));
-                    myuser.AvatarPath = "/Uploads/" + fileName;
 
+                    if (UploadValidator.IsWebFriendlyImage(avatar))
+                    {
+                        var fileName = Path.GetFileName(avatar.FileName);
+                        fileName = StringUtilities.URLFriendly(Path.GetFileNameWithoutExtension(fileName));
+                        fileName += "_" + DateTime.Now.Ticks + Path.GetExtension(avatar.FileName);
+                        avatar.SaveAs(Path.Combine(Server.MapPath("~/Avatars/"), fileName));
+                        myuser.AvatarPath = "/Avatars/" + fileName;
+
+
+
+                    }
                 }
             }
-
-
-
 
             db.SaveChanges();
             return RedirectToAction("EditProfile", "Home");

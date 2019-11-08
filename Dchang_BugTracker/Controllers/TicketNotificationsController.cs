@@ -14,6 +14,15 @@ namespace Dchang_BugTracker.Controllers
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
+        //Notification
+        public ActionResult Dismiss(int id) 
+        {
+            var notification = db.TicketNotifications.Find(id);
+            notification.IsRead = true;
+            db.SaveChanges();
+            return RedirectToAction("Dashboard", "Home");
+        }
+
         // GET: TicketNotifications
         public ActionResult Index()
         {
@@ -53,6 +62,7 @@ namespace Dchang_BugTracker.Controllers
         {
             if (ModelState.IsValid)
             {
+                ticketNotification.Created = DateTime.Now;
                 db.TicketNotifications.Add(ticketNotification);
                 db.SaveChanges();
                 return RedirectToAction("Index");

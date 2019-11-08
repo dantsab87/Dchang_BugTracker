@@ -13,5 +13,9 @@ namespace Dchang_BugTracker.Models
         public string DisplayName { get; set; }
         public string Email { get; set; }
         public string UserName { get; set; }
+        public string AvatarPath { get; set; }
+
     }
+
+
 }

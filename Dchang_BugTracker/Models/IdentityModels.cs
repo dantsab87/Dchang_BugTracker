@@ -45,7 +45,7 @@ namespace Dchang_BugTracker.Models
         public virtual ICollection<Project> Projects { get; set; }
         public virtual ICollection<TicketAttachment> TicketAttachments { get; set; }
         public virtual ICollection<TicketHistory> TicketHistories { get; set; }
-        public virtual ICollection<TicketNotification> TicketNotifications { get; set; }
+        //public virtual ICollection<TicketNotification> TicketNotifications { get; set; }
 
         //I am intentionally NOT including ICollections to the Ticket...
         public ApplicationUser() 
@@ -54,7 +54,7 @@ namespace Dchang_BugTracker.Models
             Projects = new HashSet<Project>();
             TicketAttachments = new HashSet<TicketAttachment>();
             TicketHistories = new HashSet<TicketHistory>();
-            TicketNotifications = new HashSet<TicketNotification>();        
+            //TicketNotifications = new HashSet<TicketNotification>();        
         }
 
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)

@@ -9,7 +9,7 @@ using System.Web.Configuration;
 
 namespace Dchang_BugTracker.Helper
 {
-    public class AttachmentHelper
+    public class UploadValidator
     {
         public static bool IsWebFriendlyImage(HttpPostedFileBase file)
         {
@@ -31,5 +31,28 @@ namespace Dchang_BugTracker.Helper
                 return false;
             }
         }
+
+        public static bool IsWebFriendlyFile(HttpPostedFileBase file)
+        {
+            if (file == null) return false;
+
+            //We might need to loosen the size restrictions a bit
+            var maxSize = WebConfigurationManager.AppSettings["MaxFileSize"];
+            var minSize = WebConfigurationManager.AppSettings["MaxFileSize"];
+            if (file.ContentLength > Convert.ToInt32(maxSize) || file.ContentLength < Convert.ToInt32(minSize))
+                return false;
+
+            try
+            {
+                var allowedExtensions = WebConfigurationManager.AppSettings["AllowedExtensions"];
+                var fileExt = Path.GetExtension(file.FileName);
+                return allowedExtensions.Contains(fileExt);
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
     }
 }

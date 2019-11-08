@@ -1,159 +1,294 @@
 ﻿@model Dchang_BugTracker.Models.Ticket
+@using Dchang_BugTracker.Models
+@using Microsoft.AspNet.Identity
+
+@{
+    ViewBag.Title = "Ticket Details";
+}
+
+<style>
+    .commentspc {
+    
+    }
+</style>
+
+<h4>@ViewBag.Title</h4>
 
 
 @{
-    ViewBag.Title = "Details";
+    var db = new ApplicationDbContext();
+    var user = db.Users.Find(User.Identity.GetUserId());
 }
 
-<h2>Details</h2>
-
-<div>
-    <h4>Ticket</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @*@Html.DisplayNameFor(model => model.AssignedToUser.FirstName)*@Developer
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.AssignedToUser.FirstName)
-        </dd>
-
-        <dt>
-            @*@Html.DisplayNameFor(model => model.OwnerUser.FirstName)*@ Submitter
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.OwnerUser.FirstName)
-        </dd>
-
-        <dt>
-            @*@Html.DisplayNameFor(model => model.Project.Name)*@ Project Name
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Project.Name)
-        </dd>
-
-        <dt>
-            @*@Html.DisplayNameFor(model => model.TicketPriority.PriorityName)*@Priority
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.TicketPriority.PriorityName)
-        </dd>
-
-        <dt>
-            @*@Html.DisplayNameFor(model => model.TicketStatus.StatusName)*@ Status
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.TicketStatus.StatusName)
-        </dd>
-
-        <dt>
-            @*@Html.DisplayNameFor(model => model.TicketType.TypeName)*@Ticket Type
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.TicketType.TypeName)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Title)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Title)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Description)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Description)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Created)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Created)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Updated)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Updated)
-        </dd>
-
-    </dl>
-</div>
-
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-    @Html.ActionLink("Assign", "AssignTicket", new { id = Model.Id }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>
-
-<div class="col">
-
-    <div id="addComment">
-        @using (Html.BeginForm("Create", "TicketComments", FormMethod.Post))
-        {
-            @Html.AntiForgeryToken()
-            @Html.Hidden("TicketId", Model.Id)
-            <div class="row-12">
-                <div class="col-3"></div>
-                <div class="offset-1 col-md-6">
-                    @Html.TextArea("CommentBody", new { rows = 5, cols = 70, placeholder = "Add Comment", id = "comadd" })
-                </div>
-                <div class="col-3"></div>
-            </div>
-            <div class="row">
-                <div class="offset-3 col-md-6">
-                    <button type="submit" class="btn btn-sm btn-dark">Add Comment</button>
-                </div>
-            </div>
-        }
+<div class="card">
+    <div class="card-header">
+        <h2 class="card-title">@Html.DisplayFor(model => model.Title)</h2>
+        <h4>@Html.DisplayFor(model => model.Project.Name)</h4>
+        <h6 class="text-right">**Status, Priority, Type, Updated:@Html.DisplayFor(model => model.Updated) (RIGHT SIDE)</h6>
     </div>
+    <div class="card-body">
+        <ul class="nav nav-pills nav-secondary  nav-pills-no-bd nav-pills-icons justify-content-center" id="pills-tab-with-icon" role="tablist">
+            <li class="nav-item submenu">
+                <a class="nav-link active show" id="pills-home-tab-icon" data-toggle="pill" href="#pills-home-icon" role="tab" aria-controls="pills-home-icon" aria-selected="true">
+                    <i class="flaticon-list"></i>
+                    Description
+                </a>
+            </li>
+            <li class="nav-item submenu">
+                <a class="nav-link" id="pills-profile-tab-icon" data-toggle="pill" href="#pills-profile-icon" role="tab" aria-controls="pills-profile-icon" aria-selected="false">
+                    <i class="flaticon-chat-1"></i>
+                    Comments
+                </a>
+            </li>
+            <li class="nav-item submenu">
+                <a class="nav-link" id="pills-contact-tab-icon" data-toggle="pill" href="#pills-contact-icon" role="tab" aria-controls="pills-contact-icon" aria-selected="false">
+                    <i class="flaticon-folder"></i>
+                    Attachments
+                </a>
+            </li>
+            <li class="nav-item submenu">
+                <a class="nav-link" id="pills-history-tab-icon" data-toggle="pill" href="#pills-history-icon" role="tab" aria-controls="pills-history-icon" aria-selected="false">
+                    <i class="flaticon-clock-1"></i>
+                    History
+                </a>
+            </li>
+        </ul>
+        <div class="tab-content mt-2 mb-3" id="pills-with-icon-tabContent">
+            <div class="tab-pane fade active show" id="pills-home-icon" role="tabpanel" aria-labelledby="pills-home-tab-icon">
+                @Html.DisplayNameFor(model => model.Created) @Html.DisplayFor(model => model.Created)
 
-    <div class="col">
-        @using (Html.BeginForm("Create", "TicketAttachments", FormMethod.Post, new { enctype = "Multipart/form-data" }))
-        {
-            @Html.AntiForgeryToken()
-            @Html.Hidden("TicketId", Model.Id)
-            <div class="">
-                @Html.TextBox("attachments", null, new { type = "file" })
-                <button class="btn btn-sm btn-dark">Add Attachment</button>
+                <BR>(description below) 2 cols here ( col 1: Updated | col 2: Developer Icon/Name
+                <p>@Html.DisplayFor(model => model.Description)</p>
             </div>
-        }
-    </div>
+            <div class="tab-pane fade" id="pills-profile-icon" role="tabpanel" aria-labelledby="pills-profile-tab-icon">
+                @using (Html.BeginForm("Create", "TicketComments", FormMethod.Post))
+                {
+                    @Html.AntiForgeryToken()
+                    @Html.Hidden("TicketId", Model.Id)
+                    <div class="row-12">
+                        <div class="col-3"></div>
+                        <div class="offset-1 col-md-6">
+                            @Html.TextArea("CommentBody", new { rows = 5, cols = 70, placeholder = "Add Comment", id = "comadd" })
+                        </div>
+                        <div class="col-3"></div>
+                    </div>
+                    <div class="row">
+                        <div class="offset-3 col-md-6">
+                            <button type="submit" class="btn btn-sm btn-dark">Add Comment</button>
+                        </div>
+                    </div>
+                }
 
+                @foreach (var comment in Model.TicketComments.OrderByDescending(c => c.Created))
+                {
+                    <div class="container mt-3 compost">
+                        <div class="media">
+                            <img src="@comment.User.AvatarPath" class="align-self-start mr-3" style="width:60px">
+                            <div class="media-body">
+                                @comment.Created.ToString("MM/dd/yyyy h:mm tt")<BR>
+                                <strong>@comment.User.DisplayName</strong> says:<BR>
+                                <p>@comment.CommentBody</p>
+                            </div>
+                        </div>
+                    </div>
+                }
 
+            </div>
+            <div class="tab-pane fade" id="pills-contact-icon" role="tabpanel" aria-labelledby="pills-contact-tab-icon">
+                @using (Html.BeginForm("Create", "TicketAttachments", FormMethod.Post, new { enctype = "Multipart/form-data" }))
+                {
 
-    @foreach (var comment in Model.TicketComments.OrderByDescending(c => c.Created))
-    {
-        <div class="container mt-3 compost">
-            <div class="media">
-                <img src="~/Images/anonymous.png" class="align-self-start mr-3" style="width:60px">
-                <div class="media-body">
-                    <p>@comment.Created.ToString("MM/dd/yyyy h:mm tt")</p>
-                    <p><strong>@comment.User.DisplayName</strong> says: </p>
-                    <p>@comment.CommentBody</p>
+                    @Html.AntiForgeryToken()
+                    @Html.Hidden("TicketId", Model.Id)
+
+                    <div class="form-group">
+                        @*@Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })*@
+                        <div class="col-md-10">
+                            @Html.TextArea("Description", "", new { htmlAttributes = new { @class = "form-control" }, rows = 5, cols = 70, placeholder = "Add Description", })
+                            @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="">
+                        @Html.TextBox("attachments", null, new { type = "file" })
+                        <button class="btn btn-sm btn-dark">Add Attachment</button>
+                    </div>
+                }
+                <div>
+                    @foreach (var atch in Model.TicketAttachments.OrderByDescending(c => c.Created))
+                    {
+                        var desc = atch.Description;
+                        <img src="@atch.FilePath" width="150" height="150" />@desc<BR>
+
+                    }
                 </div>
+            </div>
+            <div class="tab-pane fade" id="pills-history-icon" role="tabpanel" aria-labelledby="pills-history-tab-icon">
+                <p>Ticket History here</p>
             </div>
         </div>
-    }
-    <div>
-    @foreach (var atch in Model.TicketAttachments.OrderByDescending(c => c.Created))
-    {
-        <img src="@atch.FilePath" />
-    }
     </div>
-
 </div>
+
+
+
+
+
+
+
+
+@*<div>
+        <h4>Ticket</h4>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.AssignedToUser.FirstName)Developer
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.AssignedToUser.FirstName)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.OwnerUser.FirstName) Submitter
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.OwnerUser.FirstName)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Project.Name) Project Name
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Project.Name)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.TicketPriority.PriorityName) Priority
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.TicketPriority.PriorityName)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.TicketStatus.StatusName) Status
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.TicketStatus.StatusName)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.TicketType.TypeName) Ticket Type
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.TicketType.TypeName)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Title)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Title)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Description)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Description)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Created)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Created)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Updated)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Updated)
+            </dd>
+
+        </dl>
+    </div>*@
+
+@*<p>
+        @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+        @Html.ActionLink("Assign", "AssignTicket", new { id = Model.Id }) |
+        @Html.ActionLink("Back to List", "Index")
+    </p>*@
+
+@*<div class="col">
+
+        <div id="addComment">
+            @using (Html.BeginForm("Create", "TicketComments", FormMethod.Post))
+            {
+                @Html.AntiForgeryToken()
+                @Html.Hidden("TicketId", Model.Id)
+                <div class="row-12">
+                    <div class="col-3"></div>
+                    <div class="offset-1 col-md-6">
+                        @Html.TextArea("CommentBody", new { rows = 5, cols = 70, placeholder = "Add Comment", id = "comadd" })
+                    </div>
+                    <div class="col-3"></div>
+                </div>
+                <div class="row">
+                    <div class="offset-3 col-md-6">
+                        <button type="submit" class="btn btn-sm btn-dark">Add Comment</button>
+                    </div>
+                </div>
+            }
+        </div>
+
+        <div class="col">
+            @using (Html.BeginForm("Create", "TicketAttachments", FormMethod.Post, new { enctype = "Multipart/form-data" }))
+            {
+                @Html.AntiForgeryToken()
+                @Html.Hidden("TicketId", Model.Id)
+                <div class="">
+                    @Html.TextBox("attachments", null, new { type = "file" })
+                    <button class="btn btn-sm btn-dark">Add Attachment</button>
+                </div>
+            }
+        </div>
+
+
+
+        @foreach (var comment in Model.TicketComments.OrderByDescending(c => c.Created))
+        {
+            <div class="container mt-3 compost">
+                <div class="media">
+                    <img src="~/Images/anonymous.png" class="align-self-start mr-3" style="width:60px">
+                    <div class="media-body">
+                        <p>@comment.Created.ToString("MM/dd/yyyy h:mm tt")</p>
+                        <p><strong>@comment.User.DisplayName</strong> says: </p>
+                        <p>@comment.CommentBody</p>
+                    </div>
+                </div>
+            </div>
+        }
+        <div>
+        @foreach (var atch in Model.TicketAttachments.OrderByDescending(c => c.Created))
+        {
+            <img src="@atch.FilePath" />
+        }
+        </div>
+
+    </div>*@
+
+
+
+
+
+

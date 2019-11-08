@@ -166,7 +166,7 @@ namespace Dchang_BugTracker.Controllers
                 if (avatar != null) 
                 {
 
-                    if (ImageUploadValidator.IsWebFriendlyImage(avatar)) 
+                    if (UploadValidator.IsWebFriendlyImage(avatar)) 
                     {
                         var fileName = Path.GetFileName(avatar.FileName);
                         var justFileName = Path.GetFileNameWithoutExtension(fileName);
@@ -232,7 +232,7 @@ namespace Dchang_BugTracker.Controllers
             if (ModelState.IsValid)
             {
                 var user = await UserManager.FindByNameAsync(model.Email);
-                if (user == null || !(await UserManager.IsEmailConfirmedAsync(user.Id)))
+                if (user == null)
                 {
                     // Don't reveal that the user does not exist or is not confirmed
                     return View("ForgotPasswordConfirmation");

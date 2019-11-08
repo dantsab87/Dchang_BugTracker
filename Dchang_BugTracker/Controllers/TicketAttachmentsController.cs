@@ -9,6 +9,7 @@ using System.Web;
 using System.Web.Mvc;
 using Dchang_BugTracker.Helper;
 using Dchang_BugTracker.Models;
+using Microsoft.AspNet.Identity;
 
 namespace Dchang_BugTracker.Controllers
 {
@@ -39,11 +40,13 @@ namespace Dchang_BugTracker.Controllers
         }
 
         // GET: TicketAttachments/Create
-        public ActionResult Create()
+        public ActionResult Create(int id)
         {
-            ViewBag.TicketId = new SelectList(db.Tickets, "Id", "OwnerUserId");
-            ViewBag.UserId = new SelectList(db.Users, "Id", "FirstName");
-            return View();
+            var attachment = new TicketAttachment
+            {
+                TicketId = id
+            };
+            return View(attachment);
         }
 
         // POST: TicketAttachments/Create
@@ -51,34 +54,35 @@ namespace Dchang_BugTracker.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,TicketId,FilePath,Description,Created,UserId")] TicketAttachment ticketAttachment, HttpPostedFileBase attachments)
+        public ActionResult Create([Bind(Include = "TicketId,Description")] TicketAttachment ticketAttachment, HttpPostedFileBase attachments)
         {
-            
+
             if (ModelState.IsValid)
             {
 
-                ticketAttachment.Created = DateTime.Now;
-
-                if (AttachmentHelper.IsWebFriendlyImage(attachments))
+                if (attachments != null)
                 {
-                    var fileName = Path.GetFileName(attachments.FileName);
-                    var justFileName = Path.GetFileNameWithoutExtension(fileName);
-                    justFileName = StringUtilities.URLFriendly(justFileName);
-                    fileName = $"{justFileName}_{DateTime.Now.Ticks}{Path.GetExtension(fileName)}";
-                    attachments.SaveAs(Path.Combine(Server.MapPath("~/Attachments/"), fileName));
-                    ticketAttachment.FilePath = "/Attachments/" + fileName;
+                    if (UploadValidator.IsWebFriendlyImage(attachments) || UploadValidator.IsWebFriendlyFile(attachments))
+                    {
+                        var fileName = Path.GetFileName(attachments.FileName);
+                        var justFileName = Path.GetFileNameWithoutExtension(fileName);
+                        justFileName = StringUtilities.URLFriendly(justFileName);
+                        fileName = $"{justFileName}_{DateTime.Now.Ticks}{Path.GetExtension(fileName)}";
+                        attachments.SaveAs(Path.Combine(Server.MapPath("~/Attachments/"), fileName));
+                        ticketAttachment.FilePath = "/Attachments/" + fileName;
+
+                        ticketAttachment.Created = DateTime.Now;
+                        ticketAttachment.UserId = User.Identity.GetUserId();
+
+                        db.TicketAttachments.Add(ticketAttachment);
+                        db.SaveChanges();
+                    }
                 }
 
-
-                db.TicketAttachments.Add(ticketAttachment);
-                db.SaveChanges();
-
-                var tkattach = db.Tickets.Where(ta => ta.TicketAttachments == ticketAttachment).FirstOrDefault();
-                RedirectToAction("Details", "Tickets", new { id = tkattach });
+                var tkAttach = db.Tickets.Find(ticketAttachment.TicketId).Id;
+                return RedirectToAction("Details", "Tickets", new { id = tkAttach });
             }
 
-            ViewBag.TicketId = new SelectList(db.Tickets, "Id", "OwnerUserId", ticketAttachment.TicketId);
-            ViewBag.UserId = new SelectList(db.Users, "Id", "FirstName", ticketAttachment.UserId);
             return View(ticketAttachment);
         }
 

@@ -93,7 +93,7 @@
                 <div class="card-body">
 
                     <div class="row">
-                        @using (Html.BeginForm("EditProfile", "Home", FormMethod.Post, new { @class = "col", role = "form" }))
+                        @using (Html.BeginForm("EditProfile", "Home", FormMethod.Post, new { @class = "col", role = "form", enctype="Multipart/form-data" }))
                         {
                             @Html.AntiForgeryToken()
                             @Html.ValidationSummary("", new { @class = "text-danger" })
@@ -121,7 +121,7 @@
 
 
                             <div class="col-md-10">
-                                @Html.TextBox("Avatar", null, new { type = "file" })
+                                @Html.TextBox("avatar", null, new { type = "file" })
                             </div>
 
                             <div class="pull-right">
