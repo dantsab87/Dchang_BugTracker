@@ -1,6 +1,7 @@
 ﻿@model Dchang_BugTracker.Models.Ticket
 @using Dchang_BugTracker.Models
 @using Microsoft.AspNet.Identity
+@using Dchang_BugTracker.Helper
 
 @{
     ViewBag.Title = "Ticket Details";
@@ -27,7 +28,7 @@
         <h6 class="text-right">**Status, Priority, Type, Updated:@Html.DisplayFor(model => model.Updated) (RIGHT SIDE)</h6>
     </div>
     <div class="card-body">
-        <ul class="nav nav-pills nav-secondary  nav-pills-no-bd nav-pills-icons justify-content-center" id="pills-tab-with-icon" role="tablist">
+        <ul class="nav nav-pills nav-primary  nav-pills-no-bd nav-pills-icons justify-content-center" id="pills-tab-with-icon" role="tablist">
             <li class="nav-item submenu">
                 <a class="nav-link active show" id="pills-home-tab-icon" data-toggle="pill" href="#pills-home-icon" role="tab" aria-controls="pills-home-icon" aria-selected="true">
                     <i class="flaticon-list"></i>
@@ -101,31 +102,99 @@
                     @Html.AntiForgeryToken()
                     @Html.Hidden("TicketId", Model.Id)
 
-                    <div class="form-group">
-                        @*@Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })*@
-                        <div class="col-md-10">
-                            @Html.TextArea("Description", "", new { htmlAttributes = new { @class = "form-control" }, rows = 5, cols = 70, placeholder = "Add Description", })
-                            @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
                     <div class="">
                         @Html.TextBox("attachments", null, new { type = "file" })
                         <button class="btn btn-sm btn-dark">Add Attachment</button>
                     </div>
-                }
-                <div>
-                    @foreach (var atch in Model.TicketAttachments.OrderByDescending(c => c.Created))
-                    {
-                        var desc = atch.Description;
-                        <img src="@atch.FilePath" width="150" height="150" />@desc<BR>
 
-                    }
-                </div>
+                    <div class="form-group">
+                        @*@Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })*@
+                        <div class="col-md-10">
+                            @Html.TextArea("Description", "", new { htmlAttributes = new { @class = "form-control" }, rows = 5, cols = 70, placeholder = "Add Description", minlength = "1" })
+                            @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                }
+
+
+                @foreach (var item in Model.TicketAttachments.OrderByDescending(c => c.Created))
+                {
+                    var desc = item.Description;
+
+
+                    <table class="table table-hover table-head-bg-primary table-striped">
+                        <thead>
+                            <tr>
+                                <th>
+                                    @Html.DisplayName("File")
+                                </th>
+                                <th>
+                                    @Html.DisplayName("Date")
+                                </th>
+                                <th>
+                                    @Html.DisplayName("Description")
+                                </th>
+                            </tr>
+                        </thead>
+                        <tr>
+                            <td>
+                                <a href="@item.FilePath"><img src="@UploadValidator.GetIcon(item.FilePath)" style="width:50px;" /></a>
+                            </td>
+                            <td>
+                                @item.Created.ToString("MM/dd/yyyy 'at' hh:mm tt")
+                            </td>
+                            <td>
+                                @desc
+                            </td>
+                        </tr>
+                    </table>
+                }
             </div>
             <div class="tab-pane fade" id="pills-history-icon" role="tabpanel" aria-labelledby="pills-history-tab-icon">
-                <p>Ticket History here</p>
+                @foreach (var item in Model.TicketHistories.OrderByDescending(h => h.Changed))
+                {
+
+
+                    <table class="table table-hover table-head-bg-primary table-striped">
+                        <thead>
+                            <tr>
+                                <th>
+                                    @Html.DisplayName("Changed (Property)")
+                                </th>
+                                <th>
+                                    @Html.DisplayName("From")
+                                </th>
+                                <th>
+                                    @Html.DisplayName("To")
+                                </th>
+                                <th>
+                                    @Html.DisplayName("Changed On")
+                                </th>
+                            </tr>
+                        </thead>
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Property)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.OldValue)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.NewValue)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Changed)
+                            </td>
+                        </tr>
+                    </table>
+                }
             </div>
         </div>
+    </div>
+
+    <div>
+        @Html.ActionLink("Back to Ticket Index", "Index")
     </div>
 </div>
 

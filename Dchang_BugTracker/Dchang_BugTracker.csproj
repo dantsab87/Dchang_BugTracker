@@ -183,7 +183,6 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Helper\AttachmentHelper.cs" />
     <Compile Include="Helper\EmailHelper.cs" />
     <Compile Include="Helper\UploadValidator.cs" />
     <Compile Include="Helper\NotificationHelper.cs" />
@@ -266,6 +265,15 @@
     <Content Include="Images\chadengle.jpg" />
     <Content Include="Images\favicon.ico" />
     <Content Include="Images\icon.ico" />
+    <Content Include="Images\icons\blank.png" />
+    <Content Include="Images\icons\doc.png" />
+    <Content Include="Images\icons\docx.png" />
+    <Content Include="Images\icons\pdf.png" />
+    <Content Include="Images\icons\txt.png" />
+    <Content Include="Images\icons\xls.png" />
+    <Content Include="Images\icons\xlsx.png" />
+    <Content Include="Images\icons\xml.png" />
+    <Content Include="Images\icons\zip.png" />
     <Content Include="Images\jm_denis.jpg" />
     <Content Include="Images\logo.svg" />
     <Content Include="Images\mlane.jpg" />

@@ -212,7 +212,7 @@
                                     <div class="dropdown-title">You have @NotificationHelper.GetUnreadNotifications().Count() new notification(s)</div>
                                 </li>
 
-                                @foreach (var unreadNotification in NotificationHelper.GetUnreadNotifications())
+                                @foreach (var unreadNotification in NotificationHelper.GetUnreadNotifications().OrderByDescending(c => c.Created))
                                 {
                                     <li>
                                         @using (Html.BeginForm("Dismiss", "TicketNotifications", FormMethod.Post))
@@ -228,7 +228,7 @@
                                                         <div class="notif-icon notif-primary"> <img src="@unreadNotification.Sender.AvatarPath" class="avatar avatar-img rounded-circle"> </div>
                                                         <div class="notif-content">
                                                             <span class="block ntfy-message">
-                                                                @unreadNotification.Sender.DisplayName @unreadNotification.NotificationBody
+                                                                <strong>@unreadNotification.Sender.DisplayName:</strong> @unreadNotification.NotificationBody
                                                             </span>
                                                             <div class="ntfy-time">
                                                                 <span>@unreadNotification.Created.ToString("MMM dd, yyyy")</span>
@@ -321,11 +321,7 @@
 
                                                     <p class="text-muted">@user.Email</p>
                                                     @Html.ActionLink("View Profile", "EditProfile", "Home", null, new { @class = "btn btn-xs btn-secondary btn-sm" })
-                                                    }
-                                                    else
-                                                    {
-                                                    <h4>Hey!</h4>
-                                                    }
+
                                                 </div>
                                             </div>
                                         </li>

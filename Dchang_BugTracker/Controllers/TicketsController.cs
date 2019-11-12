@@ -51,7 +51,7 @@ namespace Dchang_BugTracker.Controllers
             ViewBag.AssignedToUserId = new SelectList(db.Users, "Id", "FirstName");
             //ViewBag.OwnerUserId = new SelectList(db.Users, "Id", "FirstName");
             ViewBag.ProjectId = new SelectList(db.Projects, "Id", "Name");
-            //ViewBag.TicketPriorityId = new SelectList(db.TicketPriorities, "Id", "PriorityName");
+            ViewBag.TicketPriorityId = new SelectList(db.TicketPriorities, "Id", "PriorityName");
             //ViewBag.TicketStatusId = new SelectList(db.TicketStatus, "Id", "StatusName");
             ViewBag.TicketTypeId = new SelectList(db.TicketTypes, "Id", "TypeName");
             return View();
@@ -195,6 +195,7 @@ namespace Dchang_BugTracker.Controllers
             var ticket = db.Tickets.Find(model.Id);
             ticket.AssignedToUserId = model.AssignedToUserId;
 
+
             db.SaveChanges();
 
             var callbackUrl = Url.Action("Details", "Tickets", new { id = ticket.Id }, protocol:Request.Url.Scheme);
@@ -207,7 +208,7 @@ namespace Dchang_BugTracker.Controllers
 
                 msg.Body = $"You have been assigned a Ticket.{Environment.NewLine} Please click the following link to view the details <a href=\"{callbackUrl}\">NEW TICKET</a>";
                 msg.Destination = user.Email;
-                msg.Subject = "Invite to Household";
+                msg.Subject = "You've been assigned a Ticket";
 
                 await ems.SendMailAsync(msg);
             }

@@ -32,7 +32,7 @@
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
+@foreach (var item in Model.OrderByDescending(c => c.Changed)) {
     <tr>
         <td>
             @Html.DisplayFor(modelItem => item.Ticket.OwnerUser.FirstName)
