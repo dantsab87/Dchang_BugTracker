@@ -9,14 +9,6 @@
         font-size: 9pt;
     }
 
-.badge-orange {
-    color: #FFF;
-    background-color: #ff7f50;
-}
-.badge-low {
-    color: #FFF;
-    background-color: #5d9ccb;
-}
     .opacity {
         opacity: 0.4;
         filter: alpha(opacity=40);
@@ -81,7 +73,7 @@
         var high = "badge badge-orange";
         var urgent = "badge badge-danger";
 
-        if (item.TicketStatus.StatusName.Contains("Archived") || item.TicketStatus.StatusName.Contains("Resolved"))
+        if (arch.Contains("Archived") || arch.Contains("Resolved"))
         {
             <tr class="opacity">
                 <td>
@@ -140,7 +132,7 @@
                 </td>
             </tr>
         }
-        else if (item.TicketStatus.StatusName.Contains("Open") || item.TicketStatus.StatusName.Contains("Assigned") || item.TicketStatus.StatusName.Contains("In Progress"))
+        else if (arch.Contains("Open") || arch.Contains("Assigned") || arch.Contains("In Progress"))
         { 
         <tr>
             <td>

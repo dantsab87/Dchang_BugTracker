@@ -35,7 +35,7 @@ namespace Dchang_BugTracker.Helper
                 TicketId = newTicket.Id,
                 IsRead = false,
                 SenderId = HttpContext.Current.User.Identity.GetUserId(),
-                RecipientId = newTicket.AssignedToUserId,
+                RecipientId = newTicket.AssignedToUserId, 
                 Created = DateTime.Now,
                 NotificationBody = $"You have been assigned to Ticket Id: {newTicket.Id} on Project: {newTicket.Project.Name}. The Ticket Title is '{newTicket.Title}' and was created on {newTicket.Created} with a priority of {newTicket.TicketPriority.PriorityName}"
             };

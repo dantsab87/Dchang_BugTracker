@@ -97,6 +97,7 @@ namespace Dchang_BugTracker.Controllers
             {
                 return HttpNotFound();
             }
+
             ViewBag.AssignedToUserId = new SelectList(db.Users, "Id", "FirstName", ticket.AssignedToUserId);
             ViewBag.OwnerUserId = new SelectList(db.Users, "Id", "FirstName", ticket.OwnerUserId);
             ViewBag.ProjectId = new SelectList(db.Projects, "Id", "Name", ticket.ProjectId);
@@ -117,9 +118,13 @@ namespace Dchang_BugTracker.Controllers
             {
                 var oldTicket = db.Tickets.AsNoTracking().FirstOrDefault(t => t.Id == ticket.Id);
 
+
                 ticket.Updated = DateTime.Now;
                 db.Entry(ticket).State = EntityState.Modified;
+
+
                 db.SaveChanges();
+
 
                 var newTicket = db.Tickets.AsNoTracking().FirstOrDefault(t => t.Id == ticket.Id);
 
@@ -195,6 +200,7 @@ namespace Dchang_BugTracker.Controllers
             var ticket = db.Tickets.Find(model.Id);
             ticket.AssignedToUserId = model.AssignedToUserId;
 
+            var status = ticket.TicketStatusId;
 
             db.SaveChanges();
 

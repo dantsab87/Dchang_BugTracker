@@ -8,10 +8,75 @@
 }
 
 <style>
-    .commentspc {
-    
+
+    .nav-pills.nav-primary .nav-link.active {
+        background: #1572e8;
+        background-image: linear-gradient(-135deg, #1f283e, #556385);
+        text-shadow: 1px 1px 3px black;
     }
+
+    .ticket-top {
+        background-color: #1f283e;
+        background-image: linear-gradient(135deg, #1f283e, #556385);
+        color: #FFFFFF;
+        padding: 30px 5px 5px 5px;
+    }
+
+    .ticket-head {
+        margin: -5px 5px 0px 15px;
+        color: #FFFFFF;
+        text-shadow: 1px 1px 3px black;
+        font-size: 20pt;
+    }
+
+    .ticket-subhead {
+        margin: 2px 5px 0px 15px;
+        color: #999999;
+        font-size: 9pt;
+        text-shadow: 1px 1px 3px black;
+        text-transform: uppercase;
+    }
+
+    .ticket-prop {
+        text-align: left;
+        line-height: 20px;
+        margin: -1px 30px 15px 5px;
+        font-size: 9pt;
+        text-shadow: 1px 1px 3px black;
+        text-transform: none;
+    }
+
+    .ticket-type {
+        color: aqua;
+    }
+
+    .ticket-priority {
+        color: #FFFFFF;
+        font-size: 9pt;
+    }
+
+    .badge {
+    
+}
+    .ticket-content-box {
+        background-color: #f2f2f2;
+        text-align: center;
+        font-size: 12px;
+        color: #000000;
+        padding: 2px 10px 2px 10px;
+        border-radius: 5px;
+        box-shadow: 5px 5px 2px #556385;
+}
+    .ticket-assigned-img {
+        border-radius: 15px 15px 15px 15px;
+        border: solid #FFFFFF 3px;
+        box-shadow: 5px 5px 2px #556385;
+        width: 80px;
+        height: 80px;
+    }
+
 </style>
+
 
 <h4>@ViewBag.Title</h4>
 
@@ -19,13 +84,51 @@
 @{
     var db = new ApplicationDbContext();
     var user = db.Users.Find(User.Identity.GetUserId());
+
+    var none = "badge badge-count";
+    var low = "badge badge-low";
+    var med = "badge badge-warning";
+    var high = "badge badge-orange";
+    var urgent = "badge badge-danger";
 }
 
 <div class="card">
-    <div class="card-header">
-        <h2 class="card-title">@Html.DisplayFor(model => model.Title)</h2>
-        <h4>@Html.DisplayFor(model => model.Project.Name)</h4>
-        <h6 class="text-right">**Status, Priority, Type, Updated:@Html.DisplayFor(model => model.Updated) (RIGHT SIDE)</h6>
+    <div class="ticket-top">
+        <div class="row">
+            <div class="col">
+                <h2 class="ticket-head">@Html.DisplayFor(model => model.Title)</h2>
+                <h4 class="ticket-subhead">Project: @Html.DisplayFor(model => model.Project.Name)</h4>
+            </div>
+            <div class="col-lg-push-12">
+                <h4 class="ticket-prop">
+                    <strong>Status:</strong> @Html.DisplayFor(model => model.TicketStatus.StatusName)<BR>
+                    <strong>Type:</strong> <span class="ticket-type">@Html.DisplayFor(model => model.TicketType.TypeName)</span><BR>
+                    <strong>Priority:</strong>
+                    @if (Model.TicketPriority.PriorityName.Contains("None"))
+                    {
+                        <span class="@none ticket-priority">@Html.DisplayFor(model => model.TicketPriority.PriorityName)</span><BR>
+                    }
+                    else if (Model.TicketPriority.PriorityName.Contains("Low"))
+                    {
+                        <span class="@low ticket-priority">@Html.DisplayFor(model => model.TicketPriority.PriorityName)</span><BR>
+                    }
+                    else if (Model.TicketPriority.PriorityName.Contains("Medium"))
+                    {
+                        <span class="@med ticket-priority">@Html.DisplayFor(model => model.TicketPriority.PriorityName)</span><BR>
+                    }
+                    else if (Model.TicketPriority.PriorityName.Contains("High"))
+                    {
+                        <span class="@high ticket-priority">@Html.DisplayFor(model => model.TicketPriority.PriorityName)</span><BR>
+                    }
+                    else if (Model.TicketPriority.PriorityName.Contains("Urgent"))
+                    {
+                        <span class="@urgent ticket-priority">@Html.DisplayFor(model => model.TicketPriority.PriorityName)</span><BR>
+                    }
+
+                    <strong>Updated:</strong> @Html.DisplayFor(model => model.Updated)
+                </h4>
+            </div>
+        </div>
     </div>
     <div class="card-body">
         <ul class="nav nav-pills nav-primary  nav-pills-no-bd nav-pills-icons justify-content-center" id="pills-tab-with-icon" role="tablist">
@@ -56,10 +159,63 @@
         </ul>
         <div class="tab-content mt-2 mb-3" id="pills-with-icon-tabContent">
             <div class="tab-pane fade active show" id="pills-home-icon" role="tabpanel" aria-labelledby="pills-home-tab-icon">
-                @Html.DisplayNameFor(model => model.Created) @Html.DisplayFor(model => model.Created)
 
-                <BR>(description below) 2 cols here ( col 1: Updated | col 2: Developer Icon/Name
-                <p>@Html.DisplayFor(model => model.Description)</p>
+                <div class="col-12">
+                    <div class="row">
+                        <div class="col-8">
+                            @Html.DisplayNameFor(model => model.Created) @Html.DisplayFor(model => model.Created)
+                            <p>@Html.DisplayFor(model => model.Description)</p>
+                        </div>
+                        <div class="col-1"></div>
+                        <div class="col-3">
+                            <table>
+                                <tr>
+                                    <td rowspan="2">
+                                        <img src="~/Avatars/default.png" class="ticket-assigned-img" />
+                                    </td>
+                                    <td style="width:15px"></td>
+                                    <td>
+                                        <div class="ticket-content-box">
+                                            <strong>@Html.DisplayName("Project Manager")</strong>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="width:15px"></td>
+                                    <td>
+                                        <div class="ticket-content-box">
+                                            @Html.DisplayFor(model => model.OwnerUser.DisplayName)
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+                            <BR>
+
+                            <table>
+                                <tr>
+                                    <td rowspan="2">
+                                        <img src="@Html.DisplayFor(model => model.OwnerUser.AvatarPath)" class="ticket-assigned-img" />
+                                    </td>
+                                    <td style="width:15px"></td>
+                                    <td>
+                                        <div class="ticket-content-box">
+                                            <strong>@Html.DisplayName("Submitter")</strong>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="width:15px"></td>
+                                    <td>
+                                        <div class="ticket-content-box">
+                                            @Html.DisplayFor(model => model.OwnerUser.DisplayName)
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+
+                        </div>
+                    </div>
+                </div>
             </div>
             <div class="tab-pane fade" id="pills-profile-icon" role="tabpanel" aria-labelledby="pills-profile-tab-icon">
                 @using (Html.BeginForm("Create", "TicketComments", FormMethod.Post))
@@ -191,11 +347,12 @@
                 }
             </div>
         </div>
+        <div>
+            @Html.ActionLink("Back to Ticket Index", "Index")
+        </div>
     </div>
 
-    <div>
-        @Html.ActionLink("Back to Ticket Index", "Index")
-    </div>
+
 </div>
 
 
