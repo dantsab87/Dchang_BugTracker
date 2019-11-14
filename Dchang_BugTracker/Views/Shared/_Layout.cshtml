@@ -9,7 +9,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <title>BugTracker Dashboard</title>
     <meta content='width=device-width, initial-scale=1.0, shrink-to-fit=no' name='viewport' />
-    <link rel="icon" href="~/Images/icon.ico" type="image/x-icon" />
+    <link rel="icon" href="~/Images/fav_icon.png" type="image/x-icon" />
 
     <!-- Fonts and icons -->
     <script src="~/Scripts/webfont.min.js"></script>
@@ -99,6 +99,15 @@
             color: #FFF;
             background-color: #5d9ccb;
         }
+
+        .main-header {
+            background: none;
+            box-shadow: none;
+            min-height: 60px;
+            width: 100%;
+            position: fixed;
+            z-index: 1001;
+        }
     </style>
 
 </head>
@@ -116,7 +125,7 @@
             <div class="logo-header" data-background-color="dark2">
 
                 <a href="Dashboard" class="logo">
-                                <img src="~/Images/logo.svg" alt="navbar brand" class="navbar-brand">
+                                <img src="~/Images/logo_sm_txt.png" alt="navbar brand" @*class="navbar-brand"*@ style="width:172px; height:49px;">
                             </a>
                 <button class="navbar-toggler sidenav-toggler ml-auto" type="button" data-toggle="collapse" data-target="collapse" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon">

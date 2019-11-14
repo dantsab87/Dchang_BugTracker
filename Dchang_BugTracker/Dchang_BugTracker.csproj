@@ -169,6 +169,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
+    <Compile Include="Controllers\GraphController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\ProjectsController.cs" />
@@ -264,6 +265,7 @@
     <Content Include="Images\bug.png" />
     <Content Include="Images\chadengle.jpg" />
     <Content Include="Images\favicon.ico" />
+    <Content Include="Images\fav_icon.png" />
     <Content Include="Images\icon.ico" />
     <Content Include="Images\icons\blank.png" />
     <Content Include="Images\icons\doc.png" />
@@ -276,6 +278,8 @@
     <Content Include="Images\icons\zip.png" />
     <Content Include="Images\jm_denis.jpg" />
     <Content Include="Images\logo.svg" />
+    <Content Include="Images\logo_sm.png" />
+    <Content Include="Images\logo_sm_txt.png" />
     <Content Include="Images\mlane.jpg" />
     <Content Include="Images\profile.jpg" />
     <Content Include="Images\profile2.jpg" />

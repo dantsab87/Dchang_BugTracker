@@ -96,5 +96,6 @@ namespace Dchang_BugTracker.Controllers
 
             return View();
         }
+
     }
 }

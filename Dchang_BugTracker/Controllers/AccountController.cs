@@ -11,6 +11,7 @@ using Microsoft.Owin.Security;
 using Dchang_BugTracker.Models;
 using Dchang_BugTracker.Helper;
 using System.IO;
+using System.Web.Configuration;
 
 namespace Dchang_BugTracker.Controllers
 {
@@ -63,6 +64,7 @@ namespace Dchang_BugTracker.Controllers
             return View();
         }
 
+
         //
         // POST: /Account/Login
         [HttpPost]
@@ -92,6 +94,36 @@ namespace Dchang_BugTracker.Controllers
                     return RedirectToAction("Index", "Home");
             }
         }
+
+
+
+        // Post Demo Login
+        [AllowAnonymous]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> DemoLogin(string emailKey)
+        {
+            var email = WebConfigurationManager.AppSettings[emailKey];
+            var password = WebConfigurationManager.AppSettings["DemoAdminPassword"];
+
+            var result = await SignInManager.PasswordSignInAsync(email, password, false, shouldLockout: false);
+
+            switch (result)
+            {
+                case SignInStatus.Success:
+                    return RedirectToAction("Dashboard", "Home");
+                case SignInStatus.Failure:
+                default:
+                    return RedirectToAction("Login", "Home");
+            }
+        }
+
+
+
+
+
+
+
 
         //
         // GET: /Account/VerifyCode
@@ -426,6 +458,7 @@ namespace Dchang_BugTracker.Controllers
             AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
             return RedirectToAction("Index", "Home");
         }
+
 
         public ActionResult LogOut()
         {

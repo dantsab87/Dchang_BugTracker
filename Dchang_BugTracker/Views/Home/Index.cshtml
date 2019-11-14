@@ -51,8 +51,16 @@
             top: 330px;
             left: 280px;
             right: 0px;
-
         }
+
+        .demopic {
+            border-radius: 50px 50px 50px 50px;
+            border: solid #FFFFFF 3px;
+            box-shadow: 5px 5px 2px #556385;
+            width: 80px;
+            height: 80px;
+        }
+
     </style>
 
 </head>
@@ -96,10 +104,17 @@
                         </div>
 
                         <div>
-                            @Html.ActionLink("Forgot your password?", "ForgotPassword", "Account", null, new { @class = "txt1" }) <br /> @Html.ActionLink("Register as a new user", "Register", "Account", null, new { @class = "txt1" })
+                            @Html.ActionLink("Forgot your password?", "ForgotPassword", "Account", null, new { @class = "txt1" }) <br />
+                            @Html.ActionLink("Register as a new user", "Register", "Account", null, new { @class = "txt1" }) <br />
+
+
+                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
+                                Login as Demo User
+                            </button>
+
                             @*<a href="#" class="txt3">
-                                    Forgot Password?
-                                </a>*@
+            Forgot Password?
+        </a>*@
                         </div>
                     </div>
 
@@ -113,12 +128,37 @@
 
                 }
             </div>
+        </div>
 
+    </div>
+
+
+
+
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
         </div>
     </div>
 
 
-    <div id="dropDownSelect1"></div>
+
+    @*<div id="dropDownSelect1"></div>*@
 
     <!--===============================================================================================-->
     <script src="~/Scripts/Login/jquery-3.2.1.min.js"></script>
