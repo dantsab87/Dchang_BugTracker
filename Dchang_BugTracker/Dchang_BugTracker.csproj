@@ -212,6 +212,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Avatars\default.png" />
+    <Content Include="Avatars\josh.jpg" />
+    <Content Include="Avatars\karen.jpg" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\Login\animate.css" />
     <Content Include="Content\Login\animsition.min.css" />

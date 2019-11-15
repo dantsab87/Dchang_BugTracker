@@ -74,7 +74,8 @@ namespace Dchang_BugTracker.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return RedirectToAction("Index", "Home");
+                return View(model);
+                //return RedirectToAction("Index", "Home");
             }
 
             // This doesn't count login failures towards account lockout
@@ -83,7 +84,8 @@ namespace Dchang_BugTracker.Controllers
             switch (result)
             {
                 case SignInStatus.Success:
-                    return RedirectToLocal(returnUrl);
+                    return RedirectToAction("Dashboard", "Home");
+                    //return RedirectToLocal(returnUrl);
                 case SignInStatus.LockedOut:
                     return View("Lockout");
                 case SignInStatus.RequiresVerification:
@@ -104,7 +106,7 @@ namespace Dchang_BugTracker.Controllers
         public async Task<ActionResult> DemoLogin(string emailKey)
         {
             var email = WebConfigurationManager.AppSettings[emailKey];
-            var password = WebConfigurationManager.AppSettings["DemoAdminPassword"];
+            var password = WebConfigurationManager.AppSettings["DemoPassword"];
 
             var result = await SignInManager.PasswordSignInAsync(email, password, false, shouldLockout: false);
 
@@ -114,7 +116,7 @@ namespace Dchang_BugTracker.Controllers
                     return RedirectToAction("Dashboard", "Home");
                 case SignInStatus.Failure:
                 default:
-                    return RedirectToAction("Login", "Home");
+                    return RedirectToAction("Index", "Home");
             }
         }
 
