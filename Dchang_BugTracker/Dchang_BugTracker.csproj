@@ -284,7 +284,6 @@
     <Content Include="Images\profile.jpg" />
     <Content Include="Images\profile2.jpg" />
     <Content Include="Images\talha.jpg" />
-    <Content Include="Images\test.png" />
     <Content Include="Avatars\angela.jpg" />
     <Content Include="Avatars\charles.jpg" />
     <Content Include="Avatars\creed.jpg" />
@@ -299,6 +298,8 @@
     <Content Include="Avatars\pam.jpg" />
     <Content Include="Avatars\ryan.jpg" />
     <Content Include="Avatars\toby.jpg" />
+    <Content Include="Images\test.png" />
+    <Content Include="Images\testlog.png" />
     <Content Include="Scripts\atlantis.min.js" />
     <Content Include="Scripts\bootstrap-notify.min.js" />
     <Content Include="Scripts\bootstrap.min.js" />

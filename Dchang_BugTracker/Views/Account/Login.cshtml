@@ -41,26 +41,26 @@
             z-index: 4;
             position: absolute;
             bottom: 0;
-            top: 136px;
-            left: -90px;
+            top: 160px;
+            left: -94px;
             right: 0px;
         }
 
-        #log_rightimg {
+        #log_bugimg {
             width: 100px;
             height: 100px;
             z-index: 5;
             position: relative;
             bottom: 0;
-            top: 50px;
-            left: 210px;
+            top: 10px;
+            left: -10px;
             right: 0px;
         }
 
         .demopic {
             border-radius: 10px 10px 10px 10px;
             border: solid #FFFFFF 3px; 
-            box-shadow: 5px 5px 2px #556385;
+            box-shadow: 3px 3px 2px #556385;
             width: 50px;
             height: 50px;
         }
@@ -70,8 +70,34 @@
             display: block;
         }
 
-        .pop {
-        z-index: !important;
+        .up-a-few {
+            top: -30px;
+        }
+        .demo-role-description {
+            font-family: Raleway-SemiBold;
+            font-style: oblique;
+            font-size: 10px;
+            color: #555555;
+            line-height: 1.6;
+            text-transform: uppercase;
+            padding: 0;
+            margin: 0;
+        }
+        .demo-head{
+            font-family: Raleway-SemiBold;
+            font-size: 10px;
+            font-weight: 900;
+            color: #000000;
+            line-height: 1.6;
+            text-transform: uppercase;
+            padding: 0;
+            margin: 0;
+        }
+
+
+        div.login-hl:hover {
+        background-color: #57b846;
+        border-radius: 3px;
         }
     </style>
 
@@ -79,14 +105,14 @@
 <body>
 
     <div class="limiter">
-        <div class="container-login100">
+        <div class="container-login100">     
             <div class="wrap-login100 p-l-55 p-r-55 p-t-25 p-b-0">
-                <img src="~/Images/test.png" id="log_leftimg">
+                <img src="~/Images/test.png" id="log_leftimg" >
+                @*<img src="~/Images/bug.png" id="log_bugimg">*@
                 @using (Html.BeginForm("Login", "Account", FormMethod.Post, new { @class = "login100-form validate-form flex-sb flex-w" }))
                 {
                     @Html.AntiForgeryToken()
                     <span class="login100-form-title p-b-32 text-center">
-
                         Bugtracker Login
                     </span>
                     <span class="txt1 p-b-11">
@@ -115,12 +141,12 @@
                         </button>
                     </div>
 
-                    <div class="flex-sb-m w-full p-b-0">
+                    <div class="flex-sb-m w-full p-b-50">
 
                         <div class="text-center">
                             @Html.ActionLink("Forgot your password?", "ForgotPassword", "Account", null, new { @class = "txt1" })  |
                             @Html.ActionLink("Register as a new user", "Register", "Account", null, new { @class = "txt1" }) <br />
-                            <a class="txt1 p-b-1" data-toggle="collapse" href="#demouser" aria-expanded="false" aria-controls="#demouser">
+                            <a class="txt1 p-b-1 demo-log" data-toggle="collapse" href="#demouser" aria-expanded="false" aria-controls="#demouser">
                                 Login as Demo User
                             </a>
                         </div>
@@ -128,22 +154,60 @@
                 }
 
                 <div class="row">
-                    <div class="collapse wrap-login100" id="demouser">
-                        <div class="center-align">
-
-                                <img src="~/Avatars/dwallace.jpg" class="demopic">
-                                <img src="~/Avatars/mscott.jpg" class="demopic">
-                                <img src="~/Avatars/jim.jpg" class="demopic">
-                                <img src="~/Avatars/kelly.jpg" class="demopic">
-
+                    <div class="collapse wrap-login100 p-b-10 up-a-few" id="demouser" style="z-index:6;">
+                        <div>
+                            <div class="row login-hl">
+                                <div class="col-2 p-l-0 p-r-0 p-t-3 p-b-3">
+                                    <a href="#"><img src="~/Avatars/dwallace.jpg" class="demopic"></a>
+                                </div>
+                                <div class="col p-l-3 p-r-0 p-t-0 p-b-3">
+                                    <span class="demo-head">Admin</span>
+                                    <p class="demo-role-description">
+                                        The Overseer, capable of everything!
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="row login-hl">
+                                <div class="col-2 p-l-0 p-r-0 p-t-3 p-b-3">
+                                    <img src="~/Avatars/mscott.jpg" class="demopic">
+                                </div>
+                                <div class="col p-l-3 p-r-0 p-t-0 p-b-3">
+                                    <span class="demo-head">Project Manager</span>
+                                    <p class="demo-role-description">
+                                        Manage developers and submitters on their assigned project(s).
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="row login-hl">
+                                <div class="col-2 p-l-0 p-r-0 p-t-3 p-b-3">
+                                    <img src="~/Avatars/jim.jpg" class="demopic">
+                                </div>
+                                <div class="col p-l-3 p-r-0 p-t-0 p-b-3">
+                                    <span class="demo-head">Developer</span>
+                                    <p class="demo-role-description">
+                                        Work on tickets they're assigned to.
+                                    </p>
+                                </div>
+                            </div>
+                            
+                            <div class="row login-hl">
+                                <div class="col-2 p-l-0 p-r-0 p-t-3 p-b-3">
+                                    <img src="~/Avatars/kelly.jpg" class="demopic">
+                                </div>
+                                <div class="col p-l-3 p-r-0 p-t-0 p-b-3">
+                                    <span class="demo-head">Submitter</span>
+                                    <p class="demo-role-description">
+                                        Create tickets.
+                                    </p>
+                                </div>
+                            </div>
+                            
                         </div>
                     </div>
                 </div>
-                <img src="~/Images/bug.png" id="log_rightimg">
-            </div>
 
         </div>
-
+        </div>
     </div>
 
     @*<div id="dropDownSelect1"></div>*@
@@ -166,5 +230,13 @@
     <!--===============================================================================================-->
     <script src="~/Scripts/Login/main.js"></script>
     <script src="~/Scripts/atlantis.min.js"></script>
+
+    <script>
+        $('.demo-log').on({
+            'click': function () {
+                $('#log_leftimg').attr('src', '/Images/testlog.png')
+            }
+        });
+    </script>
 </body>
 </html>
