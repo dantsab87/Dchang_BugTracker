@@ -23,7 +23,15 @@
 <h2>Index</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @if (User.IsInRole("Project Manager") || 
+        User.IsInRole("Demo Project Manager") || 
+        User.IsInRole("Developer") ||
+        User.IsInRole("Demo Developer") || 
+        User.IsInRole("Submitter") || 
+        User.IsInRole("Demo Submitter"))
+    {
+        @Html.ActionLink("Create New", "Create")
+    }
 </p>
 <table class="table Dtable table-head-bg-primary">
     <thead>

@@ -1,10 +1,130 @@
 ﻿@{
+    Layout = null;
     ViewBag.Title = "Confirm Email";
+
 }
 
-<h2>@ViewBag.Title.</h2>
-<div>
-    <p>
-        Thank you for confirming your email. Please @Html.ActionLink("Click here to Log in", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })
-    </p>
-</div>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>BugTracker - @ViewBag.Title</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!--===============================================================================================-->
+    <link rel="icon" type="image/png" href="~/Images/favicon.ico" />
+    <!--===============================================================================================-->
+    <link href="~/Content/Login/bootstrap.min.css" rel="stylesheet" />
+    <!--===============================================================================================-->
+    <link href="~/Content/Login/font-awesome.min.css" rel="stylesheet" />
+    <!--===============================================================================================-->
+    <link href="~/Content/Login/icon-font.min.css" rel="stylesheet" />
+    <!--===============================================================================================-->
+    <link href="~/Content/Login/animate.css" rel="stylesheet" />
+    <!--===============================================================================================-->
+    <link href="~/Content/Login/hamburgers.min.css" rel="stylesheet" />
+    <!--===============================================================================================-->
+    <link href="~/Content/Login/animsition.min.css" rel="stylesheet" />
+    <!--===============================================================================================-->
+    <link href="~/Content/Login/select2.min.css" rel="stylesheet" />
+    <!--===============================================================================================-->
+    <link href="~/Content/Login/daterangepicker.css" rel="stylesheet" />
+    <!--===============================================================================================-->
+    <link href="~/Content/Login/main.css" rel="stylesheet" />
+    <link href="~/Content/Login/util.css" rel="stylesheet" />
+    <!--===============================================================================================-->
+    <style>
+
+        a:hover {
+            color: #808caa;
+            font-weight: 900;
+            text-shadow: 2px 2px 3px #c6ccdb;
+        }
+
+        body {
+            background-color: #c6ccdb;
+        }
+
+        .container-login100 {
+            background-color: #c6ccdb;
+        }
+
+        #log_bugimg {
+            width: 100px;
+            height: 100px;
+            z-index: 5;
+            position: absolute;
+            bottom: 0;
+            top: -50px;
+            left: 145px;
+            right: 0px;
+        }
+
+
+        .center-align {
+            text-align: center;
+            display: block;
+        }
+
+
+        div.login-hl:hover {
+            background-color: #808caa;
+            background-image: linear-gradient(285deg, #c6ccdb, #808caa);
+            border-radius: 4px;
+            text-shadow: 0px 1px 1px #c6ccdb;
+        }
+
+
+        .login100-form-btn:hover {
+            background-color: #808caa;
+            background-image: linear-gradient(145deg, #c6ccdb, #808caa);
+            text-shadow: 1px 1px 3px black;
+        }
+
+
+        .wrap-login100 {
+            width: 400px;
+            background-color: #fff;
+            box-shadow: 2px 6px 15px 0 rgba(69,65,78,.3);
+        }
+    </style>
+
+</head>
+<body>
+
+    <div class="limiter">
+        <div class="container-login100">
+            <div class="wrap-login100 p-l-15 p-r-15 p-t-55 p-b-0">
+                <img src="~/Images/bug.png" id="log_bugimg">
+                <span class="login100-form-title p-b-32 text-center">
+                    Thank you for confirming your email.<br />
+                    <p class="txt3">
+                        @Html.ActionLink("Please click here to Log in", "Index", "Home", routeValues: null, htmlAttributes: new { id = "loginLink" })
+                    </p>
+                </span>
+            </div>
+        </div>
+    </div>
+
+    <!--===============================================================================================-->
+    <script src="~/Scripts/Login/jquery-3.2.1.min.js"></script>
+    <!--===============================================================================================-->
+    <script src="~/Scripts/Login/animsition.js"></script>
+    <!--===============================================================================================-->
+    <script src="~/Scripts/Login/popper.js"></script>
+    <script src="~/Scripts/Login/bootstrap.min.js"></script>
+    <script src="~/Scripts/Login/jquery.validate.min.js"></script>
+    <!--===============================================================================================-->
+    <script src="~/Scripts/Login/select2.min.js"></script>
+    <!--===============================================================================================-->
+    <script src="~/Scripts/Login/moment.js"></script>
+    <script src="~/Scripts/Login/jquery-3.2.1.min.js"></script>
+    <!--===============================================================================================-->
+    <script src="~/Scripts/Login/countdowntime.js"></script>
+    <!--===============================================================================================-->
+    <script src="~/Scripts/Login/main.js"></script>
+    <script src="~/Scripts/atlantis.min.js"></script>
+
+
+</body>
+</html>

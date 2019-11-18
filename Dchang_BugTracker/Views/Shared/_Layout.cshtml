@@ -108,13 +108,29 @@
             position: fixed;
             z-index: 1001;
         }
+
+        .cp_footer {
+          font-family: Raleway-SemiBold;
+          font-size: 9px;
+          color: #8d9498;
+          line-height: 1.4;
+          text-transform: uppercase;
+          background-color: #1f283e;
+        }
+        .cp_footerlink {
+          font-family: Raleway-SemiBold;
+          font-size: 9px;
+          color: #8d9498;
+          line-height: 1.4;
+          text-transform: uppercase;
+        }
     </style>
 
 </head>
 <body data-background-color="bg3">
 
 
-    @{ 
+    @{
         var db = new ApplicationDbContext();
         var user = db.Users.Find(User.Identity.GetUserId());
     }
@@ -124,9 +140,9 @@
             <!-- Logo Header -->
             <div class="logo-header" data-background-color="dark2">
 
-                <a href="Dashboard" class="logo">
-                                <img src="~/Images/logo_sm_txt.png" alt="navbar brand" @*class="navbar-brand"*@ style="width:172px; height:49px;">
-                            </a>
+                <a href="@Url.Action("Dashboard","Home")" class="logo">
+                    <img src="~/Images/logo_sm_txt.png" alt="navbar brand" class="navbar-brand" style="width:172px; height:49px;">
+                </a>
                 <button class="navbar-toggler sidenav-toggler ml-auto" type="button" data-toggle="collapse" data-target="collapse" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon">
                         <i class="icon-menu"></i>
@@ -253,7 +269,7 @@
                                             <div class="notif-scroll scrollbar-outer">
 
                                                 <div class="notif-center" id="notif_top">
-                                                    <div class="text-right"><button type="submit" class="xbtn">x</button></div>
+                                                    <div class="text-right"><button type="submit" class="xbtn">&times;</button></div>
                                                     <a href="#notif_top">
                                                         <div class="notif-icon notif-primary"> <img src="@unreadNotification.Sender.AvatarPath" class="avatar avatar-img rounded-circle"> </div>
                                                         <div class="notif-content">
@@ -369,7 +385,7 @@
                                 </ul>
                             </li>
                         }
-                        </ul>
+                    </ul>
                 </div>
             </nav>
             <!-- End Navbar -->
@@ -395,15 +411,15 @@
                                     }
                                     else
                                     {
-                                        <p>Hey, Welcome!</p>
+                                        <span>Hey, Welcome!</span>
                                     }
                                     @if (user != null)
                                     {
                                         <span class="user-level">@user.MyRole</span>
                                     }
-                                        <span class="caret"></span>
-                                    </span>
-                                    
+                                    <span class="caret"></span>
+                                </span>
+
                             </a>
                             <div class="clearfix"></div>
 
@@ -416,6 +432,7 @@
                                         @Html.ActionLink("Settings", "UserSettings", "Home", null, new { @class = "link-collapse alink" })
                                     </li>
                                     <li>
+                                        @*<a href="@Url.Action("LogOut", "Account")" class = "link-collapse alink">Log Out</a>*@
                                         @Html.ActionLink("Log Out", "LogOut", "Account", null, new { @class = "link-collapse alink" })
                                     </li>
                                 </ul>
@@ -467,11 +484,10 @@
                             <div class="collapse" id="base">
                                 <ul class="nav nav-collapse">
                                     <li>@Html.ActionLink("View All", "Index", "Tickets", null, new { @class = "sub-item" })</li>
-                                    @if (User.IsInRole("Submitter"))
+                                    @if (User.IsInRole("Submitter") || User.IsInRole("Demo Submitter"))
                                     {
                                         <li>@Html.ActionLink("Create", "Create", "Tickets", null, new { @class = "sub-item" })</li>
 
-                                        <li>@Html.ActionLink("My Tickets", "Index", "Tickets", null, new { @class = "sub-item" })</li>
                                     }
                                     <li>@Html.ActionLink("Ticket History", "Index", "TicketHistories", null, new { @class = "sub-item" })</li>
 
@@ -661,29 +677,13 @@
 
                 </div>
             </div>
-            <footer class="footer">
+            <footer class="footer cp_footer">
                 <div class="container-fluid">
-                    <nav class="pull-left">
-                        <ul class="nav">
-                            <li class="nav-item">
-                                <a class="nav-link" href="https://www.themekita.com">
-                                    ThemeKita
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">
-                                    Help
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">
-                                    Licenses
-                                </a>
-                            </li>
-                        </ul>
-                    </nav>
+
                     <div class="copyright ml-auto">
-                        2018, made with <i class="fa fa-heart heart text-danger"></i> by <a href="https://www.themekita.com">ThemeKita</a>
+                        &copy; 2019 Modified by <a href="https://danielchangportfolio.azurewebsites.net/" class="cp_footerlink">Daniel Chang</a> |
+                        Theme @*<i class="fa fa-heart heart text-danger"></i>*@ by <a href="https://www.themekita.com" class="cp_footerlink">ThemeKita</a>
+
                     </div>
                 </div>
             </footer>
@@ -699,6 +699,9 @@
     <!-- jQuery UI -->
     <script src="~/Scripts/jquery-ui.min.js"></script>
     <script src="~/Scripts/jquery.ui.touch-punch.min.js"></script>
+
+    <!-- Bootstrap Notify -->
+    <script src="~/Scripts/bootstrap-notify.min.js"></script>
 
     <!-- jQuery Scrollbar -->
     <script src="~/Scripts/jquery.scrollbar.min.js"></script>
@@ -717,8 +720,7 @@
     <!-- Datatables -->
     <script src="~/Scripts/datatables.min.js"></script>
 
-    <!-- Bootstrap Notify -->
-    <script src="~/Scripts/bootstrap-notify.min.js"></script>
+
 
     <!-- jQuery Vector Maps -->
     <script src="~/Scripts/jquery.vmap.min.js"></script>

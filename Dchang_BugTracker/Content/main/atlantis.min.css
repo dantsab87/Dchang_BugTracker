@@ -6331,7 +6331,7 @@ label.error {
     }
 
     .alert .close {
-        background: rgba(255,255,255,.8);
+        /*background: rgba(255,255,255,.8);*/
         width: 25px;
         height: 25px;
         line-height: 25px;
@@ -12724,7 +12724,8 @@ div.table-responsive > div.dataTables_wrapper > div.row {
     }
 
     .topbar_open .navbar-header {
-        transform: translate3d(0,61px,0) !important;
+        transform: translate3d(0,0px,0) !important;
+        /*transform: translate3d(0,61px,0) !important;*/
         padding: 6px
     }
 

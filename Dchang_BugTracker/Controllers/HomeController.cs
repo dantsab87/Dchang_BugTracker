@@ -17,7 +17,7 @@ namespace Dchang_BugTracker.Controllers
         private RoleHelper roleHelper = new RoleHelper();
         private ProjectHelper projHelper = new ProjectHelper();
 
-
+       [AllowAnonymous]
         public ActionResult Index()
         {
             return View();

@@ -38,10 +38,12 @@
             color: #808caa;
             text-shadow: 1px 1px 1px #c6ccdb;
         }
+
         body {
             background-color: #c6ccdb;
         }
-        .container-login100{
+
+        .container-login100 {
             background-color: #c6ccdb;
         }
 
@@ -52,7 +54,6 @@
             top: 160px;
             left: -94px;
             right: 0px;
-
         }
 
         #log_bugimg {
@@ -67,21 +68,22 @@
         }
 
         .demopic {
-            border-radius: 10px 10px 10px 10px;
-            border: solid #FFFFFF 3px; 
+            border-radius: 7px 7px 7px 7px;
+            border: solid #FFFFFF 2px;
             box-shadow: 3px 3px 2px #556385;
             width: 50px;
             height: 50px;
         }
 
-        .center-align{
-            text-align:center;
+        .center-align {
+            text-align: center;
             display: block;
         }
 
         .up-a-few {
             top: -30px;
         }
+
         .demo-role-description {
             font-family: Raleway-SemiBold;
             font-style: oblique;
@@ -93,7 +95,8 @@
             padding: 0;
             margin: 0;
         }
-        .demo-head{
+
+        .demo-head {
             font-family: Raleway-SemiBold;
             text-align: left;
             font-size: 10px;
@@ -107,8 +110,8 @@
 
 
         div.login-hl:hover {
-            background-color: #808caa;
-            background-image: linear-gradient(285deg, #c6ccdb, #808caa);
+            background-color: #c6ccdb;
+            background-image: linear-gradient(-285deg, #c6ccdb, #FFFFFF);
             border-radius: 4px;
             text-shadow: 0px 1px 1px #c6ccdb;
         }
@@ -120,27 +123,25 @@
             text-shadow: 1px 1px 3px black;
         }
 
-       
-        .wrap-login100{
 
+        .wrap-login100 {
             box-shadow: 2px 6px 15px 0 rgba(69,65,78,.3);
         }
 
-        .wrap-demologin100{
+        .wrap-demologin100 {
             width: 400px;
             border-radius: 10px;
             position: relative;
         }
-
     </style>
 
 </head>
 <body>
 
     <div class="limiter">
-        <div class="container-login100">     
+        <div class="container-login100">
             <div class="wrap-login100 p-l-55 p-r-55 p-t-25 p-b-0">
-                <img src="~/Images/test.png" id="log_leftimg" >
+                <img src="~/Images/test.png" id="log_leftimg">
                 @*<img src="~/Images/bug.png" id="log_bugimg">*@
                 @using (Html.BeginForm("Login", "Account", FormMethod.Post, new { @class = "login100-form validate-form flex-sb flex-w" }))
                 {
@@ -198,7 +199,7 @@
                                     <div class="row login-hl">
 
                                         <div class="col-2 p-l-0 p-r-0 p-t-3 p-b-3">
-                                            <img src="~/Avatars/jan.jpg" class="demopic">
+                                            <img src="~/Avatars/dwallace.jpg" class="demopic">
                                         </div>
                                         <div class="col p-l-3 p-r-0 p-t-2 p-b-3">
                                             <p class="demo-head">Admin</p>
@@ -217,7 +218,7 @@
                                 <button class="btn-block" type="submit">
                                     <div class="row login-hl">
                                         <div class="col-2 p-l-0 p-r-0 p-t-3 p-b-3">
-                                            <img src="~/Avatars/josh.jpg" class="demopic">
+                                            <img src="~/Avatars/mscott.jpg" class="demopic">
                                         </div>
                                         <div class="col p-l-3 p-r-0 p-t-0 p-b-3">
                                             <p class="demo-head">Project Manager</p>
@@ -234,17 +235,17 @@
                                 @Html.AntiForgeryToken()
                                 @Html.Hidden("emailKey", "DemoDevEmail")
                                 <button class="btn-block" type="submit">
-                                <div class="row login-hl">
-                                    <div class="col-2 p-l-0 p-r-0 p-t-3 p-b-3">
-                                        <img src="~/Avatars/karen.jpg" class="demopic">
+                                    <div class="row login-hl">
+                                        <div class="col-2 p-l-0 p-r-0 p-t-3 p-b-3">
+                                            <img src="~/Avatars/jim.jpg" class="demopic">
+                                        </div>
+                                        <div class="col p-l-3 p-r-0 p-t-0 p-b-3">
+                                            <p class="demo-head">Developer</p>
+                                            <p class="demo-role-description">
+                                                Work on tickets they're assigned to.
+                                            </p>
+                                        </div>
                                     </div>
-                                    <div class="col p-l-3 p-r-0 p-t-0 p-b-3">
-                                        <p class="demo-head">Developer</p>
-                                        <p class="demo-role-description">
-                                            Work on tickets they're assigned to.
-                                        </p>
-                                    </div>
-                                </div>
                                 </button>
                             }
                             <!--Submitter Login-->
@@ -253,24 +254,24 @@
                                 @Html.AntiForgeryToken()
                                 @Html.Hidden("emailKey", "DemoSubEmail")
                                 <button class="btn-block" type="submit">
-                                <div class="row login-hl">
-                                    <div class="col-2 p-l-0 p-r-0 p-t-3 p-b-3">
-                                        <img src="~/Avatars/pam.jpg" class="demopic">
+                                    <div class="row login-hl">
+                                        <div class="col-2 p-l-0 p-r-0 p-t-3 p-b-3">
+                                            <img src="~/Avatars/kelly.jpg" class="demopic">
+                                        </div>
+                                        <div class="col p-l-3 p-r-0 p-t-0 p-b-3">
+                                            <p class="demo-head">Submitter</p>
+                                            <p class="demo-role-description">
+                                                Create tickets.
+                                            </p>
+                                        </div>
                                     </div>
-                                    <div class="col p-l-3 p-r-0 p-t-0 p-b-3">
-                                        <p class="demo-head">Submitter</p>
-                                        <p class="demo-role-description">
-                                            Create tickets.
-                                        </p>
-                                    </div>
-                                </div>
                                 </button>
                             }
-                            </div>
+                        </div>
                     </div>
                 </div>
                 <!--#endregion-->
-        </div>
+            </div>
         </div>
     </div>
 
@@ -279,21 +280,21 @@
     <!--===============================================================================================-->
     <script src="~/Scripts/Login/jquery-3.2.1.min.js"></script>
     <!--===============================================================================================-->
-    <script src="~/Scripts/Login/animsition.js"></script>
+    <script src="~/Scripts/Login/animsition.min.js"></script>
+
     <!--===============================================================================================-->
     <script src="~/Scripts/Login/popper.js"></script>
     <script src="~/Scripts/Login/bootstrap.min.js"></script>
-    <script src="~/Scripts/Login/jquery.validate.min.js"></script>
+
     <!--===============================================================================================-->
     <script src="~/Scripts/Login/select2.min.js"></script>
     <!--===============================================================================================-->
     <script src="~/Scripts/Login/moment.js"></script>
-    <script src="~/Scripts/Login/jquery-3.2.1.min.js"></script>
+    <script src="~/Scripts/Login/daterangepicker.js"></script>
     <!--===============================================================================================-->
     <script src="~/Scripts/Login/countdowntime.js"></script>
     <!--===============================================================================================-->
     <script src="~/Scripts/Login/main.js"></script>
-    <script src="~/Scripts/atlantis.min.js"></script>
 
     <script>
         $('.demo-log').on({

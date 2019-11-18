@@ -8,6 +8,22 @@
 @{
     var db = new ApplicationDbContext();
 }
+<style>
+    [data-notify="progressbar"] {
+        margin-bottom: 0px;
+        position: absolute;
+        bottom: 0px;
+        left: 0px;
+        width: 100%;
+        height: 5px;
+    }
+</style>
+
+<link href="~/Content/main/morris.css" rel="stylesheet" />
+
+
+
+
 
 <div class="page-header">
     <h4 class="page-title">@ViewBag.Title</h4>
@@ -31,88 +47,106 @@
             </li>
         </ul>*@
 </div>
+
+
+<div class="row">
+    <div class="col-sm-6 col-lg-3">
+        <div class="card p-3">
+            <div class="d-flex align-items-center">
+                <span class="stamp stamp-md bg-danger-gradient mr-3">
+                    <i class="far fa-clone"></i>
+                </span>
+                <div>
+                    <h5 class="mb-1"><b><a href="#">@db.Projects.Count() <small>Projects</small></a></b></h5>
+                    <small class="text-muted"></small>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-sm-6 col-lg-3">
+        <div class="card p-3">
+            <div class="d-flex align-items-center">
+                <span class="stamp stamp-md bg-secondary-gradient mr-3">
+                    <i class="fas fa-ticket-alt"></i>
+                </span>
+                <div>
+                    <h5 class="mb-1"><b><a href="#">
+                        @db.Tickets.Count()
+                        <small>Total Tickets</small></a></b></h5>
+                    <small class="text-muted"></small>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+</div>
+
+
+
 <div class="card">
     <div class="card-body">
-        <div class="row">
-            <div class="col-sm-6 col-lg-3">
-                <div class="card p-3">
-                    <div class="d-flex align-items-center">
-                        <span class="stamp stamp-md bg-danger-gradient mr-3">
-                            <i class="far fa-clone"></i>
-                        </span>
-                        <div>
-                            <h5 class="mb-1"><b><a href="#">19 <small>Projects</small></a></b></h5>
-                            <small class="text-muted">4 Unassigned</small>
-                        </div>
-                    </div>
+        <div class="row justify-content-center">
+            <div class="chart-container">
+                <div class="row">
+                    <div class="col"><h6 class="text-center">Ticket Priorities</h6></div>
+                </div>
+                <div class="row">
+                    <div id="tk_priorityChart"></div>
                 </div>
             </div>
 
-            <div class="col-sm-6 col-lg-3">
-                <div class="card p-3">
-                    <div class="d-flex align-items-center">
-                        <span class="stamp stamp-md bg-secondary-gradient mr-3">
-                            <i class="fas fa-ticket-alt"></i>
-                        </span>
-                        <div>
-                            <h5 class="mb-1"><b><a href="#">132 <small>Tickets</small></a></b></h5>
-                            <small class="text-muted">12 Unassigned</small>
-                        </div>
-                    </div>
+            <div class="chart-container">
+                <div class="row">
+                    <div class="col"><h6 class="text-center">Ticket Status</h6></div>
+                </div>
+                <div class="row">
+                    <div id="tk_statusChart"></div>
                 </div>
             </div>
-
-
-            <div class="row">
-                <div class="col">
-                    <div id="demoChart1"></div>
-                </div>
-            </div>
-
         </div>
-
-
-        <div class="alert alert-default" role="alert">
-            This is a primary alert—check it out!
-        </div>
-        <div class="alert alert-primary" role="alert">
-            This is a primary alert—check it out!
-        </div>
-        <div class="alert alert-secondary" role="alert">
-            This is a secondary alert—check it out!
-        </div>
-        <div class="alert alert-success" role="alert">
-            This is a success alert—check it out!
-        </div>
-        <div class="alert alert-danger" role="alert">
-            This is a danger alert—check it out!
-        </div>
-        <div class="alert alert-warning" role="alert">
-            This is a warning alert—check it out!
-        </div>
-        <div class="alert alert-info" role="alert">
-            This is a info alert—check it out!
-        </div>
-
     </div>
 </div>
 
-@*@section scrupts {
-    <script src="~/Scripts/chart.min.js"></script>
+
+@section scripts {
+    <script src="~/Scripts/raphael-min.js"></script>
+    <script src="~/Scripts/morris.min.js"></script>
+
     <script>
         $(function () {
-            var url -'@Url.Action("","");
-            $.post.url.then(function (response) {
-                new Chart.Donut({
-                    element: 'demoChart1',
-                    data: reponse,
+            var url ='@Url.Action("ProduceChart1Data","Graph")';
+            $.post(url).then(function (response) {
+                new Morris.Bar({
+                    element: 'tk_priorityChart',
+                    data: response,
                     xkey: 'label',
                     ykeys: ['value'],
                     labels: ['Ticket Count'],
-                    resize: true
+                    resize: true,
                 });
             });
+
+
+
+
+            var url ='@Url.Action("ProduceChart2Data","Graph")';
+            $.post(url).then(function (response) {
+                new Morris.Donut({
+                    element: 'tk_statusChart',
+                    data: response,
+                    xkey: 'label',
+                    ykeys: ['value'],
+                    labels: ['Ticket Count'],
+                    resize: true,
+                });
+            });
+
+
         });
+
     </script>
 
-}*@
+}
