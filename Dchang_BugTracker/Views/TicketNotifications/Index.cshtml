@@ -1,31 +1,45 @@
 ﻿@model IEnumerable<Dchang_BugTracker.Models.TicketNotification>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Ticket Notification";
 }
 
-<h2>Index</h2>
+    <style>
+        .table td, .table th {
+            font-size: 9pt;
+        }
+
+        .opacity {
+            opacity: 0.4;
+            filter: alpha(opacity=40);
+            zoom: 1;
+        }
+    </style>
+
+
+<h2>@ViewBag.Title</h2>
 
 @*<p>
     @Html.ActionLink("Create New", "Create")
 </p>*@
-<table class="table">
-    <tr>
-        <th>
-            @*@Html.DisplayNameFor(model => model.Recipient.FirstName)*@ Developer
-        </th>
-        <th>
-            @*@Html.DisplayNameFor(model => model.Ticket.OwnerUserId)*@ Submitter
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.NotificationBody)
-        </th>
-        @*<th>
-            @Html.DisplayNameFor(model => model.IsRead)
-        </th>
-        <th></th>*@
-    </tr>
-
+<table class="table Dtable table-head-bg-primary">
+    <thead>
+        <tr>
+            <th>
+                @*@Html.DisplayNameFor(model => model.Recipient.FirstName)*@ Developer
+            </th>
+            <th>
+                @*@Html.DisplayNameFor(model => model.Ticket.OwnerUserId)*@ Submitter
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NotificationBody)
+            </th>
+            @*<th>
+                @Html.DisplayNameFor(model => model.IsRead)
+            </th>
+            <th></th>*@
+        </tr>
+    </thead>
 @foreach (var item in Model.OrderByDescending(c => c.Created)) {
     <tr>
         <td>

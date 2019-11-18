@@ -133,6 +133,7 @@ namespace Dchang_BugTracker.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
+        [Authorize(Roles = "Admin, Demo Admin, Project Manager, Demo Project Manager")]
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "Id,Name,Description,Created,Updated")] Project project)
         {
@@ -165,6 +166,7 @@ namespace Dchang_BugTracker.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
+        [Authorize(Roles = "Admin, Demo Admin, Project Manager, Demo Project Manager")]
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "Id,Name,Description,Created,Updated")] Project project)
         {
@@ -193,6 +195,7 @@ namespace Dchang_BugTracker.Controllers
         }
 
         // POST: Projects/Delete/5
+        [Authorize(Roles = "Admin, Demo Admin, Project Manager, Demo Project Manager")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)

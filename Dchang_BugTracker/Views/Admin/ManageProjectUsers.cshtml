@@ -6,6 +6,7 @@
 <style>
     .Wide {
         width: 100%;
+        height: 200px;
     }
 </style>
 
@@ -16,23 +17,21 @@
     <div class="card-body">
         @using (Html.BeginForm())
         {
-            @Html.AntiForgeryToken()
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="row">
-                        <div class="col">
-                            <h5>Projects</h5>
-                            @Html.ListBox("Projects", null, new { @class = "Wide" })
-                        </div>
-                        <div class="col">
-                            <button type="submit" class="btn btn-primary">Assign</button>
-                        </div>
+                    @Html.AntiForgeryToken()
+        <div class="row">
+            <div class="col">
+                <div class="row">
+                    <div class="col">
+                        <h5>Projects</h5>
+                        @Html.ListBox("Projects", null, new { @class = "Wide" })
                     </div>
-                </div>
 
-                <div class="col-md-6">
-                    @if (User.IsInRole("Admin"))
-                    {
+                </div>
+            </div>
+
+            <div class="col">
+                @if (User.IsInRole("Admin"))
+                {
                     <div class="row">
                         <div class="col">
                             <h5>Project Manager</h5>
@@ -44,36 +43,45 @@
                         </div>
                     </div>
                     <hr />
-                    }
-                    <div class="row">
-                        <div class="col">
-                            <h5>Developers</h5>
-                        </div>
+                }
+                <div class="row">
+                    <div class="col">
+                        <h5>Developers</h5>
                     </div>
-                    <div class="row">
-                        <div class="col">
-                            @Html.ListBox("Developers", null, new { @class = "form-control" })
-                        </div>
-                    </div>
-
-
-                    <div class="row">
-                        <div class="col">
-                            <h5>Submitters</h5>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col">
-                            @Html.ListBox("Submitters", null, new { @class = "form-control" })
-                        </div>
-                    </div>
-
                 </div>
-            </div>
-        }
+                <div class="row">
+                    <div class="col">
+                        @Html.ListBox("Developers", null, new { @class = "form-control" })
+                    </div>
+                </div>
 
-        <div class="row"><p></p></div>
-        
+
+                <div class="row">
+                    <div class="col">
+                        <h5>Submitters</h5>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        @Html.ListBox("Submitters", null, new { @class = "form-control" })
+                    </div>
+                </div>
+
+            </div>
+
+
+
+
+
+
+        </div>
+
+    <div class="row">
+        <div class="col">
+            <button type="submit" class="btn btn-primary">Assign</button>
+        </div>
+    </div>
+        }
             <div class="row">
               <div class="col">
                 <table class="table table-hover table-head-bg-primary table-striped Dtable">

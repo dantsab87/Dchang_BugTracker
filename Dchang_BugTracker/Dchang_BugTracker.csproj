@@ -453,6 +453,7 @@
     <Content Include="Views\Account\NewRegister.cshtml" />
     <Content Include="Views\Home\EditProfile.cshtml" />
     <Content Include="Views\Tickets\AssignTicket.cshtml" />
+    <None Include="Properties\PublishProfiles\DchangBugTracker - Web Deploy.pubxml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

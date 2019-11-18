@@ -3,61 +3,73 @@
 @{
     ViewBag.Title = "Ticket History";
 }
+<style>
+    .table td, .table th {
+        font-size: 9pt;
+    }
+
+    .opacity {
+        opacity: 0.4;
+        filter: alpha(opacity=40);
+        zoom: 1;
+    }
+</style>
 
 <h2>@ViewBag.Title</h2>
 
 @*<p>
-    @Html.ActionLink("Create New", "Create")
-</p>*@
-<table class="table">
-    <tr>
-        <th>
-            @*@Html.DisplayNameFor(model => model.Ticket.OwnerUserId)*@ Submitter
-        </th>
-        <th>
-            @*@Html.DisplayNameFor(model => model.User.FirstName)*@ Developer
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Property) Changed
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.OldValue)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.NewValue)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Changed) On
-        </th>
-        <th></th>
-    </tr>
-
-@foreach (var item in Model.OrderByDescending(c => c.Changed)) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Ticket.OwnerUser.FirstName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.User.FirstName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Property)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.OldValue)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.NewValue)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Changed)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
-        </td>
-    </tr>
-}
+        @Html.ActionLink("Create New", "Create")
+    </p>*@
+<table class="table Dtable table-head-bg-primary">
+    <thead>
+        <tr>
+            <th>
+                @*@Html.DisplayNameFor(model => model.Ticket.OwnerUserId)*@ Submitter
+            </th>
+            <th>
+                @*@Html.DisplayNameFor(model => model.User.FirstName)*@ Developer
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Property) Changed
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.OldValue)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NewValue)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Changed) On
+            </th>
+        </tr>
+    </thead>
+        @foreach (var item in Model.OrderByDescending(c => c.Changed))
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Ticket.OwnerUser.FirstName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.User.FirstName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Property)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.OldValue)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NewValue)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Changed)
+                </td>
+                @*<td>
+                        @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
+                        @Html.ActionLink("Details", "Details", new { id=item.Id }) |
+                        @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+                    </td>*@
+            </tr>
+        }
 
 </table>

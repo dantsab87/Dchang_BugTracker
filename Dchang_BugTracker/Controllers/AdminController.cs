@@ -62,7 +62,7 @@ namespace Dchang_BugTracker.Controllers
         }
 
 
-        [Authorize(Roles= "Admin, Project Manager")]
+        [Authorize(Roles= "Admin, Demo Admin, Project Manager, Demo Project Manager")]
         public ActionResult ManageProjectUsers() 
         {
             ViewBag.Projects = new MultiSelectList(db.Projects, "Id", "Name");
@@ -96,6 +96,7 @@ namespace Dchang_BugTracker.Controllers
             return View(myData);
         }
 
+        [Authorize(Roles = "Admin, Demo Admin, Project Manager, Demo Project Manager")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult ManageProjectUsers(List<int> projects, string projectManagerId, List<string> developers, List<string> submitters) 
