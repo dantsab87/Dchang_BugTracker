@@ -70,5 +70,13 @@ namespace Dchang_BugTracker.Helper
             return resultList;
         }
 
+
+        public bool IsDemoUser(string userId)
+        {
+            var roles = ListUserRoles(userId).FirstOrDefault() ?? "";
+            return roles.Contains("Demo");
+        }
+
+
     }
 }

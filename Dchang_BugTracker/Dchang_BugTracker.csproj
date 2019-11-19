@@ -268,7 +268,6 @@
     <Content Include="fonts\raleway\Raleway-Thin.ttf" />
     <Content Include="fonts\raleway\Raleway-ThinItalic.ttf" />
     <Content Include="Images\bug.png" />
-    <Content Include="Images\chadengle.jpg" />
     <Content Include="Images\favicon.ico" />
     <Content Include="Images\fav_icon.png" />
     <Content Include="Images\icon.ico" />
@@ -281,14 +280,9 @@
     <Content Include="Images\icons\xlsx.png" />
     <Content Include="Images\icons\xml.png" />
     <Content Include="Images\icons\zip.png" />
-    <Content Include="Images\jm_denis.jpg" />
     <Content Include="Images\logo.svg" />
     <Content Include="Images\logo_sm.png" />
     <Content Include="Images\logo_sm_txt.png" />
-    <Content Include="Images\mlane.jpg" />
-    <Content Include="Images\profile.jpg" />
-    <Content Include="Images\profile2.jpg" />
-    <Content Include="Images\talha.jpg" />
     <Content Include="Avatars\angela.jpg" />
     <Content Include="Avatars\charles.jpg" />
     <Content Include="Avatars\creed.jpg" />

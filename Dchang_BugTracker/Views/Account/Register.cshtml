@@ -130,7 +130,7 @@
                                 Display Name
                             </span>
                             <div class="wrap-input100 validate-input m-b-20 form-group" data-validate="Display Name is required">
-                                @Html.TextBoxFor(m => m.DisplayName, new { @class = "form-control input100", name = "First Name" })
+                                @Html.TextBoxFor(m => m.DisplayName, new { @class = "form-control input100", name = "Display Name" })
                                 <span class="focus-input100"></span>
                             </div>
                         </div>
@@ -152,7 +152,7 @@
                         <span class="btn-show-pass">
                             <i class="fa fa-eye"></i>
                         </span>
-                        @Html.PasswordFor(m => m.Password, new { @class = "form-control input100", name = "Pass" })
+                        @Html.PasswordFor(m => m.Password, new { @class = "form-control input100", name = "Password" })
                         <span class="focus-input100"></span>
                     </div>
 
@@ -163,12 +163,12 @@
                         <span class="btn-show-pass">
                             <i class="fa fa-eye"></i>
                         </span>
-                        @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control input100", name = "" })
+                        @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control input100", name = "Confirm password" })
                         <span class="focus-input100"></span>
                     </div>
 
                     <span class="txt1 p-b-5">
-                        Upload Avatar
+                        Upload Avatar (*.jpg, .png, .gif)
                     </span>
                     <div class="wrap-input100 validate-input m-b-20 form-group" data-validate="">
                         @Html.TextBox("Avatar", null, new { type = "file", @class = "txt3" })

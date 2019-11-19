@@ -5,6 +5,7 @@ using System.Data.Entity;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using System.Web;
 using Dchang_BugTracker.Helper;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
@@ -68,6 +69,17 @@ namespace Dchang_BugTracker.Models
 
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
+        // this will lock out demo roles from making changes
+        // comment out when updating database for now til addressed
+        public override int SaveChanges()
+        {
+            var userId = HttpContext.Current.User.Identity.GetUserId();
+            RoleHelper role = new RoleHelper();
+            if (role.IsDemoUser(userId)) { return 0; }
+            return base.SaveChanges();
+        }
+
+
         public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)
         {
