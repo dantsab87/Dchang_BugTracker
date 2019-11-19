@@ -66,12 +66,15 @@ namespace Dchang_BugTracker.Controllers
         public ActionResult ManageProjectUsers() 
         {
             ViewBag.Projects = new MultiSelectList(db.Projects, "Id", "Name");
-            ViewBag.Developers = new MultiSelectList(roleHelper.UsersInRole("Developer"), "Id", "Email");
-            ViewBag.Submitters = new MultiSelectList(roleHelper.UsersInRole("Submitter"), "Id", "Email");
+            //ViewBag.Developers = new MultiSelectList(roleHelper.UsersInRole("Developer"), "Id", "Email");
+            //ViewBag.Submitters = new MultiSelectList(roleHelper.UsersInRole("Submitter"), "Id", "Email");
+            ViewBag.Developers = new MultiSelectList(roleHelper.UsersIn2Role("Developer", "Demo Developer"), "Id", "Email");
+            ViewBag.Submitters = new MultiSelectList(roleHelper.UsersIn2Role("Submitter", "Demo Submitter"), "Id", "Email");
 
-            if (User.IsInRole("Admin")) 
+            if (User.IsInRole("Admin") || User.IsInRole("Demo Admin")) 
             {
-                ViewBag.ProjectManagerId = new SelectList(roleHelper.UsersInRole("Project Manager"), "Id", "Email");
+                //ViewBag.ProjectManagerId = new SelectList(roleHelper.UsersInRole("Project Manager"), "Id", "Email");
+                ViewBag.ProjectManagerId = new SelectList(roleHelper.UsersIn2Role("Project Manager", "Demo Project Manager"), "Id", "Email");
             }
 
             //Lets create a View Model for purposes of displaying User's and their Associated Projects

@@ -186,7 +186,7 @@ namespace Dchang_BugTracker.Controllers
         {
             RoleHelper helper = new RoleHelper();
             var ticket = db.Tickets.Find(id);
-            var users = helper.UsersInRole("Developer").ToList();
+            var users = helper.UsersIn2Role("Developer", "Demo Developer").ToList();
             ViewBag.AssignedToUserId = new SelectList(users, "Id", "DisplayName", ticket.AssignedToUserId);
 
             return View(ticket);

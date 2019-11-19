@@ -32,8 +32,11 @@ namespace Dchang_BugTracker.Controllers
             //        currentPm = user.Id;
             //    }
             //}
-            var pmId = projectHelper.ListUsersOnProjectInRole(id, "Project Manager").FirstOrDefault();
-            ViewBag.ProjectManagerId = new SelectList(roleHelper.UsersInRole("Project Manager"), "Id", "Email", pmId);
+            //var pmId = projectHelper.ListUsersOnProjectInRole(id, "Project Manager").FirstOrDefault();
+            var pmId2 = projectHelper.ListUsersOnProjectIn2Role(id, "Project Manager", "Demo Project Manager").FirstOrDefault();
+            //ViewBag.ProjectManagerId = new SelectList(roleHelper.UsersInRole("Project Manager", "Demo Project Manager"), "Id", "Email", pmId);
+
+            ViewBag.ProjectManagerId = new SelectList(roleHelper.UsersIn2Role("Project Manager", "Demo Project Manager"), "Id", "Email", pmId2);
             #endregion
 
             #region Dev section
@@ -46,7 +49,8 @@ namespace Dchang_BugTracker.Controllers
             //        projDevs.Add(user.Id);
             //    }
             //}
-            ViewBag.Developers = new MultiSelectList(roleHelper.UsersInRole("Developer"), "Id", "Email", projectHelper.ListUsersOnProjectInRole(id, "Developer"));
+            ViewBag.Developers = new MultiSelectList(roleHelper.UsersIn2Role("Developer", "Demo Developer"), "Id", "Email", projectHelper.ListUsersOnProjectIn2Role(id, "Developer", "Demo Developer"));
+            //ViewBag.Developers = new MultiSelectList(roleHelper.UsersInRole("Developer"), "Id", "Email", projectHelper.ListUsersOnProjectInRole(id, "Developer"));
             #endregion
 
             #region Subs section
@@ -59,7 +63,8 @@ namespace Dchang_BugTracker.Controllers
             //        projSubs.Add(user.Id);
             //    }
             //}
-            ViewBag.Submitters = new MultiSelectList(roleHelper.UsersInRole("Submitter"), "Id", "Email", projectHelper.ListUsersOnProjectInRole(id, "Submitter"));
+            ViewBag.Submitters = new MultiSelectList(roleHelper.UsersIn2Role("Submitter", "Demo Submitter"), "Id", "Email", projectHelper.ListUsersOnProjectIn2Role(id, "Submitter", "Demo Submitter"));
+            //ViewBag.Submitters = new MultiSelectList(roleHelper.UsersInRole("Submitter"), "Id", "Email", projectHelper.ListUsersOnProjectInRole(id, "Submitter"));
             #endregion
 
             return View(db.Projects.Find(id));
@@ -97,7 +102,8 @@ namespace Dchang_BugTracker.Controllers
                 }
             }
 
-            return RedirectToAction("ManageUsers", new { id = projectId});
+            //return RedirectToAction("ManageUsers", new { id = projectId});
+            return RedirectToAction("Index", "Projects");
         }
 
 

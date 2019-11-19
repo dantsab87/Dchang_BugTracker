@@ -297,11 +297,15 @@
     <script src="~/Scripts/Login/main.js"></script>
 
     <script>
-        $('.demo-log').on({
-            'click': function () {
-                $('#log_leftimg').attr('src', '/Images/testlog.png')
-            }
+
+        $(function() {
+         $('.demo-log').click(function(){
+           $("#log_leftimg").attr('src',"/Images/testlog.png");
+         });
         });
+
+
+
     </script>
 </body>
 </html>

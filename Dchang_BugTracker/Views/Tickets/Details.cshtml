@@ -89,16 +89,14 @@
     var projHelper = new ProjectHelper();
     var proj = projHelper.ListUserProjects(user.Id).FirstOrDefault();
 
-    //var pm = db.Projects.Find(proj.Id).Users.FirstOrDefault();
-
-    
-
 
     var none = "badge badge-count";
     var low = "badge badge-low";
     var med = "badge badge-warning";
     var high = "badge badge-orange";
     var urgent = "badge badge-danger";
+
+
 }
 
 <div class="card">
@@ -177,17 +175,18 @@
                         </div>
 
                         <div class="col-sm-push-2">
-                            @*@foreach (var pm in )
-                            {
+
+                            @if(User.IsInRole("Admin") || User.IsInRole("Demo Admin") ||  User.IsInRole("Project Manager") ||  User.IsInRole("Demo Project Manager"))
+                            { 
                             <table>
                                 <tr>
                                     <td rowspan="2">
-                                        <img src="@pm.AvatarPath" class="ticket-assigned-img" />
+                                        <img src="@Html.DisplayFor(model => model.AssignedToUser.AvatarPath)" class="ticket-assigned-img" />
                                     </td>
                                     <td style="width:15px"></td>
                                     <td>
                                         <div class="ticket-content-box">
-                                            <strong>@Html.DisplayName("Project Manager")</strong>
+                                            <strong>@Html.DisplayName("Assigned to")</strong>
                                         </div>
                                     </td>
                                 </tr>
@@ -195,14 +194,13 @@
                                     <td style="width:15px"></td>
                                     <td>
                                         <div class="ticket-content-box">
-                                            @pm.
+                                            @Html.DisplayFor(model => model.AssignedToUser.DisplayName)
                                         </div>
                                     </td>
                                 </tr>
                             </table>
-                            }*@
+                            }
                             <BR>
-
                             <table>
                                 <tr>
                                     <td rowspan="2">
@@ -230,22 +228,29 @@
                 </div>
             </div>
             <div class="tab-pane fade" id="pills-profile-icon" role="tabpanel" aria-labelledby="pills-profile-tab-icon">
-                @using (Html.BeginForm("Create", "TicketComments", FormMethod.Post))
+                @if (Model.TicketStatus.StatusName.Contains("Archived") || Model.TicketStatus.StatusName.Contains("Resolved"))
                 {
-                    @Html.AntiForgeryToken()
-                    @Html.Hidden("TicketId", Model.Id)
-                    <div class="row-12">
-                        <div class="col-3"></div>
-                        <div class="offset-1 col-md-6">
-                            @Html.TextArea("CommentBody", new { rows = 5, cols = 70, placeholder = "Add Comment", id = "comadd" })
+
+                }
+                else
+                {
+                    using (Html.BeginForm("Create", "TicketComments", FormMethod.Post))
+                    {
+                        @Html.AntiForgeryToken()
+                        @Html.Hidden("TicketId", Model.Id)
+                        <div class="row-12">
+                            <div class="col-3"></div>
+                            <div class="offset-1 col-md-6">
+                                @Html.TextArea("CommentBody", new { rows = 5, cols = 70, placeholder = "Add Comment", id = "comadd" })
+                            </div>
+                            <div class="col-3"></div>
                         </div>
-                        <div class="col-3"></div>
-                    </div>
-                    <div class="row">
-                        <div class="offset-3 col-md-6">
-                            <button type="submit" class="btn btn-sm btn-dark">Add Comment</button>
+                        <div class="row">
+                            <div class="offset-3 col-md-6">
+                                <button type="submit" class="btn btn-sm btn-dark">Add Comment</button>
+                            </div>
                         </div>
-                    </div>
+                    }
                 }
 
                 @foreach (var comment in Model.TicketComments.OrderByDescending(c => c.Created))
@@ -264,61 +269,68 @@
 
             </div>
             <div class="tab-pane fade" id="pills-contact-icon" role="tabpanel" aria-labelledby="pills-contact-tab-icon">
-                @using (Html.BeginForm("Create", "TicketAttachments", FormMethod.Post, new { enctype = "Multipart/form-data" }))
+                @if (Model.TicketStatus.StatusName.Contains("Archived") || Model.TicketStatus.StatusName.Contains("Resolved"))
                 {
 
-                    @Html.AntiForgeryToken()
-                    @Html.Hidden("TicketId", Model.Id)
+                }
+                else
+                {
+                    using (Html.BeginForm("Create", "TicketAttachments", FormMethod.Post, new { enctype = "Multipart/form-data" }))
+                    {
 
-                    <div class="">
-                        @Html.TextBox("attachments", null, new { type = "file" })
-                        <button class="btn btn-sm btn-dark">Add Attachment</button>
-                    </div>
+                        @Html.AntiForgeryToken()
+                        @Html.Hidden("TicketId", Model.Id)
 
-                    <div class="form-group">
-                        @*@Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })*@
-                        <div class="col-md-10">
-                            @Html.TextArea("Description", "", new { htmlAttributes = new { @class = "form-control" }, rows = 5, cols = 70, placeholder = "Add Description", minlength = "1" })
-                            @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+                        <div class="">
+                            @Html.TextBox("attachments", null, new { type = "file" })
+                            <button class="btn btn-sm btn-dark">Add Attachment</button>
                         </div>
-                    </div>
 
+                        <div class="form-group">
+                            @*@Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })*@
+                            <div class="col-md-10">
+                                @Html.TextArea("Description", "", new { htmlAttributes = new { @class = "form-control" }, rows = 5, cols = 70, placeholder = "Add Description", minlength = "1" })
+                                @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                    }
                 }
 
 
-                @foreach (var item in Model.TicketAttachments.OrderByDescending(c => c.Created))
-                {
-                    var desc = item.Description;
+                    @foreach (var item in Model.TicketAttachments.OrderByDescending(c => c.Created))
+                    {
+                        var desc = item.Description;
 
 
-                    <table class="table table-hover table-head-bg-primary table-striped">
-                        <thead>
+                        <table class="table table-hover table-head-bg-primary table-striped">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        @Html.DisplayName("File")
+                                    </th>
+                                    <th>
+                                        @Html.DisplayName("Date")
+                                    </th>
+                                    <th>
+                                        @Html.DisplayName("Description")
+                                    </th>
+                                </tr>
+                            </thead>
                             <tr>
-                                <th>
-                                    @Html.DisplayName("File")
-                                </th>
-                                <th>
-                                    @Html.DisplayName("Date")
-                                </th>
-                                <th>
-                                    @Html.DisplayName("Description")
-                                </th>
+                                <td>
+                                    <a href="@item.FilePath"><img src="@UploadValidator.GetIcon(item.FilePath)" style="width:50px;" /></a>
+                                </td>
+                                <td>
+                                    @item.Created.ToString("MM/dd/yyyy 'at' hh:mm tt")
+                                </td>
+                                <td>
+                                    @desc
+                                </td>
                             </tr>
-                        </thead>
-                        <tr>
-                            <td>
-                                <a href="@item.FilePath"><img src="@UploadValidator.GetIcon(item.FilePath)" style="width:50px;" /></a>
-                            </td>
-                            <td>
-                                @item.Created.ToString("MM/dd/yyyy 'at' hh:mm tt")
-                            </td>
-                            <td>
-                                @desc
-                            </td>
-                        </tr>
-                    </table>
-                }
-            </div>
+                        </table>
+                    }
+                </div>
             <div class="tab-pane fade" id="pills-history-icon" role="tabpanel" aria-labelledby="pills-history-tab-icon">
                 @foreach (var item in Model.TicketHistories.OrderByDescending(h => h.Changed))
                 {
