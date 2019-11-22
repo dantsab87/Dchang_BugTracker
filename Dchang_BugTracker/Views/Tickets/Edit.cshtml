@@ -4,125 +4,256 @@
     ViewBag.Title = "Edit Tickets";
 }
 
-<h2>Edit</h2>
 
-
-@using (Html.BeginForm())
-{
-    @Html.AntiForgeryToken()
-    
-<div class="form-horizontal">
-    <h4>@ViewBag.Title</h4>
-    <hr />
-    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-    @Html.HiddenFor(model => model.Id)
-    @Html.HiddenFor(model => model.Updated)
-    @Html.HiddenFor(model => model.Created)
-    @Html.HiddenFor(model => model.OwnerUserId)
-
-
-
-
-    <div class="form-group">
-        @Html.LabelFor(model => model.ProjectId, "Project Id", htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.DropDownList("ProjectId", null, htmlAttributes: new { @class = "form-control" })
-            @Html.ValidationMessageFor(model => model.ProjectId, "", new { @class = "text-danger" })
-        </div>
-    </div>
-
-    <div class="form-group">
-        @Html.LabelFor(model => model.TicketPriorityId, "Ticket Priority", htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.DropDownList("TicketPriorityId", null, htmlAttributes: new { @class = "form-control" })
-            @Html.ValidationMessageFor(model => model.TicketPriorityId, "", new { @class = "text-danger" })
-        </div>
-    </div>
-
-    <div class="form-group">
-        @Html.LabelFor(model => model.TicketTypeId, "Ticket Type", htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.DropDownList("TicketTypeId", null, htmlAttributes: new { @class = "form-control" })
-            @Html.ValidationMessageFor(model => model.TicketTypeId, "", new { @class = "text-danger" })
-        </div>
-    </div>
-
-    <div class="form-group">
-        @Html.LabelFor(model => model.TicketStatusId, "Ticket Status", htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.DropDownList("TicketStatusId", null, htmlAttributes: new { @class = "form-control" })
-            @Html.ValidationMessageFor(model => model.TicketStatusId, "", new { @class = "text-danger" })
-        </div>
-    </div>
-
-    @*<div class="form-group">
-            @Html.LabelFor(model => model.OwnerUserId, "Submitter", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DropDownList("OwnerUserId", null, htmlAttributes: new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.OwnerUserId, "", new { @class = "text-danger" })
-            </div>
-        </div>*@
-
-
-    @if (User.IsInRole("Admin") || User.IsInRole("Project Manager") || User.IsInRole("Demo Admin") || User.IsInRole("Demo Project Manager"))
-    {
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.AssignedToUserId, "Developer (Assigned to)", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DropDownList("AssignedToUserId", null, "---Seclect a Developer---", htmlAttributes: new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.AssignedToUserId, "", new { @class = "text-danger" })
-            </div>
-        </div>
-    }
-    else
-    {
-        @Html.HiddenFor(model => model.AssignedToUserId)
+<style>
+    .input_desc {
+        width: 100%;
+        height: 100px;
+        margin: 0px;
+        padding: 0px;
+        line-height: 1.42857143;
+        color: #555555;
+        background-color: #fff;
+        background-image: none;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+        box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+        -webkit-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+        -o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+        -webkit-transition: border-color ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
+        transition: border-color ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
+        transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+        transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
     }
 
-    <div class="form-group">
-        @Html.LabelFor(model => model.Title, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
-        </div>
-    </div>
+        .input_desc:focus {
+            border-color: #66afe9;
+            outline: 0;
+            -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(102, 175, 233, 0.6);
+            box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(102, 175, 233, 0.6);
+        }
 
-    <div class="form-group">
-        @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
-        </div>
-    </div>
+    .inputbox {
+        margin: 0px;
+        padding: 5px;
+        font-size: 12px;
+        background-color: rgba(134, 142, 150, 0.25);
+    }
 
-    @*<div class="form-group">
-            @Html.LabelFor(model => model.Created, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Created, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Created, "", new { @class = "text-danger" })
+    .col, .col-1, .col-10, .col-11, .col-12, .col-2, .col-3, .col-4, .col-5, .col-6, .col-7, .col-8, .col-9, .col-auto, .col-lg, .col-lg-1, .col-lg-10, .col-lg-11, .col-lg-12, .col-lg-2, .col-lg-3, .col-lg-4, .col-lg-5, .col-lg-6, .col-lg-7, .col-lg-8, .col-lg-9, .col-lg-auto, .col-md, .col-md-1, .col-md-10, .col-md-11, .col-md-12, .col-md-2, .col-md-3, .col-md-4, .col-md-5, .col-md-6, .col-md-7, .col-md-8, .col-md-9, .col-md-auto, .col-sm, .col-sm-1, .col-sm-10, .col-sm-11, .col-sm-12, .col-sm-2, .col-sm-3, .col-sm-4, .col-sm-5, .col-sm-6, .col-sm-7, .col-sm-8, .col-sm-9, .col-sm-auto, .col-xl, .col-xl-1, .col-xl-10, .col-xl-11, .col-xl-12, .col-xl-2, .col-xl-3, .col-xl-4, .col-xl-5, .col-xl-6, .col-xl-7, .col-xl-8, .col-xl-9, .col-xl-auto {
+        position: relative;
+        width: 100%;
+        min-height: 1px;
+        padding-right: 0px;
+        padding-left: 0px
+    }
+
+    .ticket_create {
+        position: relative;
+        display: -ms-flexbox;
+        display: flex;
+        -ms-flex-direction: column;
+        flex-direction: column;
+        min-width: 0;
+        word-wrap: break-word;
+        background-color: #FFFFFF;
+        background-clip: border-box;
+        border: 0px solid rgba(0,0,0,.125);
+        border-radius: .25rem;
+        box-shadow: 0 .25rem 1rem rgba(0,0,0,.15) !important
+    }
+
+    .sidebg {
+        background-image: url('../../Images/side_bg.jpg');
+        background-repeat: no-repeat;
+        width: 30px;
+        margin: 0;
+        padding: 0;
+    }
+
+    .ticket_bg {
+        background-image: url('../../Images/ticket_bg.jpg');
+        background-repeat: no-repeat;
+        background-position: top right;
+        background-color: #FFFFFF;
+    }
+
+    .ticket_create_btn {
+        padding: 10px;
+        margin: 40px 10px 10px 20px;
+        text-align: center;
+        width: 80px;
+        height: 80px;
+    }
+
+    .padded {
+        padding: 30px 40px 20px 30px;
+    }
+
+    .between {
+        padding: 0 10px 0 0;
+    }
+
+    .label {
+        margin: 0px;
+        padding: 10px 0px 0px 0px;
+        font-size: 12px;
+    }
+
+    .btn:hover {
+        background-color: #808caa;
+        background-image: linear-gradient(145deg, #c6ccdb, #808caa);
+        text-shadow: 1px 1px 3px black;
+        border-color: #1f283e;
+    }
+
+    .btn-attach, .btn-attach a:hover, .btn-attach a:hover, .btn-attach a:link, .btn-attach a:active, .btn-attach a:visited {
+        color: #1f283e;
+        font-size: 9pt;
+        text-transform: uppercase;
+        text-decoration: none;
+    }
+</style>
+
+<h6 class="page-title">@ViewBag.Title</h6>
+
+
+<div class="container ticket_create ticket_bg">
+    <div class="row">
+        <div class="col-1 sidebg" style="width:30px"></div>
+        <div class="col-11">
+
+            <div class="padded">
+                @using (Html.BeginForm())
+                {
+                    @Html.AntiForgeryToken()
+
+                    @Html.HiddenFor(model => model.Id)
+                    @Html.HiddenFor(model => model.Updated)
+                    @Html.HiddenFor(model => model.Created)
+                    @Html.HiddenFor(model => model.OwnerUserId)
+
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    @*@Html.HiddenFor(model => model.Created)*@
+
+                <div class="row">
+                        <div class="col">
+                            @Html.LabelFor(model => model.ProjectId, "Project", htmlAttributes: new { @class = "control-label label" })
+                            <div class="col between">
+                                @Html.DropDownList("ProjectId", null, htmlAttributes: new { @class = "form-control inputbox" })
+                                @Html.ValidationMessageFor(model => model.ProjectId, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        @if (User.IsInRole("Admin") || User.IsInRole("Project Manager") || User.IsInRole("Demo Admin") || User.IsInRole("Demo Project Manager"))
+                        {
+                            <div class="col">
+                                @Html.LabelFor(model => model.AssignedToUserId, "Assigned to", htmlAttributes: new { @class = "control-label label" })
+                                <div class="col between">
+                                    @Html.DropDownList("AssignedToUserId", null, "---Seclect a Developer---", htmlAttributes: new { @class = "form-control inputbox" })
+                                    @Html.ValidationMessageFor(model => model.AssignedToUserId, "", new { @class = "text-danger" })
+
+                                </div>
+                            </div>
+
+                        }
+                        else
+                        {
+                            @Html.HiddenFor(model => model.AssignedToUserId)
+                        }
+
+
+                        <div class="col">
+                            @Html.LabelFor(model => model.ProjectId, "Ticket Status", htmlAttributes: new { @class = "control-label label" })
+                            <div class="col">
+                                @Html.DropDownList("TicketStatusId", null, htmlAttributes: new { @class = "form-control inputbox" })
+                                @Html.ValidationMessageFor(model => model.TicketStatusId, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+
+
+                </div>
+                    <div class="row">
+                        @if (User.IsInRole("Admin") || User.IsInRole("Project Manager") || User.IsInRole("Demo Admin") || User.IsInRole("Demo Project Manager"))
+                        {
+                            <div class="col">
+                                @Html.LabelFor(model => model.TicketPriorityId, "Ticket Priority", htmlAttributes: new { @class = "control-label label" })
+                                <div class="col between">
+                                    @Html.DropDownList("TicketPriorityId", null, htmlAttributes: new { @class = "form-control inputbox" })
+                                    @Html.ValidationMessageFor(model => model.TicketPriorityId, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                        }
+                        else
+                        {
+                            @Html.HiddenFor(model => model.TicketPriorityId)
+                        }
+                        <div class="col">
+                            @Html.LabelFor(model => model.TicketTypeId, "Ticket Type", htmlAttributes: new { @class = "control-label label" })
+                            <div class="col">
+                                @Html.DropDownList("TicketTypeId", null, htmlAttributes: new { @class = "form-control inputbox" })
+                                @Html.ValidationMessageFor(model => model.TicketTypeId, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col">
+                            @Html.LabelFor(model => model.Title, htmlAttributes: new { @class = "control-label label" })
+                            <div class="col">
+                                @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control inputbox" } })
+                                @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
+
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label label" })
+                            <div class="col">
+                                @Html.TextAreaFor(model => model.Description, new { @class = "input_desc  inputbox" })
+                                @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="col-lg-push-4">
+                            <button type="submit" class="btn btn-sm btn-dark ticket_create_btn">Create<br />Ticket</button>
+                        </div>
+                    </div>
+
+
+
+                    <div class="col">
+                        <button class="btn-attach">@Html.ActionLink("Back to Ticket Index", "Index")</button>
+                    </div>
+
+                }
             </div>
-        </div>*@
-
-    @*<div class="form-group">
-            @Html.LabelFor(model => model.Updated, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Updated, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Updated, "", new { @class = "text-danger" })
-            </div>
-        </div>*@
-
-    <div class="form-group">
-        <div class="col-md-offset-2 col-md-10">
-            <input type="submit" value="Save" class="btn btn-default" />
         </div>
     </div>
 </div>
-}
 
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")

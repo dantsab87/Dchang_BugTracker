@@ -269,7 +269,9 @@
     <Content Include="fonts\raleway\Raleway-ThinItalic.ttf" />
     <Content Include="Images\bug.png" />
     <Content Include="Images\favicon.ico" />
+    <Content Include="Images\favicon1.ico" />
     <Content Include="Images\fav_icon.png" />
+    <Content Include="Images\fav_icon_home.png" />
     <Content Include="Images\icon.ico" />
     <Content Include="Images\icons\blank.png" />
     <Content Include="Images\icons\doc.png" />
@@ -297,8 +299,10 @@
     <Content Include="Avatars\pam.jpg" />
     <Content Include="Avatars\ryan.jpg" />
     <Content Include="Avatars\toby.jpg" />
+    <Content Include="Images\side_bg.jpg" />
     <Content Include="Images\test.png" />
     <Content Include="Images\testlog.png" />
+    <Content Include="Images\ticket_bg.jpg" />
     <Content Include="Scripts\atlantis.min.js" />
     <Content Include="Scripts\bootstrap-notify.min.js" />
     <Content Include="Scripts\bootstrap.min.js" />

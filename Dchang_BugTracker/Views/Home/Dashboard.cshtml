@@ -7,15 +7,15 @@
 
 @{
     var db = new ApplicationDbContext();
+
 }
 <style>
-    [data-notify="progressbar"] {
-        margin-bottom: 0px;
-        position: absolute;
-        bottom: 0px;
-        left: 0px;
-        width: 100%;
-        height: 5px;
+    .grow {
+        transition: all .3s ease-in-out;
+    }
+
+    .grow:hover {
+        transform: scale(1.2);
     }
 </style>
 
@@ -49,68 +49,144 @@
 </div>
 
 
-@*<div class="row">
-    <div class="col-sm-6 col-lg-3">
-        <div class="card p-3">
-            <div class="d-flex align-items-center">
-                <span class="stamp stamp-md bg-danger-gradient mr-3">
-                    <i class="far fa-clone"></i>
-                </span>
+
+
+<div class="row justify-content-center">
+
+    <div class="align-self-center justify-content-center">
+        <div class="card-body">
+
+            <div class="row justify-content-center">
+                <div class="col">
+                    <div class="row">
+                        <div id="ProjectCount" class="col">
+                            <div class="card p-3">
+                                <div class="d-flex align-items-center">
+                                    <span class="stamp stamp-md bg-danger-gradient mr-3">
+                                        <i class="far fa-clone grow"></i>
+                                    </span>
+                                    <div>
+                                        <h5 class="mb-1">
+                                            <b>
+                                                <a href="">
+                                                    @db.Projects.Count()
+                                                    <small>Assigned Projects</small>
+                                                </a>
+                                            </b>
+                                        </h5>
+                                        <small class="text-muted">3 Total Projects</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div id="TicketCount" class="col">
+                            <div class="card p-3">
+                                <div class="d-flex align-items-center">
+                                    <span class="stamp stamp-md bg-secondary-gradient mr-3">
+                                        <i class="fas fa-ticket-alt grow"></i>
+                                    </span>
+                                    <div>
+                                        <h5 class="mb-1">
+                                            <b>
+                                                <a href="#">
+                                                    @db.Tickets.Count()
+                                                    <small>Assigned Tickets</small>
+                                                </a>
+                                            </b>
+                                        </h5>
+                                        <small class="text-muted">3 Total Tickets</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    @if (User.IsInRole("Admin") || User.IsInRole("Demo Admin"))
+                    {
+
+                        <div class="row">
+                            <div id="UserCount" class="col">
+                                <div class="card p-3">
+                                    <div class="d-flex align-items-center">
+                                        <span class="stamp stamp-md bg-success-gradient mr-3">
+                                            <i class="fas fa-user-friends grow"></i>
+                                        </span>
+                                        <div>
+                                            <h5 class="mb-1">
+                                                <b>
+                                                    <a href="#">
+                                                        @db.Users.ToList().Count
+                                                        <small>New Users</small>
+                                                    </a>
+                                                </b>
+                                            </h5>
+                                            <small class="text-muted">@db.Users.Count() Total Users</small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+    <div class="card" style="padding:60px; margin:5px 25px 5px 0px">
+        <div class="card-body">
+
+            <div class="row justify-content-center">
                 <div>
-                    <h5 class="mb-1"><b><a href="">@db.Projects.Count() <small>Projects</small></a></b></h5>
-                    <small class="text-muted"></small>
+                    <div class="row">
+                        <div class="col"><h6 class="text-center">Ticket Priorities</h6></div>
+                    </div>
+                    <div class="row">
+                        <div id="tk_priorityChart" style="width:500px; height:200px;"></div>
+                    </div>
                 </div>
             </div>
+
         </div>
     </div>
 
-    <div class="col-sm-6 col-lg-3">
-        <div class="card p-3">
-            <div class="d-flex align-items-center">
-                <span class="stamp stamp-md bg-secondary-gradient mr-3">
-                    <i class="fas fa-ticket-alt"></i>
-                </span>
+  <div class="row justify-content-center">
+    <div class="card" style="padding:10px; margin:10px">
+        <div class="card-body">
+            <div class="row justify-content-center">
                 <div>
-                    <h5 class="mb-1"><b><a href="#">
-                        @db.Tickets.Count()
-                        <small>Total Tickets</small></a></b></h5>
-                    <small class="text-muted"></small>
+                    <div class="row">
+                        <div class="col"><h6 class="text-center">Ticket Status</h6></div>
+                    </div>
+                    <div class="row">
+                        <div id="tk_statusChart" style="width:300px; height:200px; position:relative;"></div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
-</div>*@
 
-
-
-<div class="card">
-    <div class="card-body">
-
-
-        <div class="row justify-content-center">
-            <div>
-                <div class="row">
-                    <div class="col"><h6 class="text-center">Ticket Priorities</h6></div>
-                </div>
-                <div class="row">
-                    <div id="tk_priorityChart"></div>
-                </div>
-            </div>
-
-            <div>
-                <div class="row">
-                    <div class="col"><h6 class="text-center">Ticket Status</h6></div>
-                </div>
-                <div class="row">
-                    <div id="tk_statusChart"></div>
+    <div class="card" style="padding:10px; margin:10px">
+        <div class="card-body">
+            <div class="row justify-content-center">
+                <div>
+                    <div class="row">
+                        <div class="col"><h6 class="text-center">Ticket Type</h6></div>
+                    </div>
+                    <div class="row">
+                        <div id="tk_typeChart" style="width:300px; height:200px; position:relative;"></div>
+                    </div>
                 </div>
             </div>
         </div>
-
     </div>
+
+  </div>
 </div>
-
 
 @section scripts {
     <script src="~/Scripts/raphael-min.js"></script>
@@ -123,13 +199,16 @@
                 new Morris.Bar({
                     element: 'tk_priorityChart',
                     data: response,
+                    gridTextSize: '10',
+                    hideHover: 'auto',
                     xkey: 'label',
                     ykeys: ['value'],
                     labels: ['Ticket Count'],
                     resize: true,
+                    barColors: ['#628dde']
+
                 });
             });
-
 
 
 
@@ -142,12 +221,29 @@
                     ykeys: ['value'],
                     labels: ['Ticket Count'],
                     resize: true,
+                    colors:['#ff6557', '#52b6d7', '#ffed61', '#35f245', '#b2bcd4']
                 });
             });
 
 
+
+            var url ='@Url.Action("ProduceChart3Data","Graph")';
+            $.post(url).then(function (response) {
+                new Morris.Donut({
+                    element: 'tk_typeChart',
+                    data: response,
+                    xkey: 'label',
+                    ykeys: ['value'],
+                    labels: ['Ticket Count'],
+                    resize: true,
+                    colors:['#204E83', '#2C69AF', '#589957', '#93BF3B', '#C0DF7C']
+                });
+            });
+
         });
 
+
     </script>
+
 
 }

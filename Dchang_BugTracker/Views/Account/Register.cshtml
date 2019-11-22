@@ -139,7 +139,7 @@
                                 Email
                             </span>
                             <div class="wrap-input100 validate-input m-b-20 form-group" data-validate="Email is required">
-                                @Html.TextBoxFor(m => m.Email, new { @class = "form-control input100", name = "Email" })
+                                @Html.TextBoxFor(m => m.Email, new { @class = "form-control input100", name = "Email", placeholder = "" })
                                 <span class="focus-input100"></span>
                             </div>
                         </div>
@@ -168,7 +168,7 @@
                     </div>
 
                     <span class="txt1 p-b-5">
-                        Upload Avatar (*.jpg, .png, .gif)
+                        Upload Avatar (<span style="font-size:20px;color:crimson; position:relative; top:5px;">*</span>.jpg, .png, .gif)
                     </span>
                     <div class="wrap-input100 validate-input m-b-20 form-group" data-validate="">
                         @Html.TextBox("Avatar", null, new { type = "file", @class = "txt3" })

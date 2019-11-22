@@ -44,5 +44,20 @@ namespace Dchang_BugTracker.Controllers
         }
 
 
+
+
+        public JsonResult ProduceChart3Data()
+        {
+            var myData = new List<ChartData>();
+            ChartData data = null;
+            foreach (var type in db.TicketTypes.ToList())
+            {
+                data = new ChartData();
+                data.label = type.TypeName;
+                data.value = db.Tickets.Where(t => t.TicketType.TypeName == type.TypeName).Count();
+                myData.Add(data);
+            }
+            return Json(myData);
+        }
     }
 }

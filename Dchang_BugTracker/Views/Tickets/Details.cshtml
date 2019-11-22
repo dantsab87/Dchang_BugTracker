@@ -8,6 +8,12 @@
 }
 
 <style>
+    .ticket_bg {
+        background-image: url('../../Images/ticket_bg.jpg');
+        background-repeat: no-repeat;
+        background-position: top right;
+        background-color: #FFFFFF;
+    }
 
     .nav-pills.nav-primary .nav-link.active {
         background: #1572e8;
@@ -55,7 +61,9 @@
         font-size: 9pt;
     }
 
-    .badge {}
+    .badge {
+    }
+
     .ticket-content-box {
         background-color: #f2f2f2;
         text-align: center;
@@ -64,7 +72,8 @@
         padding: 2px 10px 2px 10px;
         border-radius: 5px;
         box-shadow: 5px 5px 2px #556385;
-}
+    }
+
     .ticket-assigned-img {
         border-radius: 15px 15px 15px 15px;
         border: solid #FFFFFF 3px;
@@ -72,26 +81,43 @@
         width: 80px;
         height: 80px;
     }
+
     .comadd {
-        background-color:#f2f2f2;
+        background-color: #f2f2f2;
         text-align: left;
         font-size: 12px;
         color: #000000;
     }
+
     .btn-mrgn {
         margin-top: 3px;
         margin-bottom: 3px;
     }
+
     .btn:hover {
         background-color: #808caa;
         background-image: linear-gradient(145deg, #c6ccdb, #808caa);
         text-shadow: 1px 1px 3px black;
-        border-color: #FFF;
+        border-color: #1f283e;
+    }
+
+    .grow {
+        transition: all .3s ease-in-out;
+    }
+
+        .grow:hover {
+            transform: scale(1.2);
+        }
+
+    .btn-attach, .btn-attach a:hover, .btn-attach a:hover, .btn-attach a:link, .btn-attach a:active, .btn-attach a:visited {
+        color: #1f283e;
+        font-size: 9pt;
+        text-transform: uppercase;
+        text-decoration: none;
     }
 </style>
 
-
-<h4>@ViewBag.Title</h4>
+<h4 class="page-title">@ViewBag.Title</h4>
 
 
 @{
@@ -152,29 +178,29 @@
             </div>
         </div>
     </div>
-    <div class="card-body">
+    <div class="card-body ticket_bg">
         <ul class="nav nav-pills nav-primary  nav-pills-no-bd nav-pills-icons justify-content-center" id="pills-tab-with-icon" role="tablist">
             <li class="nav-item submenu">
                 <a class="nav-link active show" id="pills-home-tab-icon" data-toggle="pill" href="#pills-home-icon" role="tab" aria-controls="pills-home-icon" aria-selected="true">
-                    <i class="flaticon-list"></i>
+                    <i class="flaticon-list grow"></i>
                     Description
                 </a>
             </li>
             <li class="nav-item submenu">
-                <a class="nav-link" id="pills-profile-tab-icon" data-toggle="pill" href="#pills-profile-icon" role="tab" aria-controls="pills-profile-icon" aria-selected="false">
-                    <i class="flaticon-chat-1"></i>
+                <a class="nav-link" id="pills-comment-tab-icon" data-toggle="pill" href="#pills-comment-icon" role="tab" aria-controls="pills-comment-icon" aria-selected="false">
+                    <i class="flaticon-chat-1 grow"></i>
                     Comments
                 </a>
             </li>
             <li class="nav-item submenu">
                 <a class="nav-link" id="pills-contact-tab-icon" data-toggle="pill" href="#pills-contact-icon" role="tab" aria-controls="pills-contact-icon" aria-selected="false">
-                    <i class="flaticon-folder"></i>
+                    <i class="flaticon-folder grow"></i>
                     Attachments
                 </a>
             </li>
             <li class="nav-item submenu">
                 <a class="nav-link" id="pills-history-tab-icon" data-toggle="pill" href="#pills-history-icon" role="tab" aria-controls="pills-history-icon" aria-selected="false">
-                    <i class="flaticon-clock-1"></i>
+                    <i class="flaticon-clock-1 grow"></i>
                     History
                 </a>
             </li>
@@ -191,29 +217,34 @@
 
                         <div class="col-sm-push-2">
 
-                            @if(User.IsInRole("Admin") || User.IsInRole("Demo Admin") ||  User.IsInRole("Project Manager") ||  User.IsInRole("Demo Project Manager"))
-                            { 
-                            <table>
-                                <tr>
-                                    <td rowspan="2">
-                                        <img src="@Html.DisplayFor(model => model.AssignedToUser.AvatarPath)" class="ticket-assigned-img" />
-                                    </td>
-                                    <td style="width:15px"></td>
-                                    <td>
-                                        <div class="ticket-content-box">
-                                            <strong>@Html.DisplayName("Assigned to")</strong>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td style="width:15px"></td>
-                                    <td>
-                                        <div class="ticket-content-box">
-                                            @Html.DisplayFor(model => model.AssignedToUser.DisplayName)
-                                        </div>
-                                    </td>
-                                </tr>
-                            </table>
+                            @if (User.IsInRole("Admin") || User.IsInRole("Demo Admin") || User.IsInRole("Project Manager") || User.IsInRole("Demo Project Manager"))
+                            {
+                                if (Model.AssignedToUser == null)
+                                { }
+                                else
+                                {
+                                    <table>
+                                        <tr>
+                                            <td rowspan="2">
+                                                <img src="@Html.DisplayFor(model => model.AssignedToUser.AvatarPath)" class="ticket-assigned-img" />
+                                            </td>
+                                            <td style="width:15px"></td>
+                                            <td>
+                                                <div class="ticket-content-box">
+                                                    <strong>@Html.DisplayName("Assigned to")</strong>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="width:15px"></td>
+                                            <td>
+                                                <div class="ticket-content-box">
+                                                    @Html.DisplayFor(model => model.AssignedToUser.DisplayName)
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                }
                             }
                             <BR>
                             <table>
@@ -242,7 +273,7 @@
                     </div>
                 </div>
             </div>
-            <div class="tab-pane fade" id="pills-profile-icon" role="tabpanel" aria-labelledby="pills-profile-tab-icon">
+            <div class="tab-pane fade" id="pills-comment-icon" role="tabpanel" aria-labelledby="pills-comment-tab-icon">
                 @if (Model.TicketStatus.StatusName.Contains("Archived") || Model.TicketStatus.StatusName.Contains("Resolved"))
                 {
 
@@ -256,7 +287,7 @@
                         <div class="row">
                             <div class="col-3"></div>
                             <div class="col-6">
-                                @Html.TextArea("CommentBody", new { rows = 5, cols = 60, placeholder = "Add Comment", @class="form-control comadd" })
+                                @Html.TextArea("CommentBody", new { rows = 5, cols = 60, placeholder = "Add comment", @class = "form-control comadd" })
                             </div>
                             <div class="col-3"></div>
                         </div>
@@ -299,17 +330,19 @@
 
                         <div class="row">
                             <div class="col-3"></div>
-                            <div class="col-md-6">
-                                @Html.TextBox("attachments", null, new { type = "file"})
+                            <div class="col-md-6 align-items-center">
+                                @Html.TextBox("attachments", null, new { type = "file", @class = "btn-attach" })
                                 <button class="btn btn-sm btn-dark btn-mrgn">Add Attachment</button>
                             </div>
                             <div class="col-3"></div>
                         </div>
                         <div class="row">
-                            <div class="offset-3 col-md-6">
-                                @Html.TextArea("Description", "", new { htmlAttributes = new { @class = "form-control" }, rows = 5, cols = 70, placeholder = "Add Description", minlength = "1", @class="form-control comadd"})
+                            <div class="col-3"></div>
+                            <div class="col-md-6 align-items-center">
+                                @Html.TextArea("Description", "", new { rows = 2, cols = 70, placeholder = "Add attachment description", minlength = "1", @class = "form-control comadd" })
                                 @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
                             </div>
+                            <div class="col-3"></div>
                         </div>
 
                         <BR>
@@ -392,170 +425,13 @@
             </div>
         </div>
         <div>
-            @Html.ActionLink("Back to Ticket Index", "Index")
+            <button class="btn-attach">@Html.ActionLink("Back to Ticket Index", "Index")</button>
+
         </div>
     </div>
 
 
 </div>
-
-
-
-
-
-
-
-
-@*<div>
-        <h4>Ticket</h4>
-        <hr />
-        <dl class="dl-horizontal">
-            <dt>
-                @Html.DisplayNameFor(model => model.AssignedToUser.FirstName)Developer
-            </dt>
-
-            <dd>
-                @Html.DisplayFor(model => model.AssignedToUser.FirstName)
-            </dd>
-
-            <dt>
-                @Html.DisplayNameFor(model => model.OwnerUser.FirstName) Submitter
-            </dt>
-
-            <dd>
-                @Html.DisplayFor(model => model.OwnerUser.FirstName)
-            </dd>
-
-            <dt>
-                @Html.DisplayNameFor(model => model.Project.Name) Project Name
-            </dt>
-
-            <dd>
-                @Html.DisplayFor(model => model.Project.Name)
-            </dd>
-
-            <dt>
-                @Html.DisplayNameFor(model => model.TicketPriority.PriorityName) Priority
-            </dt>
-
-            <dd>
-                @Html.DisplayFor(model => model.TicketPriority.PriorityName)
-            </dd>
-
-            <dt>
-                @Html.DisplayNameFor(model => model.TicketStatus.StatusName) Status
-            </dt>
-
-            <dd>
-                @Html.DisplayFor(model => model.TicketStatus.StatusName)
-            </dd>
-
-            <dt>
-                @Html.DisplayNameFor(model => model.TicketType.TypeName) Ticket Type
-            </dt>
-
-            <dd>
-                @Html.DisplayFor(model => model.TicketType.TypeName)
-            </dd>
-
-            <dt>
-                @Html.DisplayNameFor(model => model.Title)
-            </dt>
-
-            <dd>
-                @Html.DisplayFor(model => model.Title)
-            </dd>
-
-            <dt>
-                @Html.DisplayNameFor(model => model.Description)
-            </dt>
-
-            <dd>
-                @Html.DisplayFor(model => model.Description)
-            </dd>
-
-            <dt>
-                @Html.DisplayNameFor(model => model.Created)
-            </dt>
-
-            <dd>
-                @Html.DisplayFor(model => model.Created)
-            </dd>
-
-            <dt>
-                @Html.DisplayNameFor(model => model.Updated)
-            </dt>
-
-            <dd>
-                @Html.DisplayFor(model => model.Updated)
-            </dd>
-
-        </dl>
-    </div>*@
-
-@*<p>
-        @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-        @Html.ActionLink("Assign", "AssignTicket", new { id = Model.Id }) |
-        @Html.ActionLink("Back to List", "Index")
-    </p>*@
-
-@*<div class="col">
-
-        <div id="addComment">
-            @using (Html.BeginForm("Create", "TicketComments", FormMethod.Post))
-            {
-                @Html.AntiForgeryToken()
-                @Html.Hidden("TicketId", Model.Id)
-                <div class="row-12">
-                    <div class="col-3"></div>
-                    <div class="offset-1 col-md-6">
-                        @Html.TextArea("CommentBody", new { rows = 5, cols = 70, placeholder = "Add Comment", id = "comadd" })
-                    </div>
-                    <div class="col-3"></div>
-                </div>
-                <div class="row">
-                    <div class="offset-3 col-md-6">
-                        <button type="submit" class="btn btn-sm btn-dark">Add Comment</button>
-                    </div>
-                </div>
-            }
-        </div>
-
-        <div class="col">
-            @using (Html.BeginForm("Create", "TicketAttachments", FormMethod.Post, new { enctype = "Multipart/form-data" }))
-            {
-                @Html.AntiForgeryToken()
-                @Html.Hidden("TicketId", Model.Id)
-                <div class="">
-                    @Html.TextBox("attachments", null, new { type = "file" })
-                    <button class="btn btn-sm btn-dark">Add Attachment</button>
-                </div>
-            }
-        </div>
-
-
-
-        @foreach (var comment in Model.TicketComments.OrderByDescending(c => c.Created))
-        {
-            <div class="container mt-3 compost">
-                <div class="media">
-                    <img src="~/Images/anonymous.png" class="align-self-start mr-3" style="width:60px">
-                    <div class="media-body">
-                        <p>@comment.Created.ToString("MM/dd/yyyy h:mm tt")</p>
-                        <p><strong>@comment.User.DisplayName</strong> says: </p>
-                        <p>@comment.CommentBody</p>
-                    </div>
-                </div>
-            </div>
-        }
-        <div>
-        @foreach (var atch in Model.TicketAttachments.OrderByDescending(c => c.Created))
-        {
-            <img src="@atch.FilePath" />
-        }
-        </div>
-
-    </div>*@
 
 
 

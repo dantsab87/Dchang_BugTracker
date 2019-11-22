@@ -45,7 +45,7 @@ namespace Dchang_BugTracker.Controllers
         }
 
         // GET: Tickets/Create
-       
+        [Authorize(Roles = "Project Manager, Demo Project Manager, Developer, Demo Developer, Submitter, Demo Submitter")]
         public ActionResult Create()
         {
             ViewBag.AssignedToUserId = new SelectList(db.Users, "Id", "FirstName");
@@ -60,6 +60,7 @@ namespace Dchang_BugTracker.Controllers
         // POST: Tickets/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        [Authorize(Roles = "Project Manager, Demo Project Manager, Developer, Demo Developer, Submitter, Demo Submitter")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "ProjectId,TicketTypeId,Title,Description")] Ticket ticket)
@@ -86,6 +87,7 @@ namespace Dchang_BugTracker.Controllers
         }
 
         // GET: Tickets/Edit/5
+        [Authorize(Roles = "Admin, Demo Admin, Project Manager, Demo Project Manager, Developer, Demo Developer")]
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -98,18 +100,23 @@ namespace Dchang_BugTracker.Controllers
                 return HttpNotFound();
             }
 
-            ViewBag.AssignedToUserId = new SelectList(db.Users, "Id", "FirstName", ticket.AssignedToUserId);
+            RoleHelper helper = new RoleHelper();
+            var users = helper.UsersIn2Role("Developer", "Demo Developer").ToList();
+            ViewBag.AssignedToUserId = new SelectList(users, "Id", "FirstName", ticket.AssignedToUserId);
             ViewBag.OwnerUserId = new SelectList(db.Users, "Id", "FirstName", ticket.OwnerUserId);
             ViewBag.ProjectId = new SelectList(db.Projects, "Id", "Name", ticket.ProjectId);
             ViewBag.TicketPriorityId = new SelectList(db.TicketPriorities, "Id", "PriorityName", ticket.TicketPriorityId);
             ViewBag.TicketStatusId = new SelectList(db.TicketStatus, "Id", "StatusName", ticket.TicketStatusId);
             ViewBag.TicketTypeId = new SelectList(db.TicketTypes, "Id", "TypeName", ticket.TicketTypeId);
             return View(ticket);
+
+
         }
 
         // POST: Tickets/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        [Authorize(Roles = "Admin, Demo Admin, Project Manager, Demo Project Manager, Developer, Demo Developer")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "Id,ProjectId,TicketPriorityId,TicketTypeId,TicketStatusId,OwnerUserId,AssignedToUserId,Title,Description,Created,Updated")] Ticket ticket)
@@ -136,7 +143,9 @@ namespace Dchang_BugTracker.Controllers
 
                 return RedirectToAction("Index");
             }
-            ViewBag.AssignedToUserId = new SelectList(db.Users, "Id", "FirstName", ticket.AssignedToUserId);
+            RoleHelper helper = new RoleHelper();
+            var users = helper.UsersIn2Role("Developer", "Demo Developer").ToList();
+            ViewBag.AssignedToUserId = new SelectList(users, "Id", "FirstName", ticket.AssignedToUserId);
             ViewBag.OwnerUserId = new SelectList(db.Users, "Id", "FirstName", ticket.OwnerUserId);
             ViewBag.ProjectId = new SelectList(db.Projects, "Id", "Name", ticket.ProjectId);
             ViewBag.TicketPriorityId = new SelectList(db.TicketPriorities, "Id", "PriorityName", ticket.TicketPriorityId);
@@ -146,6 +155,7 @@ namespace Dchang_BugTracker.Controllers
         }
 
         // GET: Tickets/Delete/5
+        [Authorize(Roles = "Admin, Demo Admin")]
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -161,6 +171,7 @@ namespace Dchang_BugTracker.Controllers
         }
 
         // POST: Tickets/Delete/5
+        [Authorize(Roles = "Admin, Demo Admin")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
@@ -182,6 +193,7 @@ namespace Dchang_BugTracker.Controllers
 
 
         // GET Tickets/Assign Tickets
+        [Authorize(Roles = "Admin, Demo Admin, Project Manager, Demo Project Manager")]
         public ActionResult AssignTicket(int? id) 
         {
             RoleHelper helper = new RoleHelper();
@@ -193,6 +205,7 @@ namespace Dchang_BugTracker.Controllers
         }
 
         //POST Tickets/Assign Tickets
+        [Authorize(Roles = "Admin, Demo Admin, Project Manager, Demo Project Manager")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> AssignTicket(Ticket model) 
