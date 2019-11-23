@@ -121,8 +121,15 @@
             background-color: #808caa;
             background-image: linear-gradient(145deg, #c6ccdb, #808caa);
             text-shadow: 1px 1px 3px black;
+            border-color: #1f283e;
         }
 
+        .login-txt-color {
+            font-family: Raleway-SemiBold;
+            font-size: 20px;
+            font-weight: bold;
+            color: #476cc9;
+        }
 
         .wrap-login100 {
             box-shadow: 2px 6px 15px 0 rgba(69,65,78,.3);
@@ -146,8 +153,10 @@
                 @using (Html.BeginForm("Login", "Account", FormMethod.Post, new { @class = "login100-form validate-form flex-sb flex-w" }))
                 {
                     @Html.AntiForgeryToken()
+
+
                     <span class="login100-form-title p-b-32 text-center">
-                        Bugtracker Login
+                        <img src="~/Images/fav_icon.png" style="width:18px; height:18px; margin-bottom:3px;">  <span class="login-txt-color">Bug</span>tracker Login
                     </span>
                     <span class="txt1 p-b-11">
                         Username
@@ -170,7 +179,7 @@
 
 
                     <div class="container-login100-form-btn">
-                        <button class="login100-form-btn btn-block">
+                        <button class="btn login100-form-btn btn-block">
                             Login
                         </button>
                     </div>
@@ -297,11 +306,15 @@
     <script src="~/Scripts/Login/main.js"></script>
 
     <script>
-        $('.demo-log').on({
-            'click': function () {
-                $('#log_leftimg').attr('src', '/Images/testlog.png')
-            }
+
+        $(function () {
+            $('.demo-log').click(function () {
+                $("#log_leftimg").attr('src', "/Images/testlog.png");
+            });
         });
+
+
+
     </script>
 </body>
 </html>
