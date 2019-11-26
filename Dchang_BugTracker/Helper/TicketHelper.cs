@@ -35,7 +35,7 @@ namespace Dchang_BugTracker.Helper
             //{
             //    myTickets.AddRange(db.Tickets);
             //}
-            //else if (myRole == "Project Manager") 
+            //else if (myRole == "Project Manager")
             //{
             //    myTickets.AddRange(user.Projects.SelectMany(p => p.Tickets));
             //}

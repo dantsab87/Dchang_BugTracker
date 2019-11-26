@@ -1,22 +1,29 @@
 ﻿@using Dchang_BugTracker.Models
 @using Dchang_BugTracker.Helper
+@using Microsoft.AspNet.Identity
 
 @{
     ViewBag.Title = "Dashboard";
 }
 
 @{
-    var db = new ApplicationDbContext();
+    var ticketHelper = new TicketHelper();
+    var myTickets = new List<Ticket>();
 
+    var roleHelper = new RoleHelper();
+    var db = new ApplicationDbContext();
+    var userId = User.Identity.GetUserId();
+    var user = db.Users.Find(userId);
+    var myRole = roleHelper.ListUserRoles(userId).FirstOrDefault();
 }
 <style>
     .grow {
         transition: all .3s ease-in-out;
     }
 
-    .grow:hover {
-        transform: scale(1.2);
-    }
+        .grow:hover {
+            transform: scale(1.2);
+        }
 </style>
 
 <link href="~/Content/main/morris.css" rel="stylesheet" />
@@ -69,18 +76,20 @@
                                         <h5 class="mb-1">
                                             <b>
                                                 <a href="">
-                                                    @db.Projects.Count()
+                                                    @user.Projects.Count()
                                                     <small>Assigned Projects</small>
                                                 </a>
                                             </b>
                                         </h5>
-                                        <small class="text-muted">3 Total Projects</small>
+                                        <small class="text-muted">@db.Projects.Count() Total Projects</small>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="row">
+                    @if (User.IsInRole("Developer") || User.IsInRole("Demo Developer") || User.IsInRole("Submitter") || User.IsInRole("Demo Submitter"))
+                    {
                         <div id="TicketCount" class="col">
                             <div class="card p-3">
                                 <div class="d-flex align-items-center">
@@ -91,16 +100,18 @@
                                         <h5 class="mb-1">
                                             <b>
                                                 <a href="#">
-                                                    @db.Tickets.Count()
+
+
                                                     <small>Assigned Tickets</small>
                                                 </a>
                                             </b>
                                         </h5>
-                                        <small class="text-muted">3 Total Tickets</small>
+                                        <small class="text-muted">@db.Tickets.Count() Total Tickets</small>
                                     </div>
                                 </div>
                             </div>
                         </div>
+                    }
                     </div>
                     @if (User.IsInRole("Admin") || User.IsInRole("Demo Admin"))
                     {
@@ -153,39 +164,39 @@
         </div>
     </div>
 
-  <div class="row justify-content-center">
-    <div class="card" style="padding:10px; margin:10px">
-        <div class="card-body">
-            <div class="row justify-content-center">
-                <div>
-                    <div class="row">
-                        <div class="col"><h6 class="text-center">Ticket Status</h6></div>
-                    </div>
-                    <div class="row">
-                        <div id="tk_statusChart" style="width:300px; height:200px; position:relative;"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-
-    <div class="card" style="padding:10px; margin:10px">
-        <div class="card-body">
-            <div class="row justify-content-center">
-                <div>
-                    <div class="row">
-                        <div class="col"><h6 class="text-center">Ticket Type</h6></div>
-                    </div>
-                    <div class="row">
-                        <div id="tk_typeChart" style="width:300px; height:200px; position:relative;"></div>
+    <div class="row justify-content-center">
+        <div class="card" style="padding:10px; margin:10px">
+            <div class="card-body">
+                <div class="row justify-content-center">
+                    <div>
+                        <div class="row">
+                            <div class="col"><h6 class="text-center">Ticket Status</h6></div>
+                        </div>
+                        <div class="row">
+                            <div id="tk_statusChart" style="width:300px; height:200px; position:relative;"></div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
 
-  </div>
+
+        <div class="card" style="padding:10px; margin:10px">
+            <div class="card-body">
+                <div class="row justify-content-center">
+                    <div>
+                        <div class="row">
+                            <div class="col"><h6 class="text-center">Ticket Type</h6></div>
+                        </div>
+                        <div class="row">
+                            <div id="tk_typeChart" style="width:300px; height:200px; position:relative;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
 </div>
 
 @section scripts {
