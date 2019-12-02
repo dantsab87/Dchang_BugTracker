@@ -20,6 +20,7 @@ namespace Dchang_BugTracker.Controllers
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
+        private RoleHelper roleHelper = new RoleHelper();
 
         public AccountController()
         {
@@ -195,6 +196,7 @@ namespace Dchang_BugTracker.Controllers
                     LastName = model.LastName, 
                     DisplayName = model.DisplayName,
                     AvatarPath = "/Avatars/default.png"
+
                 };
 
                 if (avatar != null) 
@@ -225,6 +227,8 @@ namespace Dchang_BugTracker.Controllers
                     // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
 
                     await EmailHelper.ComposeEmailAsync(model, callbackUrl);
+                    roleHelper.AddUserToRole(user.Id, "Unregistered");
+
                     return RedirectToAction("Index", "Home");
                 }
                 AddErrors(result);

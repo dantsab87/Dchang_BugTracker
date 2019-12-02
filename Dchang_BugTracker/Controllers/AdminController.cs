@@ -8,12 +8,15 @@ using Dchang_BugTracker.Models;
 
 namespace Dchang_BugTracker.Controllers
 {
+    [Authorize(Roles = "Admin, Demo Admin, Project Manager, Demo Project Manager")]
     public class AdminController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
         private RoleHelper roleHelper = new RoleHelper();
         private ProjectHelper projHelper = new ProjectHelper();
         // GET: Admin
+
+        [Authorize(Roles = "Admin, Demo Admin")]
         public ActionResult ManageRoles()
         {
             ViewBag.UserIds = new MultiSelectList(db.Users, "Id", "Email");
@@ -34,31 +37,40 @@ namespace Dchang_BugTracker.Controllers
 
 
         // POST: Admin
+        [Authorize(Roles = "Admin, Demo Admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult ManageRoles(List<string> userIds, string role)
         {
-            //Unenroll all the selected Users from ANY roles
-            //they may currently occupy
-            foreach (var userId in userIds) 
+            if (User.IsInRole("Admin"))
             {
-                //What is the Role of this person??
-                var userRole = roleHelper.ListUserRoles(userId).FirstOrDefault();
-                if (userRole != null) 
-                {
-                    roleHelper.RemoveUserFromRole(userId, userRole);
-                }
-            }
-
-            //Step 2: Add them back to the seleced Role
-            if (!string.IsNullOrEmpty(role))
-            {
+                //Unenroll all the selected Users from ANY roles
+                //they may currently occupy
                 foreach (var userId in userIds)
                 {
-                    roleHelper.AddUserToRole(userId, role);
+                    //What is the Role of this person??
+                    var userRole = roleHelper.ListUserRoles(userId).FirstOrDefault();
+                    if (userRole != null)
+                    {
+                        roleHelper.RemoveUserFromRole(userId, userRole);
+                    }
                 }
+
+                //Step 2: Add them back to the seleced Role
+                if (!string.IsNullOrEmpty(role))
+                {
+                    foreach (var userId in userIds)
+                    {
+                        roleHelper.AddUserToRole(userId, role);
+                    }
+                }
+                return RedirectToAction("ManageRoles", "Admin");
             }
-            return RedirectToAction("ManageRoles", "Admin");
+            else 
+            {
+                return RedirectToAction("ManageRoles", "Admin"); 
+            }
+
         }
 
 

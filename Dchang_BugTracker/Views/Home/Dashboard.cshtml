@@ -7,14 +7,12 @@
 }
 
 @{
-    var ticketHelper = new TicketHelper();
-    var myTickets = new List<Ticket>();
-
     var roleHelper = new RoleHelper();
     var db = new ApplicationDbContext();
     var userId = User.Identity.GetUserId();
     var user = db.Users.Find(userId);
     var myRole = roleHelper.ListUserRoles(userId).FirstOrDefault();
+
 }
 <style>
     .grow {
@@ -58,113 +56,176 @@
 
 
 
-<div class="row justify-content-center">
+<div class="justify-content-center">
 
     <div class="align-self-center justify-content-center">
         <div class="card-body">
 
             <div class="row justify-content-center">
-                <div class="col">
-                    <div class="row">
-                        <div id="ProjectCount" class="col">
-                            <div class="card p-3">
-                                <div class="d-flex align-items-center">
-                                    <span class="stamp stamp-md bg-danger-gradient mr-3">
-                                        <i class="far fa-clone grow"></i>
-                                    </span>
-                                    <div>
-                                        <h5 class="mb-1">
-                                            <b>
-                                                <a href="">
-                                                    @user.Projects.Count()
-                                                    <small>Assigned Projects</small>
-                                                </a>
-                                            </b>
-                                        </h5>
-                                        <small class="text-muted">@db.Projects.Count() Total Projects</small>
-                                    </div>
+                @if (myRole == "Admin" || myRole == "Demo Admin")
+                {
+                    <div id="ProjectCount" class="col-sm-6 col-lg-3">
+                        <div class="card p-3">
+                            <div class="d-flex align-items-center">
+                                <span class="stamp stamp-md bg-danger-gradient mr-3">
+                                    <i class="far fa-clone grow"></i>
+                                </span>
+                                <div>
+                                    <h5 class="mb-1">
+                                        <b>
+                                            <a href="">
+                                                @user.Projects.Count()
+                                                <small>Assigned Projects</small>
+                                            </a>
+                                        </b>
+                                    </h5>
+                                    <small class="text-muted">@db.Projects.Count() Total Projects</small>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="row">
-                    @if (User.IsInRole("Developer") || User.IsInRole("Demo Developer") || User.IsInRole("Submitter") || User.IsInRole("Demo Submitter"))
-                    {
-                        <div id="TicketCount" class="col">
-                            <div class="card p-3">
-                                <div class="d-flex align-items-center">
-                                    <span class="stamp stamp-md bg-secondary-gradient mr-3">
-                                        <i class="fas fa-ticket-alt grow"></i>
-                                    </span>
-                                    <div>
-                                        <h5 class="mb-1">
-                                            <b>
-                                                <a href="#">
 
 
+
+                    <div id="TicketCount" class="col-sm-6 col-lg-3">
+                        <div class="card p-3">
+                            <div class="d-flex align-items-center">
+                                <span class="stamp stamp-md bg-secondary-gradient mr-3">
+                                    <i class="fas fa-ticket-alt grow"></i>
+                                </span>
+                                <div>
+                                    <h5 class="mb-1">
+                                        <b>
+
+                                            <a href="@Url.Action("Index", "Tickets")">
+                                                @db.Tickets.Where(t => t.TicketStatus.StatusName.Contains("Open")).Count()
+                                                <small>Unassigned Tickets</small>
+                                            </a>
+
+                                        </b>
+                                    </h5>
+                                    <small class="text-muted">@db.Tickets.Count() Total Tickets</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                    <div id="UserCount" class="col-sm-6 col-lg-3">
+                        <div id="NewUser" class="card p-3" onload="jump()">
+                            <div class="d-flex align-items-center">
+                                <span class="stamp stamp-md bg-success-gradient mr-3">
+                                    <i class="fas fa-user-friends grow"></i>
+                                </span>
+                                <div>
+                                    <h5 class="mb-1">
+                                        <b>
+                                            <a href="@Url.Action("ManageRoles", "Admin")">
+                                                @roleHelper.UsersInRole("Unregistered").Count()
+                                                <small>New Users</small>
+                                            </a>
+                                        </b>
+                                    </h5>
+                                    <small class="text-muted">@db.Users.Count() Total Users</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+
+                }
+
+
+
+
+
+                @if (User.IsInRole("Developer") || User.IsInRole("Demo Developer") || User.IsInRole("Submitter") || User.IsInRole("Demo Submitter"))
+                {
+                    <div id="ProjectCount" class="col-sm-6 col-lg-3">
+                        <div class="card p-3">
+                            <div class="d-flex align-items-center">
+                                <span class="stamp stamp-md bg-danger-gradient mr-3">
+                                    <i class="far fa-clone grow"></i>
+                                </span>
+                                <div>
+                                    <h5 class="mb-1">
+                                        <b>
+                                            <a href="">
+                                                @user.Projects.Count()
+                                                <small>Assigned Projects</small>
+                                            </a>
+                                        </b>
+                                    </h5>
+                                    <small class="text-muted">@db.Projects.Count() Total Projects</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="TicketCount" class="col-sm-6 col-lg-3">
+                        <div class="card p-3">
+                            <div class="d-flex align-items-center">
+                                <span class="stamp stamp-md bg-secondary-gradient mr-3">
+                                    <i class="fas fa-ticket-alt grow"></i>
+                                </span>
+                                <div>
+                                    <h5 class="mb-1">
+                                        <b>
+                                            @if (myRole == "Developer" || myRole == "Demo Developer")
+                                            {
+                                                <a href="@Url.Action("Index", "Tickets")">
+                                                    @db.Tickets.Where(t => t.AssignedToUserId == user.Id).Where(t => t.TicketStatus.StatusName.Contains("Assigned")).Union(db.Tickets.Where(t => t.AssignedToUserId == user.Id).Where(t => t.TicketStatus.StatusName.Contains("In Progress"))).Count()
                                                     <small>Assigned Tickets</small>
                                                 </a>
-                                            </b>
-                                        </h5>
-                                        <small class="text-muted">@db.Tickets.Count() Total Tickets</small>
-                                    </div>
+                                            }
+
+
+                                            @if (myRole == "Submitter" || myRole == "Demo Submitter")
+                                            {
+                                                <a href="@Url.Action("Index", "Tickets")">
+                                                    @db.Tickets.Where(t => t.OwnerUserId == user.Id).Count()
+                                                    <small>Created Tickets</small>
+                                                </a>
+                                            }
+                                        </b>
+                                    </h5>
+                                    <small class="text-muted">@db.Tickets.Count() Total Tickets</small>
                                 </div>
                             </div>
                         </div>
-                    }
                     </div>
-                    @if (User.IsInRole("Admin") || User.IsInRole("Demo Admin"))
-                    {
+                }
 
-                        <div class="row">
-                            <div id="UserCount" class="col">
-                                <div class="card p-3">
-                                    <div class="d-flex align-items-center">
-                                        <span class="stamp stamp-md bg-success-gradient mr-3">
-                                            <i class="fas fa-user-friends grow"></i>
-                                        </span>
-                                        <div>
-                                            <h5 class="mb-1">
-                                                <b>
-                                                    <a href="#">
-                                                        @db.Users.ToList().Count
-                                                        <small>New Users</small>
-                                                    </a>
-                                                </b>
-                                            </h5>
-                                            <small class="text-muted">@db.Users.Count() Total Users</small>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    }
 
-                </div>
+
+
             </div>
 
         </div>
     </div>
 
-
-    <div class="card" style="padding:60px; margin:5px 25px 5px 0px">
-        <div class="card-body">
-
-            <div class="row justify-content-center">
-                <div>
-                    <div class="row">
-                        <div class="col"><h6 class="text-center">Ticket Priorities</h6></div>
-                    </div>
-                    <div class="row">
-                        <div id="tk_priorityChart" style="width:500px; height:200px;"></div>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-    </div>
 
     <div class="row justify-content-center">
+        <div class="card" style="padding:10px; margin:10px">
+            <div class="card-body">
+                <div class="row justify-content-center">
+                    <div>
+                        <div class="row">
+                            <div class="col"><h6 class="text-center">Ticket Priority</h6></div>
+                        </div>
+                        <div class="row">
+                            <div id="tk_priorityChart" style="width:300px; height:200px; position:relative;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
         <div class="card" style="padding:10px; margin:10px">
             <div class="card-body">
                 <div class="row justify-content-center">
@@ -205,21 +266,22 @@
 
     <script>
         $(function () {
+
             var url ='@Url.Action("ProduceChart1Data","Graph")';
             $.post(url).then(function (response) {
-                new Morris.Bar({
+                new Morris.Donut({
                     element: 'tk_priorityChart',
                     data: response,
-                    gridTextSize: '10',
-                    hideHover: 'auto',
                     xkey: 'label',
                     ykeys: ['value'],
                     labels: ['Ticket Count'],
                     resize: true,
-                    barColors: ['#628dde']
-
+                    colors:['#D1D1D1', '#5d9ccb', '#ffc107', '#ff7f50', '#F40F0F']
                 });
             });
+
+
+
 
 
 
@@ -256,5 +318,13 @@
 
     </script>
 
-
+    <script>
+        $(function jump() {
+            if (@roleHelper.UsersInRole("Unregistered").Count() > 0) {
+                ('#NewUser').addClass('animated bounceOutLeft');
+            }
+            else {
+            }
+        });
+    </script>
 }

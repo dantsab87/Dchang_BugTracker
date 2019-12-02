@@ -48,6 +48,11 @@ namespace Dchang_BugTracker.Controllers
         [Authorize(Roles = "Project Manager, Demo Project Manager, Developer, Demo Developer, Submitter, Demo Submitter")]
         public ActionResult Create()
         {
+            var userId = User.Identity.GetUserId();
+            var user = db.Users.Find(userId);
+            var projects = user.Projects;
+
+            ViewBag.xProject = new SelectList(projects, "Id", "Name");
             ViewBag.AssignedToUserId = new SelectList(db.Users, "Id", "FirstName");
             //ViewBag.OwnerUserId = new SelectList(db.Users, "Id", "FirstName");
             ViewBag.ProjectId = new SelectList(db.Projects, "Id", "Name");
@@ -67,6 +72,7 @@ namespace Dchang_BugTracker.Controllers
         {
             if (ModelState.IsValid)
             {
+
                 ticket.Created = DateTime.Now;
                 ticket.OwnerUserId = User.Identity.GetUserId();
                 ticket.TicketStatusId = ticketHelper.SetDefaultTicketStatus();
@@ -76,6 +82,10 @@ namespace Dchang_BugTracker.Controllers
                 return RedirectToAction("Index", "Tickets");
             }
 
+            var userId = User.Identity.GetUserId();
+            var user = db.Users.Find(userId);
+            var projects = user.Projects;
+            ViewBag.xProject = new SelectList(projects, "Id", "Name", ticket.ProjectId);
             //ViewBag.AssignedToUserId = new SelectList(db.Users, "Id", "FirstName", ticket.AssignedToUserId);
             //ViewBag.OwnerUserId = new SelectList(db.Users, "Id", "FirstName", ticket.OwnerUserId);
             ViewBag.ProjectId = new SelectList(db.Projects, "Id", "Name", ticket.ProjectId);
