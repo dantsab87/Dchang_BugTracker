@@ -8,25 +8,29 @@
 
 @{
     var roleHelper = new RoleHelper();
+    var projectHelper = new ProjectHelper();
     var db = new ApplicationDbContext();
     var userId = User.Identity.GetUserId();
     var user = db.Users.Find(userId);
     var myRole = roleHelper.ListUserRoles(userId).FirstOrDefault();
 
 }
+
 <style>
     .grow {
         transition: all .3s ease-in-out;
     }
 
-        .grow:hover {
-            transform: scale(1.2);
-        }
+    .grow:hover {
+        transform: scale(1.2);
+    }
+    .txt1 {
+        font-size: 13px;
+        color: #555555;
+        line-height: 2;
+        text-transform: none;
+    }
 </style>
-
-<link href="~/Content/main/morris.css" rel="stylesheet" />
-
-
 
 
 
@@ -62,7 +66,7 @@
         <div class="card-body">
 
             <div class="row justify-content-center">
-                @if (myRole == "Admin" || myRole == "Demo Admin")
+                @if (myRole == "Admin" || myRole == "Demo Admin" || myRole == "Project Manager" || myRole == "Demo Project Manager")
                 {
                     <div id="ProjectCount" class="col-sm-6 col-lg-3">
                         <div class="card p-3">
@@ -110,13 +114,16 @@
                         </div>
                     </div>
 
+                }
 
+                @if (myRole == "Admin" || myRole == "Demo Admin")
+                {
 
                     <div id="UserCount" class="col-sm-6 col-lg-3">
-                        <div id="NewUser" class="card p-3" onload="jump()">
+                        <div id="NewUser" class="card p-3">
                             <div class="d-flex align-items-center">
                                 <span class="stamp stamp-md bg-success-gradient mr-3">
-                                    <i class="fas fa-user-friends grow"></i>
+                                    <i class="fas fa-user-plus grow"></i>
                                 </span>
                                 <div>
                                     <h5 class="mb-1">
@@ -127,6 +134,7 @@
                                             </a>
                                         </b>
                                     </h5>
+                                    
                                     <small class="text-muted">@db.Users.Count() Total Users</small>
                                 </div>
                             </div>
@@ -136,8 +144,42 @@
 
 
 
-                }
+                    <div id="RoleCount" class="col-sm-6 col-lg-3">
+                        <div id="AllRoles" class="card p-3" onload="jump()">
+                            <div class="d-flex align-items-center txt1">
+                                <span class="stamp stamp-md bg-info-gradient mr-3">
+                                    <i class="fas fa-users grow"></i>
+                                </span>
+                                <div>
+                                    <span class="mb-1">
+                                        <a style="color:#000;" href="@Url.Action("ManageRoles", "Admin")">
+                                            <b>@roleHelper.UsersInRole("Admin").Union(roleHelper.UsersInRole("Demo Admin")).Count()</b>
+                                            Admin
+                                        </a>
+                                        &nbsp;&nbsp;&nbsp;
+                                        <a style="color:#000;" href="@Url.Action("ManageRoles", "Admin")">
+                                            <b>@roleHelper.UsersInRole("Project Manager").Union(roleHelper.UsersInRole("Demo Project Manager")).Count()</b>
+                                            Project Managers
+                                        </a>
+                                        <BR>
+                                        <a style="color:#000;" href="@Url.Action("ManageRoles", "Admin")">
+                                            <b>@roleHelper.UsersInRole("Developer").Union(roleHelper.UsersInRole("Demo Developer")).Count()</b>
+                                            Developers
+                                        </a>
+                                        &nbsp;&nbsp;&nbsp;
+                                        <a style="color:#000;" href="@Url.Action("ManageRoles", "Admin")">
+                                            <b>@roleHelper.UsersInRole("Submitter").Union(roleHelper.UsersInRole("Demo Submitter")).Count()</b>
+                                            Submitters
+                                        </a>
+                                        <BR>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
+
+                }
 
 
 
@@ -153,10 +195,8 @@
                                 <div>
                                     <h5 class="mb-1">
                                         <b>
-                                            <a href="">
                                                 @user.Projects.Count()
                                                 <small>Assigned Projects</small>
-                                            </a>
                                         </b>
                                     </h5>
                                     <small class="text-muted">@db.Projects.Count() Total Projects</small>
@@ -318,13 +358,28 @@
 
     </script>
 
-    <script>
+    @*<script>
         $(function jump() {
             if (@roleHelper.UsersInRole("Unregistered").Count() > 0) {
                 ('#NewUser').addClass('animated bounceOutLeft');
             }
             else {
             }
+        });
+    </script>*@
+
+    <script>
+        $.notify({
+            icon: 'fas fa-feather-alt',
+            title: 'Welcome @myRole, @user.DisplayName',
+            message: 'Feel free to look around!<BR> As a demo user, you are unable to make any changes!',
+        }, {
+            type: 'warning',
+            placement: {
+                from: "top",
+                align: "center"
+            },
+            time: 1000000,
         });
     </script>
 }

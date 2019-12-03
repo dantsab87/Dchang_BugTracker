@@ -1,9 +1,8 @@
 ﻿@model Dchang_BugTracker.Models.Ticket
 
-@{ 
+@{
     ViewBag.Title = "Edit";
 }
-
 
 @using (Html.BeginForm("AssignTicket", "Tickets", FormMethod.Post))
 {
@@ -18,14 +17,14 @@
         <div class="form-group">
             @Html.LabelFor(model => model.AssignedToUserId, "Assign Developer", new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.DropDownList("AssignedToUserId", null, new { @class = "form-control" })
+                @Html.DropDownList("AssignedToUserId", null, "---Seclect a Developer---", new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.AssignedToUserId, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save" class="btn btn-default"/>
+                <input type="submit" value="Save" class="btn btn-default" />
             </div>
         </div>
     </div>
@@ -36,5 +35,5 @@
 </div>
 
 @section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")    
+    @Scripts.Render("~/bundles/jqueryval")
 }

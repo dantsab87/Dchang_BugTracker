@@ -28,10 +28,11 @@
     <!-- CSS Files -->
     <link href="~/Content/main/atlantis.min.css" rel="stylesheet" />
     <link href="~/Content/main/bootstrap.min.css" rel="stylesheet" />
-
+    <link href="~/Content/main/scroller.css" rel="stylesheet" />
     <!--Datatable Files-->
     <link href="~/Content/main/jquery.dataTables.css" rel="stylesheet" />
     <link href="~/Content/main/jquery.dataTables.min.css" rel="stylesheet" />
+    <link href="~/Content/main/morris.css" rel="stylesheet" />
 
     <style>
         .alink {
@@ -128,6 +129,7 @@
         .footer {
             margin: 18px 0px 0px 0px;
         }
+
         .page-title {
             font-size: 14px;
             font-weight: 600;
@@ -135,13 +137,13 @@
             line-height: 30px;
             margin-bottom: 20px
         }
+
         .repo {
-        color: #8d9498;
-        text-transform: uppercase;
+            color: #8d9498;
+            text-transform: uppercase;
         }
 
         .sidebg {
-
         }
     </style>
 
@@ -181,29 +183,34 @@
                 <div class="container-fluid">
                     <div class="collapse" id="search-nav">
                         @*<form class="navbar-left navbar-form nav-search mr-md-3">
-                            <div class="input-group">
-                                <div class="input-group-prepend">
-                                    <button type="submit" class="btn btn-search pr-1">
-                                        <i class="fa fa-search search-icon"></i>
-                                    </button>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <button type="submit" class="btn btn-search pr-1">
+                                            <i class="fa fa-search search-icon"></i>
+                                        </button>
+                                    </div>
+                                    <input type="text" placeholder="Search ..." class="form-control">
                                 </div>
-                                <input type="text" placeholder="Search ..." class="form-control">
-                            </div>
-                        </form>*@
+                            </form>*@
                     </div>
                     <ul class="navbar-nav topbar-nav ml-md-auto align-items-center">
                         @*<li class="nav-item toggle-nav-search hidden-caret">
-                            <a class="nav-link" data-toggle="collapse" href="#search-nav" role="button" aria-expanded="false" aria-controls="search-nav">
-                                <i class="fa fa-search"></i>
-                            </a>
-                        </li>*@
+                                <a class="nav-link" data-toggle="collapse" href="#search-nav" role="button" aria-expanded="false" aria-controls="search-nav">
+                                    <i class="fa fa-search"></i>
+                                </a>
+                            </li>*@
 
                         <li class="nav-item dropdown hidden-caret">
                             <a class="nav-link dropdown-toggle" href="#" id="notifDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <i class="fa fa-bell"></i>
+                                @if (NotificationHelper.GetUnreadNotifications().Count() != 0)
+                                {
                                 <span class="notification">@NotificationHelper.GetUnreadNotifications().Count()</span>
+                                }
+                                else 
+                                { }
                             </a>
-                            <ul class="dropdown-menu notif-box animated fadeIn" aria-labelledby="notifDropdown">
+                            <ul class="dropdown-menu notif-box animated fadeIn thescrollbar force-overflow" id="scroll-notif" aria-labelledby="notifDropdown">
                                 <li>
                                     <div class="dropdown-title">You have @NotificationHelper.GetUnreadNotifications().Count() new notification(s)</div>
                                 </li>
@@ -216,7 +223,7 @@
                                             @Html.AntiForgeryToken()
                                             @Html.Hidden("Id", unreadNotification.Id)
 
-                                            <div class="notif-scroll scrollbar-outer">
+                                            <div>
 
                                                 <div class="notif-center" id="notif_top">
                                                     <div class="text-right"><button type="submit" class="xbtn">&times;</button></div>
@@ -241,7 +248,7 @@
                                     </li>
                                 }
                                 <li>
-                                    <a class="see-all" href="javascript:void(0);">See all notifications<i class="fa fa-angle-right"></i> </a>
+                                    <a class="see-all" href="@Url.Action("Index", "TicketNotifications")">See all notifications<i class="fa fa-angle-right"></i> </a>
                                 </li>
                             </ul>
                         </li>
@@ -381,174 +388,7 @@
                                 </ul>
                             </div>
                         </li>
-                        @*<li class="nav-item">
-                                <a data-toggle="collapse" href="#sidebarLayouts">
-                                    <i class="fas fa-th-list"></i>
-                                    <p>Sidebar Layouts</p>
-                                    <span class="caret"></span>
-                                </a>
-                                <div class="collapse" id="sidebarLayouts">
-                                    <ul class="nav nav-collapse">
-                                        <li>
-                                            <a href="sidebar-style-1.html">
-                                                <span class="sub-item">Sidebar Style 1</span>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="overlay-sidebar.html">
-                                                <span class="sub-item">Overlay Sidebar</span>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="compact-sidebar.html">
-                                                <span class="sub-item">Compact Sidebar</span>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="static-sidebar.html">
-                                                <span class="sub-item">Static Sidebar</span>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="icon-menu.html">
-                                                <span class="sub-item">Icon Menu</span>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </li>
-                            <li class="nav-item">
-                                <a data-toggle="collapse" href="#forms">
-                                    <i class="fas fa-pen-square"></i>
-                                    <p>Forms</p>
-                                    <span class="caret"></span>
-                                </a>
-                                <div class="collapse" id="forms">
-                                    <ul class="nav nav-collapse">
-                                        <li>
-                                            <a href="forms/forms.html">
-                                                <span class="sub-item">Basic Form</span>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </li>
-                            <li class="nav-item">
-                                <a data-toggle="collapse" href="#tables">
-                                    <i class="fas fa-table"></i>
-                                    <p>Tables</p>
-                                    <span class="caret"></span>
-                                </a>
-                                <div class="collapse" id="tables">
-                                    <ul class="nav nav-collapse">
-                                        <li>
-                                            <a href="tables/tables.html">
-                                                <span class="sub-item">Basic Table</span>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="tables/datatables.html">
-                                                <span class="sub-item">Datatables</span>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </li>
-                            <li class="nav-item">
-                                <a data-toggle="collapse" href="#maps">
-                                    <i class="fas fa-map-marker-alt"></i>
-                                    <p>Maps</p>
-                                    <span class="caret"></span>
-                                </a>
-                                <div class="collapse" id="maps">
-                                    <ul class="nav nav-collapse">
-                                        <li>
-                                            <a href="maps/jqvmap.html">
-                                                <span class="sub-item">JQVMap</span>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </li>
-                            <li class="nav-item">
-                                <a data-toggle="collapse" href="#charts">
-                                    <i class="far fa-chart-bar"></i>
-                                    <p>Charts</p>
-                                    <span class="caret"></span>
-                                </a>
-                                <div class="collapse" id="charts">
-                                    <ul class="nav nav-collapse">
-                                        <li>
-                                            <a href="charts/charts.html">
-                                                <span class="sub-item">Chart Js</span>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="charts/sparkline.html">
-                                                <span class="sub-item">Sparkline</span>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </li>
-                            <li class="nav-item">
-                                <a href="widgets.html">
-                                    <i class="fas fa-desktop"></i>
-                                    <p>Widgets</p>
-                                    <span class="badge badge-success">4</span>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a data-toggle="collapse" href="#submenu">
-                                    <i class="fas fa-bars"></i>
-                                    <p>Menu Levels</p>
-                                    <span class="caret"></span>
-                                </a>
-                                <div class="collapse" id="submenu">
-                                    <ul class="nav nav-collapse">
-                                        <li>
-                                            <a data-toggle="collapse" href="#subnav1">
-                                                <span class="sub-item">Level 1</span>
-                                                <span class="caret"></span>
-                                            </a>
-                                            <div class="collapse" id="subnav1">
-                                                <ul class="nav nav-collapse subnav">
-                                                    <li>
-                                                        <a href="#">
-                                                            <span class="sub-item">Level 2</span>
-                                                        </a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="#">
-                                                            <span class="sub-item">Level 2</span>
-                                                        </a>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <a data-toggle="collapse" href="#subnav2">
-                                                <span class="sub-item">Level 1</span>
-                                                <span class="caret"></span>
-                                            </a>
-                                            <div class="collapse" id="subnav2">
-                                                <ul class="nav nav-collapse subnav">
-                                                    <li>
-                                                        <a href="#">
-                                                            <span class="sub-item">Level 2</span>
-                                                        </a>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <a href="#">
-                                                <span class="sub-item">Level 1</span>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </li>*@
+
                     </ul>
                 </div>
             </div>
@@ -614,7 +454,8 @@
     <script src="~/Scripts/jquery.vmap.world.js"></script>
 
     <!-- Sweet Alert -->
-    <script src="~/Scripts/sweetalert.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+    @*<script src="~/Scripts/sweetalert.min.js"></script>*@
 
     <!-- Atlantis JS -->
     <script src="~/Scripts/atlantis.min.js"></script>
@@ -624,6 +465,7 @@
     <!--Datatabbles JS-->
     <script src="~/Scripts/jquery.dataTables.min.js"></script>
     <script src="~/Scripts/jquery.dataTables.js"></script>
+
 
     <script>$('.Dtable').DataTable();</script>
 
@@ -635,6 +477,21 @@
             });
         });
     </script>
+
+
+    <script>
+        var message = '@Session["Message"]';
+        if (message != '') {
+            Swal.fire({
+                icon: 'warning',
+                title: 'Sorry!',
+                text: message
+            })
+            @{HttpContext.Current.Session.Remove("Message");}
+        }
+    </script>
+
+
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")

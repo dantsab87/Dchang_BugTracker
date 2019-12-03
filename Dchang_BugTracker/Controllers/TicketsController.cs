@@ -220,35 +220,53 @@ namespace Dchang_BugTracker.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> AssignTicket(Ticket model) 
         {
+
             var ticket = db.Tickets.Find(model.Id);
+
             ticket.AssignedToUserId = model.AssignedToUserId;
+            ticket.TicketStatusId = ticketHelper.AssignedTicketStatus();
 
-            var status = ticket.TicketStatusId;
-
-            db.SaveChanges();
-
-            var callbackUrl = Url.Action("Details", "Tickets", new { id = ticket.Id }, protocol:Request.Url.Scheme);
-
-            try
+            if (ticket.AssignedToUserId == null)
             {
-                EmailService ems = new EmailService();
-                IdentityMessage msg = new IdentityMessage();
-                ApplicationUser user = db.Users.Find(model.AssignedToUserId);
-
-                msg.Body = $"You have been assigned a Ticket.{Environment.NewLine} Please click the following link to view the details <a href=\"{callbackUrl}\">NEW TICKET</a>";
-                msg.Destination = user.Email;
-                msg.Subject = "You've been assigned a Ticket";
-
-                await ems.SendMailAsync(msg);
+                ticket.AssignedToUserId = model.AssignedToUserId = null;
+                ticket.TicketStatusId = ticketHelper.SetDefaultTicketStatus();
+                db.SaveChanges();
+                return RedirectToAction("Index");
             }
-            catch (Exception ex) 
+            else
             {
-                await Task.FromResult(0);
+
+                //ticket.AssignedToUserId = model.AssignedToUserId;
+                //ticket.TicketStatusId = ticketHelper.AssignedTicketStatus();
+                ticket.Updated = DateTime.Now;
+                db.Entry(ticket).State = EntityState.Modified;
+                db.SaveChanges();
+
+
+
+
+                var callbackUrl = Url.Action("Details", "Tickets", new { id = ticket.Id }, protocol: Request.Url.Scheme);
+
+                try
+                {
+                    EmailService ems = new EmailService();
+                    IdentityMessage msg = new IdentityMessage();
+                    ApplicationUser user = db.Users.Find(model.AssignedToUserId);
+
+                    msg.Body = $"You have been assigned a Ticket.{Environment.NewLine} Please click the following link to view the details <a href=\"{callbackUrl}\">NEW TICKET</a>";
+                    msg.Destination = user.Email;
+                    msg.Subject = "You've been assigned a Ticket";
+
+                    await ems.SendMailAsync(msg);
+                }
+                catch (Exception ex)
+                {
+                    await Task.FromResult(0);
+                }
+
+                return RedirectToAction("Index");
+
             }
-
-            return RedirectToAction("Index");
-
-
         }
 
     }

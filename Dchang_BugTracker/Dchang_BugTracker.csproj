@@ -233,6 +233,7 @@
     <Content Include="Content\main\jquery.dataTables.css" />
     <Content Include="Content\main\jquery.dataTables.min.css" />
     <Content Include="Content\main\morris.css" />
+    <Content Include="Content\main\scroller.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\flaticon\Flaticon.svg" />
     <Content Include="fonts\fontawesome-webfont.svg" />
@@ -267,12 +268,11 @@
     <Content Include="fonts\raleway\Raleway-SemiBoldItalic.ttf" />
     <Content Include="fonts\raleway\Raleway-Thin.ttf" />
     <Content Include="fonts\raleway\Raleway-ThinItalic.ttf" />
+    <Content Include="Images\alert_bug.png" />
     <Content Include="Images\bug.png" />
     <Content Include="Images\favicon.ico" />
-    <Content Include="Images\favicon1.ico" />
     <Content Include="Images\fav_icon.png" />
     <Content Include="Images\fav_icon_home.png" />
-    <Content Include="Images\icon.ico" />
     <Content Include="Images\icons\blank.png" />
     <Content Include="Images\icons\doc.png" />
     <Content Include="Images\icons\docx.png" />
@@ -303,6 +303,7 @@
     <Content Include="Images\test.png" />
     <Content Include="Images\testlog.png" />
     <Content Include="Images\ticket_bg.jpg" />
+    <Content Include="Images\tinybug.png" />
     <Content Include="Scripts\atlantis.min.js" />
     <Content Include="Scripts\bootstrap-notify.min.js" />
     <Content Include="Scripts\bootstrap.min.js" />
@@ -332,6 +333,7 @@
     <Content Include="Scripts\morris.min.js" />
     <Content Include="Scripts\popper.min.js" />
     <Content Include="Scripts\raphael-min.js" />
+    <Content Include="Scripts\scroller.js" />
     <Content Include="Scripts\sweetalert.min.js" />
     <Content Include="Scripts\webfont.min.js" />
     <Content Include="Web.config" />

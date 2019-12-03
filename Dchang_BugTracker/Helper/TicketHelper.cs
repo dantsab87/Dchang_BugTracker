@@ -18,6 +18,11 @@ namespace Dchang_BugTracker.Helper
             return db.TicketStatus.FirstOrDefault(ts => ts.StatusName == "Open").Id;
         }
 
+        public int AssignedTicketStatus()
+        {
+            return db.TicketStatus.FirstOrDefault(ts => ts.StatusName == "Assigned").Id;
+        }
+
         public int SetDefaultTicketPriority() 
         {
             return db.TicketPriorities.FirstOrDefault(tp => tp.PriorityName == "None").Id;

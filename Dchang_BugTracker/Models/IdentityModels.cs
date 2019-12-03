@@ -75,7 +75,11 @@ namespace Dchang_BugTracker.Models
         {
             var userId = HttpContext.Current.User.Identity.GetUserId();
             RoleHelper role = new RoleHelper();
-            if (role.IsDemoUser(userId)) { return 0; }
+            if (role.IsDemoUser(userId)) 
+            {
+                HttpContext.Current.Session.Add("Message", "As a Demo user, you are unable to save or make any changes!");
+                return 0; 
+            }
             return base.SaveChanges();
         }
 
