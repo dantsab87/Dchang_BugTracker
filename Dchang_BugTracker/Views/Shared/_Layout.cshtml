@@ -7,7 +7,7 @@
 <html lang="en">
 <head>
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <title>BugTracker Dashboard</title>
+    <title>BugTracker</title>
     <meta content='width=device-width, initial-scale=1.0, shrink-to-fit=no' name='viewport' />
     <link rel="icon" href="~/Images/fav_icon.png" type="image/x-icon" />
 
@@ -36,7 +36,7 @@
 
     <style>
         .alink {
-            color: #b9babf;
+            color: #f0f0f0;
             margin-left: 15px;
             font-family: inherit;
             font-size: 14px;
@@ -142,8 +142,17 @@
             color: #8d9498;
             text-transform: uppercase;
         }
-
-        .sidebg {
+        .sidebg 
+        {
+            background-color: #1f283e;
+            background-image: linear-gradient(360deg, #1f283e, #556385);
+        }
+        .links a:link, .links a:visited, .links a:active {
+            color:#0094ff;
+        }
+        .links a:hover {
+            color: #73c1ed;
+            text-decoration: none;
         }
     </style>
 
@@ -344,50 +353,90 @@
                                     <li>
                                         @Html.ActionLink("Home", "Dashboard", "Home", null, new { @class = "sub-item" })
                                     </li>
-                                    <li>
-                                        @Html.ActionLink("Directory", "Contacts", "Home", null, new { @class = "sub-item" })
-                                    </li>
-                                    @if (User.IsInRole("Admin") || User.IsInRole("Demo Admin"))
-                                    {
-                                        <li>@Html.ActionLink("Manage Roles", "ManageRoles", "Admin", null, new { @class = "sub-item" })</li>
-                                        <li>@Html.ActionLink("Assign Projects", "ManageProjectUsers", "Admin", null, new { @class = "sub-item" })</li>
-                                        <li>@Html.ActionLink("Manage Projects", "Index", "Projects", null, new { @class = "sub-item" })</li>
-                                    }
-
-                                    @if (User.IsInRole("Project Manager") || User.IsInRole("Demo Project Manager"))
-                                    {
-                                        <li>@Html.ActionLink("Manage Projects", "Index", "Projects", null, new { @class = "sub-item" })</li>
-                                    }
+                                    @*<li>
+                     @Html.ActionLink("Directory", "Contacts", "Home", null, new { @class = "sub-item" })
+                    </li>*@
                                     <li>@Html.ActionLink("Log off", "LogOut", "Account", null, new { @class = "sub-item" })</li>
                                 </ul>
                             </div>
                         </li>
-                        <li class="nav-section">
-                            @*<span class="sidebar-mini-icon">
-                                        <i class="fa fa-ellipsis-h"></i>
-                                    </span>
-                                    <h4 class="text-section">Components</h4>
-                                </li>*@
-                        <li class="nav-item">
-                            <a data-toggle="collapse" href="#base">
-                                <i class="fas fa-ticket-alt"></i>
-                                <p>Tickets</p>
-                                <span class="caret"></span>
-                            </a>
-                            <div class="collapse" id="base">
-                                <ul class="nav nav-collapse">
-                                    <li>@Html.ActionLink("View All", "Index", "Tickets", null, new { @class = "sub-item" })</li>
-                                    @if (User.IsInRole("Submitter") || User.IsInRole("Demo Submitter"))
-                                    {
-                                        <li>@Html.ActionLink("Create", "Create", "Tickets", null, new { @class = "sub-item" })</li>
 
-                                    }
-                                    <li>@Html.ActionLink("Ticket History", "Index", "TicketHistories", null, new { @class = "sub-item" })</li>
+                        <li class="nav-section"></li>
+                        @if (User.IsInRole("Admin") || User.IsInRole("Demo Admin"))
+                        {
+                            <li class="nav-item">
+                                <a data-toggle="collapse" href="#adminctl">
+                                    <i class="fas fa-crown"></i>
+                                    <p>Admin</p>
+                                    <span class="caret"></span>
+                                </a>
+                                <div class="collapse" id="adminctl">
+                                    <ul class="nav nav-collapse">
+                                        <li>@Html.ActionLink("Manage Roles", "ManageRoles", "Admin", null, new { @class = "sub-item" })</li>
+                                    </ul>
+                                </div>
+                            </li>
+                        }
 
-                                    <li>@Html.ActionLink("Ticket Notifications", "Index", "TicketNotifications", null, new { @class = "sub-item" })</li>
-                                </ul>
-                            </div>
-                        </li>
+                        @if (User.IsInRole("Unregistered"))
+                        {
+                            <li class="nav-section"></li>
+                        }
+                        else
+                        {
+                            if (User.IsInRole("Admin") || User.IsInRole("Demo Admin") || User.IsInRole("Project Manager") || User.IsInRole("Demo Project Manager"))
+                            {
+                                <li class="nav-item">
+                                    <a data-toggle="collapse" href="#prj">
+                                        <i class="far fa-clone"></i>
+                                        <p>Projects</p>
+                                        <span class="caret"></span>
+                                    </a>
+                                    <div class="collapse" id="prj">
+                                        <ul class="nav nav-collapse">
+
+                                            @if (User.IsInRole("Admin") || User.IsInRole("Demo Admin"))
+                                            {
+                                                <li>@Html.ActionLink("Create Projects", "Create", "Projects", null, new { @class = "sub-item" })</li>
+                                                <li>@Html.ActionLink("Assign Projects", "ManageProjectUsers", "Admin", null, new { @class = "sub-item" })</li>
+                                                <li>@Html.ActionLink("View Projects", "Index", "Projects", null, new { @class = "sub-item" })</li>
+                                            }
+                                            @if (User.IsInRole("Project Manager") || User.IsInRole("Demo Project Manager"))
+                                            {
+                                                <li>@Html.ActionLink("Create Projects", "Create", "Projects", null, new { @class = "sub-item" })</li>
+                                                <li>@Html.ActionLink("View Projects", "Index", "Projects", null, new { @class = "sub-item" })</li>
+                                            }
+
+
+                                        </ul>
+                                    </div>
+                                </li>
+                            }
+
+
+
+                            <li class="nav-item">
+                                <a data-toggle="collapse" href="#tickets">
+                                    <i class="fas fa-ticket-alt"></i>
+                                    <p>Tickets</p>
+                                    <span class="caret"></span>
+                                </a>
+                                <div class="collapse" id="tickets">
+                                    <ul class="nav nav-collapse">
+                                        <li>@Html.ActionLink("View All", "Index", "Tickets", null, new { @class = "sub-item" })</li>
+                                        @if (User.IsInRole("Submitter") || User.IsInRole("Demo Submitter"))
+                                        {
+                                            <li>@Html.ActionLink("Create", "Create", "Tickets", null, new { @class = "sub-item" })</li>
+
+                                        }
+                                        <li>@Html.ActionLink("Ticket History", "Index", "TicketHistories", null, new { @class = "sub-item" })</li>
+
+                                        <li>@Html.ActionLink("Ticket Notifications", "Index", "TicketNotifications", null, new { @class = "sub-item" })</li>
+                                    </ul>
+                                </div>
+                            </li>
+
+                        }
 
                     </ul>
                 </div>

@@ -1,48 +1,188 @@
 ﻿@model Dchang_BugTracker.Models.Project
+@using Dchang_BugTracker.Models
+@using Microsoft.AspNet.Identity
+@using Dchang_BugTracker.Helper
 
 @{
     ViewBag.Title = "Project Details";
+
+    var db = new ApplicationDbContext();
+    var user = db.Users.Find(User.Identity.GetUserId());
+
+    var roleHelper = new RoleHelper();
+    var role = roleHelper.ListUserRoles(user.Id).FirstOrDefault();
+
+    var projHelper = new ProjectHelper();
+    var proj = projHelper.ListUserProjects(user.Id).FirstOrDefault();
 }
 
-<div>
-    <h4 class="page-title">@ViewBag.Title</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Name)
-        </dd>
+<style>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Description)
-        </dt>
+    .col, .col-1, .col-10, .col-11, .col-12, .col-2, .col-3, .col-4, .col-5, .col-6, .col-7, .col-8, .col-9, .col-auto, .col-lg, .col-lg-1, .col-lg-10, .col-lg-11, .col-lg-12, .col-lg-2, .col-lg-3, .col-lg-4, .col-lg-5, .col-lg-6, .col-lg-7, .col-lg-8, .col-lg-9, .col-lg-auto, .col-md, .col-md-1, .col-md-10, .col-md-11, .col-md-12, .col-md-2, .col-md-3, .col-md-4, .col-md-5, .col-md-6, .col-md-7, .col-md-8, .col-md-9, .col-md-auto, .col-sm, .col-sm-1, .col-sm-10, .col-sm-11, .col-sm-12, .col-sm-2, .col-sm-3, .col-sm-4, .col-sm-5, .col-sm-6, .col-sm-7, .col-sm-8, .col-sm-9, .col-sm-auto, .col-xl, .col-xl-1, .col-xl-10, .col-xl-11, .col-xl-12, .col-xl-2, .col-xl-3, .col-xl-4, .col-xl-5, .col-xl-6, .col-xl-7, .col-xl-8, .col-xl-9, .col-xl-auto {
+        position: relative;
+        width: 100%;
+        min-height: 1px;
+        padding-right: 0px;
+        padding-left: 0px
+    }
 
-        <dd>
-            @Html.DisplayFor(model => model.Description)
-        </dd>
+    .ticket_create {
+        position: relative;
+        display: -ms-flexbox;
+        display: flex;
+        -ms-flex-direction: column;
+        flex-direction: column;
+        min-width: 0;
+        word-wrap: break-word;
+        background-color: #FFFFFF;
+        background-clip: border-box;
+        border: 0px solid rgba(0,0,0,.125);
+        border-radius: .25rem;
+        box-shadow: 0 .25rem 1rem rgba(0,0,0,.15) !important
+    }
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Created)
-        </dt>
+    .tk_sidebg {
+        background-image: url('../../Images/side_bg.jpg');
+        background-repeat: no-repeat;
+        width: 30px;
+        margin: 0;
+        padding: 0;
+    }
 
-        <dd>
-            @Html.DisplayFor(model => model.Created)
-        </dd>
+    .ticket_bg {
+        background-image: url('../../Images/proj_butterfly_bg.jpg');
+        background-repeat: no-repeat;
+        background-position: bottom right;
+        background-color: #FFFFFF;
+    }
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Updated)
-        </dt>
+    .create_btn {
+        padding: 10px;
+        margin: 40px 10px 10px 20px;
+        text-align: center;
+        width: 80px;
+        height: 80px;
+    }
 
-        <dd>
-            @Html.DisplayFor(model => model.Updated)
-        </dd>
+    .padded {
+        padding: 30px 40px 20px 30px;
+    }
 
-    </dl>
+    .between {
+        padding: 10px 0 0 0;
+    }
+
+    .btn-attach, .btn-attach a:hover, .btn-attach a:hover, .btn-attach a:link, .btn-attach a:active, .btn-attach a:visited {
+        color: #1f283e;
+        font-size: 9pt;
+        text-transform: uppercase;
+        text-decoration: none;
+    }
+
+    .ticket-assigned-img {
+        border-radius: 11px;
+        border: solid #FFFFFF 3px;
+        box-shadow: 3px 3px 2px #556385;
+        width: 40px;
+        height: 40px;
+        margin: 0 3px 0 9px;
+    }
+    .font-role {
+        font-size: 9pt;
+        font-weight:bold;
+    }
+</style>
+
+<h6 class="page-title">@ViewBag.Title</h6>
+
+
+
+<div class="container ticket_create ticket_bg">
+    <div class="row">
+        <div class="col-1 tk_sidebg" style="width:30px"></div>
+        <div class="col-11">
+
+            <div class="padded">
+                <div class="row">
+                    <div class="col">
+                        <small>@Html.DisplayNameFor(model => model.Name)</small>
+                        <BR>
+                        @Html.DisplayFor(model => model.Name)
+                    </div>
+                    <div class="col">
+                        <small>@Html.DisplayNameFor(model => model.Description)</small>
+                        <BR>
+                        @Html.DisplayFor(model => model.Description)
+                    </div>
+                    <div class="col">
+                        <small>@Html.DisplayNameFor(model => model.Created)</small>
+                        <BR>
+                        @Html.DisplayFor(model => model.Created)
+                    </div>
+                </div>
+                <div class="row padded">
+                    <div class="col">
+                        <div class="row between">
+                            <div class="col-xs font-role">
+                                Users on Project:
+                            </div>
+                            <div class="col-xs">
+                                @foreach (var item in Model.Users)
+                                {
+                                    if (role != null)
+                                    {
+                                        <span>
+                                            <img src="@Html.DisplayFor(model => item.AvatarPath)" class="ticket-assigned-img" />
+                                            <small>@Html.DisplayFor(modelItem => item.DisplayName)</small>
+                                        </span>
+                                    }
+                                }
+                            </div>
+                        </div>
+                        @*<div class="row between text-center">
+                            <div class="col-xs font-role">
+                                Developer(s):
+                            </div>
+                                <div class="col-xs">
+                                    @foreach (var item in Model.Tickets)
+                                    {
+                                        if (role != null)
+                                        {
+                                            <span>
+                                                <img src="@Html.DisplayFor(model => item.AssignedToUser.AvatarPath)" class="ticket-assigned-img" />
+                                                <small>@Html.DisplayFor(modelItem => item.AssignedToUser.DisplayName)</small>
+                                            </span>
+                                        }
+                                    }
+                                </div>
+                        </div>
+                        <div class="row between">
+                            <div class="col-xs font-role">
+                                Submitter(s):
+                            </div>
+                                <div class="col-xs">
+                                    @foreach (var item in Model.Tickets)
+                                    {
+                                        if (role != null)
+                                        {
+                                            <span>
+                                                <img src="@Html.DisplayFor(model => item.OwnerUser.AvatarPath)" class="ticket-assigned-img" />
+                                                <small>@Html.DisplayFor(modelItem => item.OwnerUser.DisplayName)</small>
+                                            </span>
+                                        }
+                                    }
+                                </div>
+                        </div>*@
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <button class="btn-attach">@Html.ActionLink("Edit", "Edit", new { id = Model.Id })</button> <button class="btn-attach">@Html.ActionLink("Back to List", "Index")</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>
+

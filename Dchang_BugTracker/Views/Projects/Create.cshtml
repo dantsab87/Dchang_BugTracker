@@ -1,66 +1,171 @@
 ﻿@model Dchang_BugTracker.Models.Project
 
 @{
-    ViewBag.Title = "Create";
+    ViewBag.Title = "Create Project";
 }
 
-<h4 class="page-title">Create</h4>
+
+<style>
+    .input_desc {
+        width: 100%;
+        height: 100px;
+        margin: 0px;
+        padding: 0px;
+        line-height: 1.42857143;
+        color: #555555;
+        background-color: #fff;
+        background-image: none;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+        box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+        -webkit-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+        -o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+        -webkit-transition: border-color ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
+        transition: border-color ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
+        transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+        transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
+    }
+
+    .input_desc:focus {
+        border-color: #66afe9;
+        outline: 0;
+        -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(102, 175, 233, 0.6);
+        box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(102, 175, 233, 0.6);
+    }
+
+    .inputbox {
+        margin: 0px;
+        padding: 5px;
+        font-size: 12px;
+        background-color: rgba(242, 242, 242, 0.75);
+    }
+
+    .col, .col-1, .col-10, .col-11, .col-12, .col-2, .col-3, .col-4, .col-5, .col-6, .col-7, .col-8, .col-9, .col-auto, .col-lg, .col-lg-1, .col-lg-10, .col-lg-11, .col-lg-12, .col-lg-2, .col-lg-3, .col-lg-4, .col-lg-5, .col-lg-6, .col-lg-7, .col-lg-8, .col-lg-9, .col-lg-auto, .col-md, .col-md-1, .col-md-10, .col-md-11, .col-md-12, .col-md-2, .col-md-3, .col-md-4, .col-md-5, .col-md-6, .col-md-7, .col-md-8, .col-md-9, .col-md-auto, .col-sm, .col-sm-1, .col-sm-10, .col-sm-11, .col-sm-12, .col-sm-2, .col-sm-3, .col-sm-4, .col-sm-5, .col-sm-6, .col-sm-7, .col-sm-8, .col-sm-9, .col-sm-auto, .col-xl, .col-xl-1, .col-xl-10, .col-xl-11, .col-xl-12, .col-xl-2, .col-xl-3, .col-xl-4, .col-xl-5, .col-xl-6, .col-xl-7, .col-xl-8, .col-xl-9, .col-xl-auto {
+        position: relative;
+        width: 100%;
+        min-height: 1px;
+        padding-right: 0px;
+        padding-left: 0px
+    }
+
+    .ticket_create {
+        position: relative;
+        display: -ms-flexbox;
+        display: flex;
+        -ms-flex-direction: column;
+        flex-direction: column;
+        min-width: 0;
+        word-wrap: break-word;
+        background-color: #FFFFFF;
+        background-clip: border-box;
+        border: 0px solid rgba(0,0,0,.125);
+        border-radius: .25rem;
+        box-shadow: 0 .25rem 1rem rgba(0,0,0,.15) !important
+    }
+
+    .tk_sidebg {
+        background-image: url('../../Images/side_bg.jpg');
+        background-repeat: no-repeat;
+        width: 30px;
+        margin: 0;
+        padding: 0;
+    }
+
+    .ticket_bg {
+        background-image: url('../../Images/ticket_bg.jpg');
+        background-repeat: no-repeat;
+        background-position: top right;
+        background-color: #FFFFFF;
+    }
+
+    .create_btn {
+        padding: 10px;
+        margin: 40px 10px 10px 20px;
+        text-align: center;
+        width: 80px;
+        height: 80px;
+    }
+
+    .padded {
+        padding: 30px 40px 20px 30px;
+    }
+
+    .between {
+        padding: 0 10px 0 0;
+    }
+
+    .label {
+        margin: 0px;
+        padding: 10px 0px 0px 0px;
+        font-size: 12px;
+    }
+
+    .btn:hover {
+        background-color: #808caa;
+        background-image: linear-gradient(145deg, #c6ccdb, #808caa);
+        text-shadow: 1px 1px 3px black;
+        border-color: #1f283e;
+    }
+
+    .btn-attach, .btn-attach a:hover, .btn-attach a:hover, .btn-attach a:link, .btn-attach a:active, .btn-attach a:visited {
+        color: #1f283e;
+        font-size: 9pt;
+        text-transform: uppercase;
+        text-decoration: none;
+    }
+</style>
+
+<h6 class="page-title">@ViewBag.Title</h6>
 
 
-@using (Html.BeginForm())
-{
-    @*@Html.HiddenFor(model => model.Created)
-    @Html.HiddenFor(model => model.Updated)*@
-    @Html.AntiForgeryToken()
 
-    <div class="form-horizontal">
-        <h4>Project</h4>
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        <div class="form-group">
-            @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
-            </div>
-        </div>
+<div class="container ticket_create ticket_bg">
+    <div class="row">
+        <div class="col-1 tk_sidebg" style="width:30px"></div>
+        <div class="col-11">
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
-            </div>
-        </div>
+            <div class="padded">
+                @using (Html.BeginForm())
+                {
 
+                    @Html.AntiForgeryToken()
 
-        @*<div class="form-group">
-                @Html.LabelFor(model => model.Created, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.Created, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.Created, "", new { @class = "text-danger" })
-                </div>
-            </div>
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
-            <div class="form-group">
-                @Html.LabelFor(model => model.Updated, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.Updated, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.Updated, "", new { @class = "text-danger" })
-                </div>
-            </div>*@
+                    <div class="row">
+                        <div class="col">
+                            @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label label" })
+                            <div class="col">
+                                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control inputbox" } })
+                                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label label" })
+                            <div class="col">
 
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
+                                @Html.TextAreaFor(model => model.Description, new { @class = "input_desc  inputbox" })
+                                @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="col-lg-push-4">
+                            <button type="submit" class="btn btn-sm btn-dark create_btn">Create<br />Project</button>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <button class="btn-attach">@Html.ActionLink("Back to List", "Index")</button>
+                    </div>
+
+                }
             </div>
         </div>
     </div>
-}
-
-<div>
-    @Html.ActionLink("Back to List", "Index")
 </div>
+
+
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")

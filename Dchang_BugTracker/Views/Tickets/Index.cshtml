@@ -42,182 +42,189 @@
 }
 
 <div class="table-responsive">
-<table class="table Dtable table-head-bg-primary">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayName("Developer")
-            </th>
-            <th>
-                @Html.DisplayName("Submitter")
-            </th>
-            <th>
-                @Html.DisplayName("Project Name")
-            </th>
-            <th>
-                @Html.DisplayName("Priority")
-            </th>
-            <th>
-                @Html.DisplayName("Status")
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.TicketType.TypeName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Title)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Description)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Created)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Updated)
-            </th>
-            <th>
-                @Html.DisplayName("Manage")
-            </th>
-        </tr>
-    </thead>
-    @foreach (var item in Model)
-    {
-        var prty = item.TicketPriority.PriorityName;
-        var arch = item.TicketStatus.StatusName;
-        var none = "badge badge-count";
-        var low = "badge badge-low";
-        var med = "badge badge-warning";
-        var high = "badge badge-orange";
-        var urgent = "badge badge-danger";
-
-        if (arch.Contains("Archived") || arch.Contains("Resolved"))
-        {
-            <tr class="opacity">
-                <td>
-                    @Html.DisplayFor(modelItem => item.AssignedToUser.FirstName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.OwnerUser.FirstName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Project.Name)
-                </td>
-                <td>
-
-                    @if (prty.Contains("None"))
-                    {
-                        <span class="@none">@Html.DisplayFor(modelItem => item.TicketPriority.PriorityName)</span>
-                    }
-                    else if (prty.Contains("Low"))
-                    {
-                        <span class="@low">@Html.DisplayFor(modelItem => item.TicketPriority.PriorityName)</span>
-                    }
-                    else if (prty.Contains("Medium"))
-                    {
-                        <span class="@med">@Html.DisplayFor(modelItem => item.TicketPriority.PriorityName)</span>
-                    }
-                    else if (prty.Contains("High"))
-                    {
-                        <span class="@high">@Html.DisplayFor(modelItem => item.TicketPriority.PriorityName)</span>
-                    }
-                    else if (prty.Contains("Urgent"))
-                    {
-                        <span class="@urgent">@Html.DisplayFor(modelItem => item.TicketPriority.PriorityName)</span>
-                    }
-
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.TicketStatus.StatusName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.TicketType.TypeName)
-                </td>
-                <td>
-                    <strong>@Html.DisplayFor(modelItem => item.Title)</strong>
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Description)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Created)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Updated)
-                </td>
-                <td>
-                    @Html.ActionLink("Details", "Details", new { id = item.Id })
-                </td>
-            </tr>
-        }
-        else if (arch.Contains("Open") || arch.Contains("Assigned") || arch.Contains("In Progress"))
-        {
+    <table class="table Dtable table-head-bg-primary">
+        <thead>
             <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.AssignedToUser.FirstName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.OwnerUser.FirstName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Project.Name)
-                </td>
-                <td>
-
-                    @if (prty.Contains("None"))
-                    {
-                        <span class="@none">@Html.DisplayFor(modelItem => item.TicketPriority.PriorityName)</span>
-                    }
-                    else if (prty.Contains("Low"))
-                    {
-                        <span class="@low">@Html.DisplayFor(modelItem => item.TicketPriority.PriorityName)</span>
-                    }
-                    else if (prty.Contains("Medium"))
-                    {
-                        <span class="@med">@Html.DisplayFor(modelItem => item.TicketPriority.PriorityName)</span>
-                    }
-                    else if (prty.Contains("High"))
-                    {
-                        <span class="@high">@Html.DisplayFor(modelItem => item.TicketPriority.PriorityName)</span>
-                    }
-                    else if (prty.Contains("Urgent"))
-                    {
-                        <span class="@urgent">@Html.DisplayFor(modelItem => item.TicketPriority.PriorityName)</span>
-                    }
-
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.TicketStatus.StatusName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.TicketType.TypeName)
-                </td>
-                <td>
-                    <strong>@Html.DisplayFor(modelItem => item.Title)</strong>
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Description)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Created)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Updated)
-                </td>
-                <td>
-                    @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-                    @Html.ActionLink("Details", "Details", new { id = item.Id }) |
-                    @if (User.IsInRole("Admin") || User.IsInRole("Demo Admin") || User.IsInRole("Project Manager") || User.IsInRole("Demo Project Manager"))
-                    {
-
-                        @Html.ActionLink("Assign", "AssignTicket", new { id = item.Id })
-                    }
-                </td>
+                <th>
+                    @Html.DisplayName("Developer")
+                </th>
+                <th>
+                    @Html.DisplayName("Submitter")
+                </th>
+                <th>
+                    @Html.DisplayName("Project Name")
+                </th>
+                <th>
+                    @Html.DisplayName("Priority")
+                </th>
+                <th>
+                    @Html.DisplayName("Status")
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.TicketType.TypeName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Title)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Description)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Created)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Updated)
+                </th>
+                <th>
+                    @Html.DisplayName("Manage")
+                </th>
             </tr>
+        </thead>
+        @foreach (var item in Model)
+        {
+            var prty = item.TicketPriority.PriorityName;
+            var arch = item.TicketStatus.StatusName;
+            var none = "badge badge-count";
+            var low = "badge badge-low";
+            var med = "badge badge-warning";
+            var high = "badge badge-orange";
+            var urgent = "badge badge-danger";
+            var nonopen = arch.Contains("Assigned") || arch.Contains("In Progress") || arch.Contains("Resolved") || arch.Contains("Archived");
+
+            if (arch.Contains("Archived") || arch.Contains("Resolved"))
+            {
+                <tr class="opacity">
+                    <td>
+                        @Html.DisplayFor(modelItem => item.AssignedToUser.FirstName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.OwnerUser.FirstName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Project.Name)
+                    </td>
+                    <td>
+
+                        @if (prty.Contains("None"))
+                        {
+                            <span class="@none">@Html.DisplayFor(modelItem => item.TicketPriority.PriorityName)</span>
+                        }
+                        else if (prty.Contains("Low"))
+                        {
+                            <span class="@low">@Html.DisplayFor(modelItem => item.TicketPriority.PriorityName)</span>
+                        }
+                        else if (prty.Contains("Medium"))
+                        {
+                            <span class="@med">@Html.DisplayFor(modelItem => item.TicketPriority.PriorityName)</span>
+                        }
+                        else if (prty.Contains("High"))
+                        {
+                            <span class="@high">@Html.DisplayFor(modelItem => item.TicketPriority.PriorityName)</span>
+                        }
+                        else if (prty.Contains("Urgent"))
+                        {
+                            <span class="@urgent">@Html.DisplayFor(modelItem => item.TicketPriority.PriorityName)</span>
+                        }
+
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TicketStatus.StatusName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TicketType.TypeName)
+                    </td>
+                    <td>
+                        <strong>@Html.DisplayFor(modelItem => item.Title)</strong>
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Description)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Created)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Updated)
+                    </td>
+                    <td class="links">
+                        @Html.ActionLink("Details", "Details", new { id = item.Id })
+                    </td>
+                </tr>
+            }
+            else if (arch.Contains("Open") || arch.Contains("Assigned") || arch.Contains("In Progress"))
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.AssignedToUser.FirstName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.OwnerUser.FirstName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Project.Name)
+                    </td>
+                    <td>
+
+                        @if (prty.Contains("None"))
+                        {
+                            <span class="@none">@Html.DisplayFor(modelItem => item.TicketPriority.PriorityName)</span>
+                        }
+                        else if (prty.Contains("Low"))
+                        {
+                            <span class="@low">@Html.DisplayFor(modelItem => item.TicketPriority.PriorityName)</span>
+                        }
+                        else if (prty.Contains("Medium"))
+                        {
+                            <span class="@med">@Html.DisplayFor(modelItem => item.TicketPriority.PriorityName)</span>
+                        }
+                        else if (prty.Contains("High"))
+                        {
+                            <span class="@high">@Html.DisplayFor(modelItem => item.TicketPriority.PriorityName)</span>
+                        }
+                        else if (prty.Contains("Urgent"))
+                        {
+                            <span class="@urgent">@Html.DisplayFor(modelItem => item.TicketPriority.PriorityName)</span>
+                        }
+
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TicketStatus.StatusName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TicketType.TypeName)
+                    </td>
+                    <td>
+                        <strong>@Html.DisplayFor(modelItem => item.Title)</strong>
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Description)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Created)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Updated)
+                    </td>
+                    <td class="links">
+                        @if (User.IsInRole("Submitter") && nonopen || User.IsInRole("Demo Submitter") && nonopen)
+                        {
+                            @Html.ActionLink("Details", "Details", new { id = item.Id })
+                        }
+                        else
+                        {
+                            @Html.ActionLink("Edit", "Edit", new { id = item.Id }) <BR>
+                            @Html.ActionLink("Details", "Details", new { id = item.Id })<BR>
+                        }
+
+                        @if (User.IsInRole("Admin") || User.IsInRole("Demo Admin") || User.IsInRole("Project Manager") || User.IsInRole("Demo Project Manager"))
+                        {
+
+                            @Html.ActionLink("Assign", "AssignTicket", new { id = item.Id })
+
+                        }
+                    </td>
+                </tr>
+            }
         }
-    }
 
-</table>
+    </table>
 </div>
-
-
-

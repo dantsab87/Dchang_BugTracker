@@ -1,7 +1,15 @@
 ﻿@model Dchang_BugTracker.Models.Ticket
-
+@using Dchang_BugTracker.Models
+@using Dchang_BugTracker.Helper
+@using Microsoft.AspNet.Identity
 @{
     ViewBag.Title = "Edit Tickets";
+    var roleHelper = new RoleHelper();
+    var projectHelper = new ProjectHelper();
+    var db = new ApplicationDbContext();
+    var userId = User.Identity.GetUserId();
+    var user = db.Users.Find(userId);
+    var myRole = roleHelper.ListUserRoles(userId).FirstOrDefault();
 }
 
 
@@ -64,7 +72,7 @@
         box-shadow: 0 .25rem 1rem rgba(0,0,0,.15) !important
     }
 
-    .sidebg {
+    .tk_sidebg {
         background-image: url('../../Images/side_bg.jpg');
         background-repeat: no-repeat;
         width: 30px;
@@ -121,7 +129,7 @@
 
 <div class="container ticket_create ticket_bg">
     <div class="row">
-        <div class="col-1 sidebg" style="width:30px"></div>
+        <div class="col-1 tk_sidebg" style="width:30px"></div>
         <div class="col-11">
 
             <div class="padded">
@@ -137,7 +145,7 @@
                     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                     @*@Html.HiddenFor(model => model.Created)*@
 
-                <div class="row">
+                    <div class="row">
                         <div class="col">
                             @Html.LabelFor(model => model.ProjectId, "Project", htmlAttributes: new { @class = "control-label label" })
                             <div class="col between">
@@ -163,18 +171,21 @@
                             @Html.HiddenFor(model => model.AssignedToUserId)
                         }
 
-
-                        <div class="col">
+                        @if (User.IsInRole("Admin") || User.IsInRole("Project Manager") || User.IsInRole("Demo Admin") || User.IsInRole("Demo Project Manager"))
+                        { 
+                         <div class="col">
                             @Html.LabelFor(model => model.ProjectId, "Ticket Status", htmlAttributes: new { @class = "control-label label" })
                             <div class="col">
                                 @Html.DropDownList("TicketStatusId", null, htmlAttributes: new { @class = "form-control inputbox" })
                                 @Html.ValidationMessageFor(model => model.TicketStatusId, "", new { @class = "text-danger" })
                             </div>
-                        </div>
+                        </div>                       
+                        }
 
 
 
-                </div>
+
+                    </div>
                     <div class="row">
                         @if (User.IsInRole("Admin") || User.IsInRole("Project Manager") || User.IsInRole("Demo Admin") || User.IsInRole("Demo Project Manager"))
                         {

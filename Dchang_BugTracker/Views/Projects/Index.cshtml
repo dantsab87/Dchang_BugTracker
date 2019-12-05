@@ -3,12 +3,26 @@
 @{
     ViewBag.Title = "Manage/Create Projects";
 }
-
+<style>
+    .btn-attach, .btn-attach a:hover, .btn-attach a:hover, .btn-attach a:link, .btn-attach a:active, .btn-attach a:visited {
+        color: #1f283e;
+        font-size: 9pt;
+        text-transform: uppercase;
+        text-decoration: none;
+    }
+</style>
 <h4 class="page-title">@ViewBag.Title</h4>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
+
+@if (User.IsInRole("Project Manager") ||
+    User.IsInRole("Demo Project Manager") ||
+    User.IsInRole("Admin") ||
+    User.IsInRole("Demo Admin"))
+
+{
+    <p><button class="btn-attach">@Html.ActionLink("Create New", "Create")</button></p>
+}
+
 <table class="table table-hover table-head-bg-primary table-striped Dtable">
     <thead>
         <tr>
@@ -37,7 +51,7 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.Created)
                 </td>
-                <td>
+                <td class="links">
                     @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
                     @Html.ActionLink("Details", "Details", new { id = item.Id }) |
                     @*@Html.ActionLink("Delete", "Delete", new { id = item.Id }) |*@

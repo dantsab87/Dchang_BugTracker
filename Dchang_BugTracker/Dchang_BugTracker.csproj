@@ -299,6 +299,7 @@
     <Content Include="Avatars\pam.jpg" />
     <Content Include="Avatars\ryan.jpg" />
     <Content Include="Avatars\toby.jpg" />
+    <Content Include="Images\proj_butterfly_bg.jpg" />
     <Content Include="Images\side_bg.jpg" />
     <Content Include="Images\test.png" />
     <Content Include="Images\testlog.png" />

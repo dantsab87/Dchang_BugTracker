@@ -529,7 +529,7 @@ body {
             position: absolute;
             top: 17px;
             right: 0;
-            border-top-color: #777
+            border-top-color: #F0F0F0;
         }
 
     .sidebar .sidebar-wrapper, .sidebar[data-background-color=white] .sidebar-wrapper {
@@ -654,7 +654,7 @@ body {
                 }
 
                 .sidebar .nav > .nav-item a i, .sidebar[data-background-color=white] .nav > .nav-item a i {
-                    color: #8d9498;
+                    color: #73c1ed;
                     margin-right: 15px;
                     width: 25px;
                     text-align: center;
@@ -673,14 +673,14 @@ body {
                     margin-bottom: 0;
                     margin-right: 5px;
                     white-space: nowrap;
-                    color: #8d9498
+                    color: #73c1ed
                 }
 
                 .sidebar .nav > .nav-item a .caret, .sidebar[data-background-color=white] .nav > .nav-item a .caret {
                     margin-left: auto;
                     margin-right: 10px;
                     transition: all .5s;
-                    color: #8d9498
+                    color: #73c1ed
                 }
 
                 .sidebar .nav > .nav-item a[data-toggle=collapse][aria-expanded=true], .sidebar[data-background-color=white] .nav > .nav-item a[data-toggle=collapse][aria-expanded=true] {
@@ -873,7 +873,7 @@ body {
         }
 
             .sidebar.sidebar-style-2 .nav .nav-item a:focus, .sidebar.sidebar-style-2 .nav .nav-item a:hover, .sidebar.sidebar-style-2 .nav .nav-item a[data-toggle=collapse][aria-expanded=true] {
-                background: rgba(199,199,199,.2)
+                background: rgba(134, 146, 177,.2)
             }
 
                 .sidebar.sidebar-style-2 .nav .nav-item a:focus i, .sidebar.sidebar-style-2 .nav .nav-item a:focus p, .sidebar.sidebar-style-2 .nav .nav-item a:hover i, .sidebar.sidebar-style-2 .nav .nav-item a:hover p, .sidebar.sidebar-style-2 .nav .nav-item a[data-toggle=collapse][aria-expanded=true] i, .sidebar.sidebar-style-2 .nav .nav-item a[data-toggle=collapse][aria-expanded=true] p {
@@ -1003,7 +1003,7 @@ body {
         }
 
     .sidebar.sidebar-style-2[data-background-color=dark2] .nav .nav-item a:focus i, .sidebar.sidebar-style-2[data-background-color=dark2] .nav .nav-item a:focus p, .sidebar.sidebar-style-2[data-background-color=dark2] .nav .nav-item a:hover i, .sidebar.sidebar-style-2[data-background-color=dark2] .nav .nav-item a:hover p, .sidebar.sidebar-style-2[data-background-color=dark2] .nav .nav-item a[data-toggle=collapse][aria-expanded=true] i, .sidebar.sidebar-style-2[data-background-color=dark2] .nav .nav-item a[data-toggle=collapse][aria-expanded=true] p, .sidebar.sidebar-style-2[data-background-color=dark] .nav .nav-item a:focus i, .sidebar.sidebar-style-2[data-background-color=dark] .nav .nav-item a:focus p, .sidebar.sidebar-style-2[data-background-color=dark] .nav .nav-item a:hover i, .sidebar.sidebar-style-2[data-background-color=dark] .nav .nav-item a:hover p, .sidebar.sidebar-style-2[data-background-color=dark] .nav .nav-item a[data-toggle=collapse][aria-expanded=true] i, .sidebar.sidebar-style-2[data-background-color=dark] .nav .nav-item a[data-toggle=collapse][aria-expanded=true] p {
-        color: #b9babf !important
+        color: #f0f0f0 !important;
     }
 
     .sidebar.sidebar-style-2[data-background-color=dark2] .nav .nav-item.active a, .sidebar.sidebar-style-2[data-background-color=dark] .nav .nav-item.active a {
@@ -2156,7 +2156,8 @@ body {
 }
 
 .sidebar[data-background-color=dark] {
-    background: #1a2035 !important
+    background: #1f283e;
+    background-image: linear-gradient(360deg, #1f283e, #556385) !important;
 }
 
     .sidebar[data-background-color=dark] .user {
@@ -2164,11 +2165,11 @@ body {
     }
 
         .sidebar[data-background-color=dark] .user .info a > span {
-            color: #b9babf
+            color: #f0f0f0
         }
 
             .sidebar[data-background-color=dark] .user .info a > span .user-level {
-                color: #8d9498
+                color: #f0f0f0
             }
 
     .sidebar[data-background-color=dark] .nav > .nav-item.active > a p {
@@ -2176,7 +2177,7 @@ body {
     }
 
     .sidebar[data-background-color=dark] .nav > .nav-item a {
-        color: #b9babf !important
+        color: #f0f0f0 !important
     }
 
         .sidebar[data-background-color=dark] .nav > .nav-item a:focus p, .sidebar[data-background-color=dark] .nav > .nav-item a:hover p, .sidebar[data-background-color=dark] .nav > .nav-item a[data-toggle=collapse][aria-expanded=true] p {
@@ -2193,7 +2194,7 @@ body {
         }
 
     .sidebar[data-background-color=dark] .scrollbar-inner > .scroll-element .scroll-bar {
-        background-color: #f7f7f7
+        background-color: #51669a
     }
 
     .sidebar[data-background-color=dark] .scrollbar-inner > .scroll-element.scroll-draggable .scroll-bar, .sidebar[data-background-color=dark] .scrollbar-inner > .scroll-element:hover .scroll-bar {
@@ -8231,7 +8232,7 @@ label.error {
 
     .scrollbar-inner > .scroll-element .scroll-element_track {
         opacity: .4;
-        background-color: #e0e0e0
+        background-color: transparent
     }
 
     .scrollbar-inner > .scroll-element .scroll-bar {
@@ -13001,7 +13002,7 @@ body {
     }
 
     body[data-background-color=dark] {
-        background: #1a2035
+        background: #1a2035;
     }
 
         body[data-background-color=dark] .main-header {

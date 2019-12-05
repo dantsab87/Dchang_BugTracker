@@ -122,10 +122,11 @@ namespace Dchang_BugTracker.Controllers
         }
 
 
-
-
-
-
+        [AllowAnonymous]
+        public ActionResult NewRegister() 
+        {
+            return View();
+        }
 
 
         //
@@ -229,7 +230,7 @@ namespace Dchang_BugTracker.Controllers
                     await EmailHelper.ComposeEmailAsync(model, callbackUrl);
                     roleHelper.AddUserToRole(user.Id, "Unregistered");
 
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("NewRegister", "Account");
                 }
                 AddErrors(result);
             }

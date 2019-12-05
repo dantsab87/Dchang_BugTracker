@@ -97,7 +97,7 @@ namespace Dchang_BugTracker.Controllers
         }
 
         // GET: Tickets/Edit/5
-        [Authorize(Roles = "Admin, Demo Admin, Project Manager, Demo Project Manager, Developer, Demo Developer")]
+        [Authorize(Roles = "Admin, Demo Admin, Project Manager, Demo Project Manager, Developer, Demo Developer, Submitter, Demo Submitter")]
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -126,11 +126,15 @@ namespace Dchang_BugTracker.Controllers
         // POST: Tickets/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
-        [Authorize(Roles = "Admin, Demo Admin, Project Manager, Demo Project Manager, Developer, Demo Developer")]
+        [Authorize(Roles = "Admin, Demo Admin, Project Manager, Demo Project Manager, Developer, Demo Developer, Submitter, Demo Submitter")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "Id,ProjectId,TicketPriorityId,TicketTypeId,TicketStatusId,OwnerUserId,AssignedToUserId,Title,Description,Created,Updated")] Ticket ticket)
         {
+            //if (User.IsInRole("Submitter") || (User.IsInRole("Demo Submitter")))
+            //{
+            //    var oldTicket = db.Tickets.AsNoTracking().FirstOrDefault(t => t.Id == ticket.Id);
+            //}
             if (ModelState.IsValid)
             {
                 var oldTicket = db.Tickets.AsNoTracking().FirstOrDefault(t => t.Id == ticket.Id);

@@ -1,53 +1,85 @@
 ﻿@model IEnumerable<Dchang_BugTracker.Models.TicketNotification>
-
+@using Dchang_BugTracker.Models
+@using Microsoft.AspNet.Identity
 @{
-    ViewBag.Title = "Ticket Notification";
+    ViewBag.Title = "Ticket Notifications";
+
+    var db = new ApplicationDbContext();
+    var user = db.Users.Find(User.Identity.GetUserId());
 }
 
-    <style>
-        .table td, .table th {
-            font-size: 9pt;
-        }
+<style>
+    .table td, .table th {
+        font-size: 9pt;
+    }
 
-        .opacity {
-            opacity: 0.4;
-            filter: alpha(opacity=40);
-            zoom: 1;
-        }
-    </style>
+    .opacity {
+        opacity: 0.4;
+        filter: alpha(opacity=40);
+        zoom: 1;
+    }
+</style>
 
 
-<h2>@ViewBag.Title</h2>
+<h4>@ViewBag.Title</h4>
 
-@*<p>
-    @Html.ActionLink("Create New", "Create")
-</p>*@
 <table class="table Dtable table-head-bg-primary">
     <thead>
         <tr>
-            <th>
-                @Html.DisplayName("Developer")
-            </th>
-            <th>
-                @Html.DisplayName("Submitter")
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.NotificationBody)
-            </th>
-        </tr>
+            @if (User.IsInRole("Admin") || User.IsInRole("Demo Admin"))
+            {
+                <th>
+                    @Html.DisplayName("Recipient")
+                </th>
+            }
+                <th>
+                    @Html.DisplayName("Submitter")
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.NotificationBody)
+                </th>
+                <th>
+                    @Html.DisplayName("Sent on")
+                </th>
+            </tr>
     </thead>
-@foreach (var item in Model.OrderByDescending(c => c.Created)) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Recipient.FirstName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Ticket.OwnerUser.FirstName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.NotificationBody)
-        </td>
-    </tr>
-}
+    @if (User.IsInRole("Admin") || User.IsInRole("Demo Admin"))
+    {
+        foreach (var item in Model.OrderByDescending(c => c.Created))
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Recipient.FirstName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Ticket.OwnerUser.FirstName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NotificationBody)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Created)
+                </td>
+            </tr>
+        }
+    }
+    else
+    {
+        foreach (var item in Model.OrderByDescending(c => c.Created).Where(n => n.RecipientId == user.Id))
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Ticket.OwnerUser.FirstName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NotificationBody)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Created)
+                </td>
+            </tr>
+        }
+    }
+
 
 </table>
