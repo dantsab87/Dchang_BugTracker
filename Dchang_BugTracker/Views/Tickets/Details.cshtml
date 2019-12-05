@@ -105,9 +105,9 @@
         transition: all .3s ease-in-out;
     }
 
-        .grow:hover {
-            transform: scale(1.2);
-        }
+    .grow:hover {
+        transform: scale(1.2);
+    }
 
     .btn-attach, .btn-attach a:hover, .btn-attach a:hover, .btn-attach a:link, .btn-attach a:active, .btn-attach a:visited {
         color: #1f283e;
@@ -211,27 +211,24 @@
                 <div class="col-12">
                     <div class="row container-fluid">
                         <div class="col-8 container-fluid">
-                            @Html.DisplayNameFor(model => model.Created) @Html.DisplayFor(model => model.Created)
+                            <small>@Html.DisplayNameFor(model => model.Created) @Html.DisplayFor(model => model.Created)</small>
                             <p>@Html.DisplayFor(model => model.Description)</p>
                         </div>
 
                         <div class="col-sm-push-2">
-
-                            @if (User.IsInRole("Admin") || User.IsInRole("Demo Admin") || User.IsInRole("Project Manager") || User.IsInRole("Demo Project Manager"))
+                            @foreach (var item in Model.Project.Users)
                             {
-                                if (Model.AssignedToUser == null)
-                                { }
-                                else
+                                if (item.MyRole.Contains("Project Manager") || item.MyRole.Contains("Demo Project Manager"))
                                 {
                                     <table>
                                         <tr>
                                             <td rowspan="2">
-                                                <img src="@Html.DisplayFor(model => model.AssignedToUser.AvatarPath)" class="ticket-assigned-img" />
+                                                <img src="@Html.DisplayFor(model => item.AvatarPath)" class="ticket-assigned-img" />
                                             </td>
                                             <td style="width:15px"></td>
                                             <td>
                                                 <div class="ticket-content-box">
-                                                    <strong>@Html.DisplayName("Assigned to")</strong>
+                                                    <strong>@Html.DisplayName("Project Manager")</strong>
                                                 </div>
                                             </td>
                                         </tr>
@@ -239,12 +236,40 @@
                                             <td style="width:15px"></td>
                                             <td>
                                                 <div class="ticket-content-box">
-                                                    @Html.DisplayFor(model => model.AssignedToUser.DisplayName)
+                                                    @Html.DisplayFor(modelItem => item.DisplayName)
                                                 </div>
                                             </td>
                                         </tr>
                                     </table>
                                 }
+                            }
+                            <BR>
+                            @if (Model.AssignedToUser == null)
+                            {
+                            }
+                            else
+                            {
+                                <table>
+                                    <tr>
+                                        <td rowspan="2">
+                                            <img src="@Html.DisplayFor(model => model.AssignedToUser.AvatarPath)" class="ticket-assigned-img" />
+                                        </td>
+                                        <td style="width:15px"></td>
+                                        <td>
+                                            <div class="ticket-content-box">
+                                                <strong>@Html.DisplayName("Assigned to")</strong>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="width:15px"></td>
+                                        <td>
+                                            <div class="ticket-content-box">
+                                                @Html.DisplayFor(model => model.AssignedToUser.DisplayName)
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </table>
                             }
                             <BR>
                             <table>
@@ -301,11 +326,11 @@
 
                 @foreach (var comment in Model.TicketComments.OrderByDescending(c => c.Created))
                 {
-                    <div class="container mt-3 compost">
+                    <div class="container">
                         <div class="media">
                             <img src="@comment.User.AvatarPath" class="align-self-start mr-3 ticket-assigned-img" style="width:60px; height:60px">
                             <div class="media-body">
-                                @comment.Created.ToString("MM/dd/yyyy h:mm tt")<BR>
+                                <small>@comment.Created.ToString("MM/dd/yyyy h:mm tt")</small><BR>
                                 <strong>@comment.User.DisplayName</strong> says:<BR>
                                 <p>@comment.CommentBody</p>
                             </div>
@@ -355,72 +380,85 @@
                 {
                     var desc = item.Description;
 
-
-                    <table class="table table-hover table-head-bg-primary table-striped">
-                        <thead>
+                    <div class="table-responsive">
+                        <table class="table table-hover table-head-bg-primary table-striped">
+                            <thead>
+                                <tr>
+                                    <th width="5%">
+                                        @Html.DisplayName("File")
+                                    </th>
+                                    <th width="15%">
+                                        @Html.DisplayName("By")
+                                    </th>
+                                    <th>
+                                        @Html.DisplayName("Description")
+                                    </th>
+                                    <th width="10%">
+                                        @Html.DisplayName("Date")
+                                    </th>
+                                </tr>
+                            </thead>
                             <tr>
-                                <th>
-                                    @Html.DisplayName("File")
-                                </th>
-                                <th>
-                                    @Html.DisplayName("Date")
-                                </th>
-                                <th>
-                                    @Html.DisplayName("Description")
-                                </th>
+                                <td>
+                                    <a href="@item.FilePath"><img src="@UploadValidator.GetIcon(item.FilePath)" style="width:50px;" /></a>
+                                </td>
+                                <td>
+                                    @item.User.DisplayName
+                                </td>
+                                <td>
+                                    @desc
+                                </td>
+                                <td>
+                                    @item.Created.ToString("MM/dd/yyyy 'at' hh:mm tt")
+                                </td>
                             </tr>
-                        </thead>
-                        <tr>
-                            <td>
-                                <a href="@item.FilePath"><img src="@UploadValidator.GetIcon(item.FilePath)" style="width:50px;" /></a>
-                            </td>
-                            <td>
-                                @item.Created.ToString("MM/dd/yyyy 'at' hh:mm tt")
-                            </td>
-                            <td>
-                                @desc
-                            </td>
-                        </tr>
-                    </table>
+                        </table>
+                    </div>
                 }
             </div>
             <div class="tab-pane fade" id="pills-history-icon" role="tabpanel" aria-labelledby="pills-history-tab-icon">
                 @foreach (var item in Model.TicketHistories.OrderByDescending(h => h.Changed))
                 {
-
-
-                    <table class="table table-hover table-head-bg-primary table-striped">
-                        <thead>
+                    <div class="table-responsive">
+                        <table class="table table-hover table-head-bg-primary table-striped">
+                            <thead>
+                                <tr>
+                                    <th width="15%">
+                                        @Html.DisplayName("Changed By")
+                                    </th>
+                                    <th>
+                                        @Html.DisplayName("Changed (Property)")
+                                    </th>
+                                    <th>
+                                        @Html.DisplayName("From")
+                                    </th>
+                                    <th>
+                                        @Html.DisplayName("To")
+                                    </th>
+                                    <th width="15%">
+                                        @Html.DisplayName("Date Changed")
+                                    </th>
+                                </tr>
+                            </thead>
                             <tr>
-                                <th>
-                                    @Html.DisplayName("Changed (Property)")
-                                </th>
-                                <th>
-                                    @Html.DisplayName("From")
-                                </th>
-                                <th>
-                                    @Html.DisplayName("To")
-                                </th>
-                                <th>
-                                    @Html.DisplayName("Changed On")
-                                </th>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.User.DisplayName)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Property)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.OldValue)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.NewValue)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Changed)
+                                </td>
                             </tr>
-                        </thead>
-                        <tr>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Property)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.OldValue)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.NewValue)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Changed)
-                            </td>
-                        </tr>
-                    </table>
+                        </table>
+                    </div>
                 }
             </div>
         </div>

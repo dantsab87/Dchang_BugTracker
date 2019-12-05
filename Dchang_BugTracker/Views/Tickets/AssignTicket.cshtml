@@ -108,7 +108,7 @@
                         <div class="col">
                             @Html.LabelFor(model => model.AssignedToUserId, "Assign a Developer", new { @class = "control-label label" })
                             <div class="col">
-                                @Html.DropDownList("AssignedToUserId", null, "---Seclect a Developer---", new { @class = "form-control inputbox" })
+                                @Html.DropDownList("AssignedToUserId", null, "---Select a Developer---", new { @class = "form-control inputbox" })
                                 @Html.ValidationMessageFor(model => model.AssignedToUserId, "", new { @class = "text-danger" })
                             </div>
                         </div>

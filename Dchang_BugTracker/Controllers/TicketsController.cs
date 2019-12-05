@@ -211,9 +211,13 @@ namespace Dchang_BugTracker.Controllers
         public ActionResult AssignTicket(int? id) 
         {
             RoleHelper helper = new RoleHelper();
+            ProjectHelper pjhelper = new ProjectHelper();
             var ticket = db.Tickets.Find(id);
             var users = helper.UsersIn2Role("Developer", "Demo Developer").ToList();
+
+
             ViewBag.AssignedToUserId = new SelectList(users, "Id", "DisplayName", ticket.AssignedToUserId);
+            //ViewBag.AssignedToUserOnProjectId = new SelectList();
 
             return View(ticket);
         }
@@ -245,9 +249,6 @@ namespace Dchang_BugTracker.Controllers
                 ticket.Updated = DateTime.Now;
                 db.Entry(ticket).State = EntityState.Modified;
                 db.SaveChanges();
-
-
-
 
                 var callbackUrl = Url.Action("Details", "Tickets", new { id = ticket.Id }, protocol: Request.Url.Scheme);
 

@@ -109,7 +109,12 @@
 
                                         </b>
                                     </h5>
-                                    <small class="text-muted">@db.Tickets.Count() Total Tickets</small>
+                                    <small class="text-muted">
+                                        @db.Tickets.Where(t => t.TicketStatus.StatusName.Contains("Open")).Union(
+                                        db.Tickets.Where(t => t.TicketStatus.StatusName.Contains("In Progress"))).Union(
+                                        db.Tickets.Where(t => t.TicketStatus.StatusName.Contains("Assigned"))).Count()
+                                        Active Tickets
+                                    </small>
                                 </div>
                             </div>
                         </div>

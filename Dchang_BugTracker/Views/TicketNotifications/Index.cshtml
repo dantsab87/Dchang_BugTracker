@@ -22,16 +22,16 @@
 
 
 <h4>@ViewBag.Title</h4>
-
-<table class="table Dtable table-head-bg-primary">
-    <thead>
-        <tr>
-            @if (User.IsInRole("Admin") || User.IsInRole("Demo Admin"))
-            {
-                <th>
-                    @Html.DisplayName("Recipient")
-                </th>
-            }
+<div class="table-responsive">
+    <table class="table Dtable table-head-bg-primary">
+        <thead>
+            <tr>
+                @if (User.IsInRole("Admin") || User.IsInRole("Demo Admin"))
+                {
+                    <th>
+                        @Html.DisplayName("Recipient")
+                    </th>
+                }
                 <th>
                     @Html.DisplayName("Submitter")
                 </th>
@@ -42,44 +42,45 @@
                     @Html.DisplayName("Sent on")
                 </th>
             </tr>
-    </thead>
-    @if (User.IsInRole("Admin") || User.IsInRole("Demo Admin"))
-    {
-        foreach (var item in Model.OrderByDescending(c => c.Created))
+        </thead>
+        @if (User.IsInRole("Admin") || User.IsInRole("Demo Admin"))
         {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Recipient.FirstName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Ticket.OwnerUser.FirstName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.NotificationBody)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Created)
-                </td>
-            </tr>
+            foreach (var item in Model.OrderByDescending(c => c.Created))
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Recipient.FirstName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Ticket.OwnerUser.FirstName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.NotificationBody)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Created)
+                    </td>
+                </tr>
+            }
         }
-    }
-    else
-    {
-        foreach (var item in Model.OrderByDescending(c => c.Created).Where(n => n.RecipientId == user.Id))
+        else
         {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Ticket.OwnerUser.FirstName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.NotificationBody)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Created)
-                </td>
-            </tr>
+            foreach (var item in Model.OrderByDescending(c => c.Created).Where(n => n.RecipientId == user.Id))
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Ticket.OwnerUser.FirstName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.NotificationBody)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Created)
+                    </td>
+                </tr>
+            }
         }
-    }
 
 
-</table>
+    </table>
+</div>
