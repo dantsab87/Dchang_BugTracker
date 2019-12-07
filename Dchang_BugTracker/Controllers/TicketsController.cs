@@ -109,10 +109,22 @@ namespace Dchang_BugTracker.Controllers
             {
                 return HttpNotFound();
             }
+            if ((User.IsInRole("Submitter") || User.IsInRole("Demo Submitter")) && !ticket.TicketStatus.StatusName.Contains("Open"))
+            {
+                return HttpNotFound();
+            }
+            if (ticket.TicketStatus.StatusName.Contains("Archived") || ticket.TicketStatus.StatusName.Contains("Resolved"))
+            {
+                return HttpNotFound();
+            }
+
+
+
 
             RoleHelper helper = new RoleHelper();
-            var users = helper.UsersIn2Role("Developer", "Demo Developer").ToList();
-            ViewBag.AssignedToUserId = new SelectList(users, "Id", "FirstName", ticket.AssignedToUserId);
+            var users = helper.ProjectUsersIn2Role("Developer", "Demo Developer", ticket.ProjectId).ToList();
+            ViewBag.AssignedToUserId = new SelectList(users, "Id", "DisplayName", ticket.AssignedToUserId);
+
             ViewBag.OwnerUserId = new SelectList(db.Users, "Id", "FirstName", ticket.OwnerUserId);
             ViewBag.ProjectId = new SelectList(db.Projects, "Id", "Name", ticket.ProjectId);
             ViewBag.TicketPriorityId = new SelectList(db.TicketPriorities, "Id", "PriorityName", ticket.TicketPriorityId);
@@ -131,10 +143,10 @@ namespace Dchang_BugTracker.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "Id,ProjectId,TicketPriorityId,TicketTypeId,TicketStatusId,OwnerUserId,AssignedToUserId,Title,Description,Created,Updated")] Ticket ticket)
         {
-            //if (User.IsInRole("Submitter") || (User.IsInRole("Demo Submitter")))
-            //{
-            //    var oldTicket = db.Tickets.AsNoTracking().FirstOrDefault(t => t.Id == ticket.Id);
-            //}
+            if ((User.IsInRole("Submitter") || User.IsInRole("Demo Submitter")) && !ticket.TicketStatus.StatusName.Contains("Open"))
+            {
+                return HttpNotFound();
+            }
             if (ModelState.IsValid)
             {
                 var oldTicket = db.Tickets.AsNoTracking().FirstOrDefault(t => t.Id == ticket.Id);
@@ -211,10 +223,9 @@ namespace Dchang_BugTracker.Controllers
         public ActionResult AssignTicket(int? id) 
         {
             RoleHelper helper = new RoleHelper();
-            ProjectHelper pjhelper = new ProjectHelper();
+          
             var ticket = db.Tickets.Find(id);
-            var users = helper.UsersIn2Role("Developer", "Demo Developer").ToList();
-
+            var users = helper.ProjectUsersIn2Role("Developer", "Demo Developer", ticket.ProjectId).ToList();
 
             ViewBag.AssignedToUserId = new SelectList(users, "Id", "DisplayName", ticket.AssignedToUserId);
             //ViewBag.AssignedToUserOnProjectId = new SelectList();

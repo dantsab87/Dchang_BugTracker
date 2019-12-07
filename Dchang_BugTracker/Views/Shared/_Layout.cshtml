@@ -58,7 +58,7 @@
         .xbtn {
             padding: 0 5px 0 0;
             text-align: right;
-            font-size: 12pt;
+            font-size: 16pt;
             font-weight: 400;
             margin: 0px 0px 0px 0px;
             background-color: transparent;
@@ -219,46 +219,50 @@
                                 else 
                                 { }
                             </a>
-                            <ul class="dropdown-menu notif-box animated fadeIn thescrollbar force-overflow" id="scroll-notif" aria-labelledby="notifDropdown">
+                            <ul class="dropdown-menu notif-box animated fadeIn" aria-labelledby="notifDropdown">
                                 <li>
                                     <div class="dropdown-title">You have @NotificationHelper.GetUnreadNotifications().Count() new notification(s)</div>
                                 </li>
-
-                                @foreach (var unreadNotification in NotificationHelper.GetUnreadNotifications().OrderByDescending(c => c.Created))
+                                @if (NotificationHelper.GetUnreadNotifications().Count() != 0)
                                 {
-                                    <li>
-                                        @using (Html.BeginForm("Dismiss", "TicketNotifications", FormMethod.Post))
-                                        {
-                                            @Html.AntiForgeryToken()
-                                            @Html.Hidden("Id", unreadNotification.Id)
+                                    <div class="thescrollbar force-overflow" id="scroll-notif" style="margin:0; padding:0">
+                                         @foreach (var unreadNotification in NotificationHelper.GetUnreadNotifications().OrderByDescending(c => c.Created))
+                                    {
+                                        <li>
+                                            @using (Html.BeginForm("Dismiss", "TicketNotifications", FormMethod.Post))
+                                            {
+                                                @Html.AntiForgeryToken()
+                                                @Html.Hidden("Id", unreadNotification.Id)
 
-                                            <div>
+                                                <div>
 
-                                                <div class="notif-center" id="notif_top">
-                                                    <div class="text-right"><button type="submit" class="xbtn">&times;</button></div>
-                                                    <a href="#notif_top">
-                                                        <div class="notif-icon notif-primary"> <img src="@unreadNotification.Sender.AvatarPath" class="avatar avatar-img rounded-circle"> </div>
-                                                        <div class="notif-content">
-                                                            <span class="block ntfy-message">
-                                                                <strong>@unreadNotification.Sender.DisplayName:</strong> @unreadNotification.NotificationBody
-                                                            </span>
-                                                            <div class="ntfy-time">
-                                                                <span>@unreadNotification.Created.ToString("MMM dd, yyyy")</span>
+                                                    <div class="notif-center" id="notif_top">
+                                                        <div class="text-right"><button type="submit" class="xbtn">&times;</button></div>
+                                                        <a href="#notif_top">
+                                                            <div class="notif-icon notif-primary"> <img src="@unreadNotification.Sender.AvatarPath" class="avatar avatar-img rounded-circle"> </div>
+                                                            <div class="notif-content">
+                                                                <span class="block ntfy-message">
+                                                                    <strong>@unreadNotification.Sender.DisplayName:</strong> @unreadNotification.NotificationBody
+                                                                </span>
+                                                                <div class="ntfy-time">
+                                                                    <span>@unreadNotification.Created.ToString("MMM dd, yyyy")</span>
+                                                                </div>
                                                             </div>
-                                                        </div>
-                                                    </a>
-                                                    <hr class="msg-line" />
+                                                        </a>
+                                                        <hr class="msg-line" />
 
 
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        }
+                                            }
 
+                                        </li>
+                                    }
+                                    </div>
+                                    <li>
+                                        <a class="see-all" href="@Url.Action("Index", "TicketNotifications")">See all notifications<i class="fa fa-angle-right"></i></a>
                                     </li>
                                 }
-                                <li>
-                                    <a class="see-all" href="@Url.Action("Index", "TicketNotifications")">See all notifications<i class="fa fa-angle-right"></i> </a>
-                                </li>
                             </ul>
                         </li>
 
@@ -314,17 +318,14 @@
                         <div class="info">
                             <a data-toggle="collapse" href="#collapseExample" aria-expanded="true">
                                 <span>
-                                    @if (user != null)
+                                    @if ((user != null) && !User.IsInRole("Unregistered"))
                                     {
-                                        @user.DisplayName
-                                    }
-                                    else
-                                    {
-                                        <span>Hey, Welcome!</span>
-                                    }
-                                    @if (user != null)
-                                    {
+                                        @user.FullName
                                         <span class="user-level">@user.MyRole</span>
+                                    }
+                                    @if (User.IsInRole("Unregistered"))
+                                    {
+                                        @user.FullName
                                     }
                                     <span class="caret"></span>
                                 </span>
@@ -353,9 +354,10 @@
                                     <li>
                                         @Html.ActionLink("Home", "Dashboard", "Home", null, new { @class = "sub-item" })
                                     </li>
-                                    @*<li>
-                     @Html.ActionLink("Directory", "Contacts", "Home", null, new { @class = "sub-item" })
-                    </li>*@
+                                  @*<li>
+                                        @Html.ActionLink("Directory", "Contacts", "Home", null, new { @class = "sub-item" })
+                                    </li>*@
+                                    <li>@Html.ActionLink("Notifications", "Index", "TicketNotifications", null, new { @class = "sub-item" })</li>
                                     <li>@Html.ActionLink("Log off", "LogOut", "Account", null, new { @class = "sub-item" })</li>
                                 </ul>
                             </div>
@@ -431,7 +433,6 @@
                                         }
                                         <li>@Html.ActionLink("Ticket History", "Index", "TicketHistories", null, new { @class = "sub-item" })</li>
 
-                                        <li>@Html.ActionLink("Ticket Notifications", "Index", "TicketNotifications", null, new { @class = "sub-item" })</li>
                                     </ul>
                                 </div>
                             </li>

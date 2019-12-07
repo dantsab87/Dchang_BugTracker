@@ -58,6 +58,20 @@ namespace Dchang_BugTracker.Helper
             return resultList;
         }
 
+        public ICollection<ApplicationUser> ProjectUsersIn2Role(string roleName1, string rolename2, int projectId)
+        {
+            ProjectHelper prjhelper = new ProjectHelper();
+
+            var resultList = new List<ApplicationUser>();
+            var List = userManager.Users.ToList();
+            foreach (var user in List)
+            {
+                if ((IsUserInRole(user.Id, roleName1) || IsUserInRole(user.Id, rolename2)) && (prjhelper.IsUserOnProject(user.Id, projectId)))
+                    resultList.Add(user);
+            }
+            return resultList;
+        }
+
         public ICollection<ApplicationUser> UserNotInRole(string roleName) 
         {
             var resultList = new List<ApplicationUser>();

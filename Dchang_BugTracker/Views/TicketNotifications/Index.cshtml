@@ -2,7 +2,7 @@
 @using Dchang_BugTracker.Models
 @using Microsoft.AspNet.Identity
 @{
-    ViewBag.Title = "Ticket Notifications";
+    ViewBag.Title = "Notifications";
 
     var db = new ApplicationDbContext();
     var user = db.Users.Find(User.Identity.GetUserId());
@@ -21,7 +21,7 @@
 </style>
 
 
-<h4>@ViewBag.Title</h4>
+<h4 class="page-title">@ViewBag.Title</h4>
 <div class="table-responsive">
     <table class="table Dtable table-head-bg-primary">
         <thead>

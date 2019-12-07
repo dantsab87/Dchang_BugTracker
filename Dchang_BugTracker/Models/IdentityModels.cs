@@ -18,11 +18,11 @@ namespace Dchang_BugTracker.Models
         private RoleHelper roleHelper = new RoleHelper();
 
         [Display(Name = "First Name")] 
-        [StringLength(20, MinimumLength = 3, ErrorMessage ="First Name must have a minimum length of 3 and max length of 20." )]
+        [StringLength(20, MinimumLength = 2, ErrorMessage ="First Name must have a minimum length of 2 and max length of 20." )]
         public string FirstName { get; set; }
 
         [Display(Name = "Last Name")]
-        [StringLength(20, MinimumLength = 3, ErrorMessage = "First Name must have a minimum length of 3 and max length of 20.")]
+        [StringLength(20, MinimumLength = 2, ErrorMessage = "First Name must have a minimum length of 2 and max length of 20.")]
         public string LastName { get; set; }
 
         [Display(Name = "Display Name")]
@@ -40,7 +40,14 @@ namespace Dchang_BugTracker.Models
             } 
         }
 
-
+        [NotMapped]
+        public string FullName
+        {
+            get
+            {
+                return $"{FirstName}" + " " + $"{LastName}";
+            }
+        }
 
         public virtual ICollection<TicketComment> TicketComments { get; set; }
         public virtual ICollection<Project> Projects { get; set; }

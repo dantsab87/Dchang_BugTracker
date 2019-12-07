@@ -8,14 +8,29 @@
 
 <style>
     .avatarsize {
-        max-width: 280px;
-        max-height: 280px;
+        position: relative;
+        max-width: 200px;
+        max-height: 200px;
+        border-radius: 5px;
+        z-index: 1;
     }
 
+    .pad-left {
+        padding-left: 0;
+        margin-left: 0;
+    }
 
-    .rol-overlay {
-        margin-top: 100px;
-        z-index: 7;
+    .role-overlay {
+        position: absolute;
+        margin: -30px 0 0 8px;
+        z-index: 3;
+    }
+    .badge {
+        color: #fff;
+        font-size: 9px;
+        text-transform: uppercase;
+        padding: 5px;
+        background-color: #556385;
     }
 </style>
 
@@ -51,90 +66,84 @@
 <div class="card">
     <div class="card-body">
         <div class="row">
-            <div class="col-6">
-
-                @if (user != null)
-                {
-                    <div class="role-overlay">
-                        <span class="badge badge-success">@user.MyRole</span>
-                    </div>
-                    <div class="">
-                        <img src="@user.AvatarPath" class="avatarsize">
-                    </div>
-                    <div class="">
-                        <label class="placeholder">First Name</label>: @user.FirstName
-                    </div>
-
-                    <div class="">
-                        <label class="placeholder">Last Name</label>: @user.LastName
-                    </div>
-
-                    <div class="">
-                        <label class="placeholder">Display Name</label>: @user.DisplayName
-                    </div>
-                    <div class="">
-                        <label class="placeholder">Email</label>: @user.Email
-                    </div>
-                    <div class="pull-left">
-                        <button type="button" class="btn btn-primary btn-sm" id="showedit">Edit Profile</button>
-                    </div>
-                }
-                else
-                {
-                    <p>ERROR</p>
-                }
-            </div>
-            <div id="div1"></div>
-
-
-
-            <div class="col-6" id="divedit">
-
+            <div class="col">
                 <div class="card-body">
+                    @if (user != null)
+                    {
+                        <div>
+                            <img src="@user.AvatarPath" class="avatarsize">
+                        </div>
+                        if (!User.IsInRole("Unregistered"))
+                        {
+                        <div class="role-overlay">
+                            <span class="badge badge-role">@user.MyRole</span>
+                        </div>
+                        }
+                        <div>
+                            <label class="placeholder font-weight-bold">First Name</label>: @user.FirstName
+                        </div>
 
+                        <div>
+                            <label class="placeholder font-weight-bold">Last Name</label>: @user.LastName
+                        </div>
+
+                        <div>
+                            <label class="placeholder font-weight-bold">Display Name</label>: @user.DisplayName
+                        </div>
+                        <div>
+                            <label class="placeholder font-weight-bold">Email</label>: @user.Email
+                        </div>
+                        <div class="pull-left">
+                            <button type="button" class="btn btn-primary btn-sm" id="showedit">Edit Profile</button>
+                        </div>
+                    }
+                    else
+                    {
+                        <p>ERROR</p>
+                    }
+                </div>
+            </div>
+            <div class="col pad-left" id="divedit">
+                <div class="card-body">
                     <div class="row">
                         @using (Html.BeginForm("EditProfile", "Home", FormMethod.Post, new { @class = "col", role = "form", enctype="Multipart/form-data" }))
                         {
                             @Html.AntiForgeryToken()
                             @Html.ValidationSummary("", new { @class = "text-danger" })
                             @Html.HiddenFor(model => model.Id)
-                        <div class="col">
-                            <div class="form-group form-floating-label">
-                                @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control input-solid col", @id = "inputFloatingLabel1" })
-                                <label for="inputFloatingLabel1" class="placeholder">First Name</label>
-                            </div>
+                            <div class="col pad-left">
+                                <div class="form-group form-floating-label">
+                                    @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control input-solid col", @id = "inputFloatingLabel1" })
+                                    <label for="inputFloatingLabel1" class="placeholder">First Name</label>
+                                </div>
 
-                            <div class="form-group form-floating-label">
-                                @Html.TextBoxFor(m => m.LastName, new { @class = "form-control input-solid", @id = "inputFloatingLabel2" })
-                                <label for="inputFloatingLabel2" class="placeholder">Last Name</label>
-                            </div>
+                                <div class="form-group form-floating-label">
+                                    @Html.TextBoxFor(m => m.LastName, new { @class = "form-control input-solid", @id = "inputFloatingLabel2" })
+                                    <label for="inputFloatingLabel2" class="placeholder">Last Name</label>
+                                </div>
 
-                            <div class="form-group form-floating-label">
-                                @Html.TextBoxFor(m => m.DisplayName, new { @class = "form-control input-solid", @id = "inputFloatingLabel3" })
-                                <label for="inputFloatingLabel3" class="placeholder">Display Name</label>
-                            </div>
+                                <div class="form-group form-floating-label">
+                                    @Html.TextBoxFor(m => m.DisplayName, new { @class = "form-control input-solid", @id = "inputFloatingLabel3" })
+                                    <label for="inputFloatingLabel3" class="placeholder">Display Name</label>
+                                </div>
 
-                            <div class="form-group form-floating-label">
-                                @Html.TextBoxFor(m => m.Email, new { @class = "form-control input-solid", @id = "inputFloatingLabel4" })
-                                <label for="inputFloatingLabel4" class="placeholder">Email</label>
-                            </div>
+                                <div class="form-group form-floating-label">
+                                    @Html.TextBoxFor(m => m.Email, new { @class = "form-control input-solid", @id = "inputFloatingLabel4" })
+                                    <label for="inputFloatingLabel4" class="placeholder">Email</label>
+                                </div>
 
 
-                            <div class="col-md-10">
-                                @Html.TextBox("avatar", null, new { type = "file" })
-                            </div>
+                                <div class="col-md-10">
+                                    @Html.TextBox("avatar", null, new { type = "file" })
+                                </div>
 
-                            <div class="pull-right">
-                                <input type="submit" class="btn btn-primary btn-sm" value="Submit Changes" />
+                                <div class="pull-right">
+                                    <input type="submit" class="btn btn-primary btn-sm" value="Submit Changes" />
+                                </div>
                             </div>
-                        </div>
                         }
                     </div>
                 </div>
-
-
-
-
             </div>
         </div>
     </div>
