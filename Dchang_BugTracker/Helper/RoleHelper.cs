@@ -58,6 +58,7 @@ namespace Dchang_BugTracker.Helper
             return resultList;
         }
 
+        //Used to show Demo Dev + Dev & their Proj theyre assigned to
         public ICollection<ApplicationUser> ProjectUsersIn2Role(string roleName1, string rolename2, int projectId)
         {
             ProjectHelper prjhelper = new ProjectHelper();
@@ -71,6 +72,8 @@ namespace Dchang_BugTracker.Helper
             }
             return resultList;
         }
+
+
 
         public ICollection<ApplicationUser> UserNotInRole(string roleName) 
         {

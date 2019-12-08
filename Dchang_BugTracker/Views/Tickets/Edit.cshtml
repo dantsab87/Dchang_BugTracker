@@ -141,10 +141,9 @@
                     @Html.HiddenFor(model => model.Updated)
                     @Html.HiddenFor(model => model.Created)
                     @Html.HiddenFor(model => model.OwnerUserId)
-
-                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                    @*@Html.HiddenFor(model => model.Created)*@
                     @Html.HiddenFor(model => model.ProjectId)
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
 
                     <div class="row">
                         <div class="col">
@@ -172,7 +171,7 @@
                             @Html.HiddenFor(model => model.AssignedToUserId)
                         }
 
-                        @if (User.IsInRole("Admin") || User.IsInRole("Project Manager") || User.IsInRole("Demo Admin") || User.IsInRole("Demo Project Manager"))
+                        @if (User.IsInRole("Admin") || User.IsInRole("Project Manager") || User.IsInRole("Demo Admin") || User.IsInRole("Demo Project Manager") || User.IsInRole("Developer") || User.IsInRole("Demo Developer"))
                         {
                             <div class="col">
                                 @Html.LabelFor(model => model.ProjectId, "Ticket Status", htmlAttributes: new { @class = "control-label label" })
@@ -232,7 +231,7 @@
                             </div>
                         </div>
                         <div class="col-lg-push-4">
-                            <button type="submit" class="btn btn-sm btn-dark ticket_create_btn">Create<br />Ticket</button>
+                            <button type="submit" class="btn btn-sm btn-dark ticket_create_btn">Save<br />Changes</button>
                         </div>
                     </div>
 

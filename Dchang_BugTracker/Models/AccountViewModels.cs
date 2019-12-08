@@ -9,6 +9,8 @@ namespace Dchang_BugTracker.Models
         public string RoleName { get; set; }
     }
 
+
+
     public class ExternalLoginConfirmationViewModel
     {
         [Required]

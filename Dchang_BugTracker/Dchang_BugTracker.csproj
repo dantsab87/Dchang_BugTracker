@@ -273,6 +273,7 @@
     <Content Include="Images\favicon.ico" />
     <Content Include="Images\fav_icon.png" />
     <Content Include="Images\fav_icon_home.png" />
+    <Content Include="Images\file24x24.png" />
     <Content Include="Images\icons\blank.png" />
     <Content Include="Images\icons\doc.png" />
     <Content Include="Images\icons\docx.png" />
@@ -299,12 +300,15 @@
     <Content Include="Avatars\pam.jpg" />
     <Content Include="Avatars\ryan.jpg" />
     <Content Include="Avatars\toby.jpg" />
+    <Content Include="Images\pencil24x24.png" />
+    <Content Include="Images\plus20x20.png" />
     <Content Include="Images\proj_butterfly_bg.jpg" />
     <Content Include="Images\side_bg.jpg" />
     <Content Include="Images\test.png" />
     <Content Include="Images\testlog.png" />
     <Content Include="Images\ticket_bg.jpg" />
     <Content Include="Images\tinybug.png" />
+    <Content Include="Images\user_add_2.png" />
     <Content Include="Scripts\atlantis.min.js" />
     <Content Include="Scripts\bootstrap-notify.min.js" />
     <Content Include="Scripts\bootstrap.min.js" />

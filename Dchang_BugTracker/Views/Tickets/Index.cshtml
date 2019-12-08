@@ -21,6 +21,20 @@
         text-transform: uppercase;
         text-decoration: none;
     }
+    .grow {
+        transition: all .3s ease-in-out;
+    }
+
+    .grow:hover {
+        transform: scale(1.2);
+    }
+    .icon-padding {
+        padding: 0 0 5px 0;
+    }
+    .icon-img{
+        width: 16px;
+        height: 16px;
+    }
 </style>
 
 
@@ -94,10 +108,10 @@
             if (arch.Contains("Archived") || arch.Contains("Resolved"))
             {
                 <tr class="opacity">
-                    <td>
+                    <td class="text-center">
                         @Html.DisplayFor(modelItem => item.AssignedToUser.FirstName)
                     </td>
-                    <td>
+                    <td class="text-center">
                         @Html.DisplayFor(modelItem => item.OwnerUser.FirstName)
                     </td>
                     <td>
@@ -145,18 +159,35 @@
                     <td>
                         @Html.DisplayFor(modelItem => item.Updated)
                     </td>
-                    <td class="links">
-                        @Html.ActionLink("Details", "Details", new { id = item.Id })
+                    <td class="links text-center">
+                        
+                        <div class="col icon-padding" data-toggle="tooltip" data-placement="bottom" title="Details">
+                            <a href="@Url.Action("Details", "Tickets", new { id = item.Id })">
+                                <img src="~/Images/file24x24.png" class="icon-img grow">
+                            </a>
+                        </div>
                     </td>
                 </tr>
             }
             else if (arch.Contains("Open") || arch.Contains("Assigned") || arch.Contains("In Progress"))
             {
                 <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.AssignedToUser.FirstName)
+                    <td class="text-center">
+                        @if (arch.Contains("Open"))
+                        {
+                            <div class="col icon-padding" data-toggle="tooltip" data-placement="bottom" title="Assign">
+                                <a href="@Url.Action("AssignTicket", "Tickets", new { id = item.Id })">
+                                    <img src="~/Images/user_add_2.png" class="icon-img grow">
+                                </a>
+                            </div>
+                        }
+                        else
+                        {
+                            @Html.DisplayFor(modelItem => item.AssignedToUser.FirstName)
+                        }
+
                     </td>
-                    <td>
+                    <td class="text-center">
                         @Html.DisplayFor(modelItem => item.OwnerUser.FirstName)
                     </td>
                     <td>
@@ -204,23 +235,40 @@
                     <td>
                         @Html.DisplayFor(modelItem => item.Updated)
                     </td>
-                    <td class="links">
-                        @if (User.IsInRole("Submitter") && nonopen || User.IsInRole("Demo Submitter") && nonopen)
-                        {
-                            @Html.ActionLink("Details", "Details", new { id = item.Id })
-                        }
-                        else
-                        {
-                            @Html.ActionLink("Edit", "Edit", new { id = item.Id }) <BR>
-                            @Html.ActionLink("Details", "Details", new { id = item.Id })<BR>
-                        }
+                    <td class="links text-center">
+                        <div class="row">
+                            @if (User.IsInRole("Submitter") && nonopen || User.IsInRole("Demo Submitter") && nonopen)
+                            {
+                                <div class="col icon-padding" data-toggle="tooltip" data-placement="bottom" title="Details">
+                                    <a href="@Url.Action("Details", "Tickets", new { id = item.Id })">
+                                        <img src="~/Images/file24x24.png" class="icon-img grow">
+                                    </a>
+                                </div>
+                                @*@Html.ActionLink("Details", "Details", new { id = item.Id })*@
+                            }
+                            else
+                            {
+                                <div class="col icon-padding" data-toggle="tooltip" data-placement="bottom" title="Edit">
+                                    <a href="@Url.Action("Edit", "Tickets", new { id = item.Id })">
+                                        <img src="~/Images/pencil24x24.png" class="icon-img grow">
+                                    </a>
+                                </div>
+                                <div class="col icon-padding" data-toggle="tooltip" data-placement="bottom" title="Details">
+                                    <a href="@Url.Action("Details", "Tickets", new { id = item.Id })">
+                                        <img src="~/Images/file24x24.png" class="icon-img grow">
+                                    </a>
+                                </div>
+                            }
 
-                        @if (User.IsInRole("Admin") || User.IsInRole("Demo Admin") || User.IsInRole("Project Manager") || User.IsInRole("Demo Project Manager"))
-                        {
-
-                            @Html.ActionLink("Assign", "AssignTicket", new { id = item.Id })
-
-                        }
+                            @if (User.IsInRole("Admin") || User.IsInRole("Demo Admin") || User.IsInRole("Project Manager") || User.IsInRole("Demo Project Manager"))
+                            {
+                                <div class="col icon-padding" data-toggle="tooltip" data-placement="bottom" title="Assign">
+                                    <a href="@Url.Action("AssignTicket", "Tickets", new { id = item.Id })">
+                                        <img src="~/Images/user_add_2.png" class="icon-img grow">
+                                    </a>
+                                </div>
+                            }                     
+                        </div>
                     </td>
                 </tr>
             }

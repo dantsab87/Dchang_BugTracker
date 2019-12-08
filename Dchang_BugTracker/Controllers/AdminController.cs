@@ -20,7 +20,7 @@ namespace Dchang_BugTracker.Controllers
         public ActionResult ManageRoles()
         {
             
-            ViewBag.UserIds = new MultiSelectList(db.Users, "Id", "Email");
+            ViewBag.UserIds = new MultiSelectList(db.Users, "Id", "FullName");
             ViewBag.Role = new SelectList(db.Roles, "Name", "Name");
 
             var users = new List<ManageRolesViewModel>();

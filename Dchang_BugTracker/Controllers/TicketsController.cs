@@ -257,9 +257,21 @@ namespace Dchang_BugTracker.Controllers
 
                 //ticket.AssignedToUserId = model.AssignedToUserId;
                 //ticket.TicketStatusId = ticketHelper.AssignedTicketStatus();
+                var oldTicket = db.Tickets.AsNoTracking().FirstOrDefault(t => t.Id == ticket.Id);
+
                 ticket.Updated = DateTime.Now;
                 db.Entry(ticket).State = EntityState.Modified;
+
+
+
                 db.SaveChanges();
+
+
+                var newTicket = db.Tickets.AsNoTracking().FirstOrDefault(t => t.Id == ticket.Id);
+                tkHistory.RecordHistoricalChanges(oldTicket, newTicket);
+                //decide for yourself NotificationHelper if a Notification needs to be generated
+                notificationHelper.ManageNotifications(oldTicket, newTicket);
+
 
                 var callbackUrl = Url.Action("Details", "Tickets", new { id = ticket.Id }, protocol: Request.Url.Scheme);
 

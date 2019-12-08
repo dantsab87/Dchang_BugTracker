@@ -12,92 +12,166 @@
     .sWide {
         width: 100%;
     }
+
+    .ticket-top {
+        background-color: #1f283e;
+        background-image: linear-gradient(135deg, #1f283e, #556385);
+        color: #FFFFFF;
+        padding: 8px 8px 8px 8px;
+    }
+
+    .ticket_bg {
+        background-image: url('../../Images/ticket_bg.jpg');
+        background-repeat: no-repeat;
+        background-position: top right;
+        background-color: #FFFFFF;
+    }
+
+    .head1 {
+        color: #FFFFFF;
+        text-shadow: 1px 1px 3px black;
+        font-size: 14px;
+        font-weight:700;
+
+    }
+
+    .subhead1 {
+        margin: -5px 0px 3px 8px;
+        color: #999999;
+        font-size: 11px;
+        text-shadow: 1px 1px 3px black;
+        text-transform: uppercase;
+    }
+
+    .btn-mrgn {
+        margin:0;
+    }
+
+    .btn:hover {
+        background-color: #808caa;
+        background-image: linear-gradient(145deg, #c6ccdb, #808caa);
+        text-shadow: 1px 1px 3px black;
+        border-color: #1f283e;
+    }
+
+    .inputbox {
+        margin: 0px;
+        padding: 5px;
+        font-size: 12pt;
+        background-color: rgba(242, 242, 242, 0.75);
+    }
 </style>
 
 <div class="page-header">
     <h4 class="page-title">@ViewBag.Title</h4>
-    @*<ul class="breadcrumbs">
-            <li class="nav-home">
-                <a href="#">
-                    <i class="flaticon-home"></i>
-                </a>
-            </li>
-            <li class="separator">
-                <i class="flaticon-right-arrow"></i>
-            </li>
-            <li class="nav-item">
-                <a href="#">Manage Roles</a>
-            </li>
-        </ul>*@
 </div>
 
 <div class="row">
     <div class="col">
-        <div class="card">
-            <div class="card-body">
-                <div class="row">
-                    <div class="col">
-                        @using (Html.BeginForm())
-                        {
-                            @Html.AntiForgeryToken()
 
-                            <div class="row">
-                                <div class="col">
-                                    @Html.ListBox("UserIds", null, new { @class = "Wide" })
+            @using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
+                <div class="card">
+                    <div class="ticket-top">
+                        <div class="row">
+                            <div class="col">
+                                <div class="row">
+                                    <div class="col head1">Select User(s)</div>
+                                </div>
+                                <div class="row">
+                                    <div class="col subhead1">Step 1</div>
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class="col">
-                                    @Html.DropDownList("Role", null, "--Select Role--", new { @class = "sWide" })
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <button type="submit" class="btn btn-primary btn-block">Submit</button>
-                                </div>
-                            </div>
-                        }
+                        </div>
+                    </div>
+                    <div class="card-body ticket_bg">
+                        @Html.ListBox("UserIds", null, new { @class = "Wide inputbox" })
                     </div>
                 </div>
-            </div>
+
+                <div class="card">
+                    <div class="ticket-top">
+                        <div class="row">
+                            <div class="col">
+                                <div class="row">
+                                    <div class="col head1">Select a Role</div>
+                                </div>
+                                <div class="row">
+                                    <div class="col subhead1">Step 2</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body ticket_bg">
+                        <div class="row">
+                            <div class="col">
+                                @Html.DropDownList("Role", null, "--Select Role--", new { @class = "sWide inputbox" })
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-3"></div>
+                            <div class="col">
+                                <br />
+                                <button type="submit" class="btn btn-sm btn-dark btn-mrgn btn-block">Submit</button>
+                            </div>
+                            <div class="col-3"></div>
+                        </div>
+                    </div>
+                </div>
+
+            }
+
         </div>
-    </div>
+
+
     <div class="col">
+
+
+
         <div class="card">
-            <div class="card-body">
+            <div class="ticket-top">
                 <div class="row">
                     <div class="col">
-
-                        <table class="table table-hover table-head-bg-primary table-striped Dtable">
-                            <thead>
-                                <tr>
-                                    <th scope="col" width="40%">
-                                        @Html.DisplayName("User Name")
-                                    </th>
-                                    <th scope="col" width="40%">
-                                        @Html.DisplayName("Role")
-                                    </th>
-                                </tr>
-                            </thead>
-                            @foreach (var user in Model)
-                            {
-                                <tr>
-                                    <td>
-                                        @Html.DisplayFor(model => user.UserName)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(model => user.RoleName)
-                                    </td>
-                                </tr>
-                            }
-
-                        </table>
-
-
+                        <div class="row">
+                            <div class="col head1">Directory</div>
+                        </div>
+                        <div class="row">
+                            <div class="col subhead1">List of all users and their role</div>
+                        </div>
                     </div>
                 </div>
             </div>
+            <div class="card-body ticket_bg">
+
+                <table class="table table-hover table-head-bg-primary table-striped Dtable">
+                    <thead>
+                        <tr>
+                            <th scope="col" width="65%">
+                                @Html.DisplayName("User Name")
+                            </th>
+                            <th scope="col">
+                                @Html.DisplayName("Role")
+                            </th>
+                        </tr>
+                    </thead>
+                    @foreach (var user in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(model => user.UserName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(model => user.RoleName)
+                            </td>
+                        </tr>
+                    }
+
+                </table>
+
+            </div>
         </div>
+
     </div>
 </div>
 
