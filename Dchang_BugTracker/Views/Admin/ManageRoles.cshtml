@@ -57,8 +57,17 @@
     .inputbox {
         margin: 0px;
         padding: 5px;
-        font-size: 12pt;
+        font-size: 10pt;
         background-color: rgba(242, 242, 242, 0.75);
+    }
+
+    .user-img {
+        border-radius: 11px;
+        border: solid #FFFFFF 3px;
+        box-shadow: 3px 3px 2px #556385;
+        width: 40px;
+        height: 40px;
+        margin: 0px 10px 0px 0px;
     }
 </style>
 
@@ -77,10 +86,10 @@
                         <div class="row">
                             <div class="col">
                                 <div class="row">
-                                    <div class="col head1">Select User(s)</div>
+                                    <div class="col head1">Users in the Database</div>
                                 </div>
                                 <div class="row">
-                                    <div class="col subhead1">Step 1</div>
+                                    <div class="col subhead1">Step 1: Select user(s) below</div>
                                 </div>
                             </div>
                         </div>
@@ -95,10 +104,10 @@
                         <div class="row">
                             <div class="col">
                                 <div class="row">
-                                    <div class="col head1">Select a Role</div>
+                                    <div class="col head1">Role</div>
                                 </div>
                                 <div class="row">
-                                    <div class="col subhead1">Step 2</div>
+                                    <div class="col subhead1">Step 2: Assign a role below</div>
                                 </div>
                             </div>
                         </div>
@@ -109,17 +118,17 @@
                                 @Html.DropDownList("Role", null, "--Select Role--", new { @class = "sWide inputbox" })
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="col-3"></div>
-                            <div class="col">
-                                <br />
-                                <button type="submit" class="btn btn-sm btn-dark btn-mrgn btn-block">Submit</button>
-                            </div>
-                            <div class="col-3"></div>
-                        </div>
+
                     </div>
                 </div>
 
+                <div class="row">
+                    <div class="col-3"></div>
+                    <div class="col">
+                        <button type="submit" class="btn btn-sm btn-dark btn-mrgn btn-block">Submit</button>
+                    </div>
+                    <div class="col-3"></div>
+                </div>
             }
 
         </div>
@@ -148,7 +157,7 @@
                     <thead>
                         <tr>
                             <th scope="col" width="65%">
-                                @Html.DisplayName("User Name")
+                                @Html.DisplayName("Users")
                             </th>
                             <th scope="col">
                                 @Html.DisplayName("Role")
@@ -159,7 +168,13 @@
                     {
                         <tr>
                             <td>
-                                @Html.DisplayFor(model => user.UserName)
+                                <div class="row">
+                                    <div class="col-xs-1"><img src="@Html.DisplayFor(model => user.AvatarPath)" class="user-img"></div>
+                                    <div class="col">
+                                        <div class="row">@Html.DisplayFor(model => user.UserName)</div>
+                                        <div class="row"><small>@Html.DisplayFor(model => user.Email)</small></div>
+                                    </div>
+                                </div>
                             </td>
                             <td>
                                 @Html.DisplayFor(model => user.RoleName)

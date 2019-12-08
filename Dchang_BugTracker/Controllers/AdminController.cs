@@ -29,7 +29,9 @@ namespace Dchang_BugTracker.Controllers
                 users.Add(new ManageRolesViewModel
                 {
                     UserName = $"{user.LastName}, {user.FirstName}",
-                    RoleName = roleHelper.ListUserRoles(user.Id).FirstOrDefault()
+                    RoleName = roleHelper.ListUserRoles(user.Id).FirstOrDefault(),
+                    Email = $"{user.Email}",
+                    AvatarPath = $"{user.AvatarPath}"
                 });
             }
 
@@ -64,7 +66,7 @@ namespace Dchang_BugTracker.Controllers
                         }
                     }
 
-                    //Step 2: Add them back to the seleced Role
+                    //Step 2: Add them back to the selected Role
                     if (!string.IsNullOrEmpty(role))
                     {
                         foreach (var userId in userIds)
@@ -90,13 +92,13 @@ namespace Dchang_BugTracker.Controllers
             ViewBag.Projects = new MultiSelectList(db.Projects, "Id", "Name");
             //ViewBag.Developers = new MultiSelectList(roleHelper.UsersInRole("Developer"), "Id", "Email");
             //ViewBag.Submitters = new MultiSelectList(roleHelper.UsersInRole("Submitter"), "Id", "Email");
-            ViewBag.Developers = new MultiSelectList(roleHelper.UsersIn2Role("Developer", "Demo Developer"), "Id", "Email");
-            ViewBag.Submitters = new MultiSelectList(roleHelper.UsersIn2Role("Submitter", "Demo Submitter"), "Id", "Email");
+            ViewBag.Developers = new MultiSelectList(roleHelper.UsersIn2Role("Developer", "Demo Developer"), "Id", "FullName");
+            ViewBag.Submitters = new MultiSelectList(roleHelper.UsersIn2Role("Submitter", "Demo Submitter"), "Id", "FullName");
 
             if (User.IsInRole("Admin") || User.IsInRole("Demo Admin")) 
             {
                 //ViewBag.ProjectManagerId = new SelectList(roleHelper.UsersInRole("Project Manager"), "Id", "Email");
-                ViewBag.ProjectManagerId = new SelectList(roleHelper.UsersIn2Role("Project Manager", "Demo Project Manager"), "Id", "Email");
+                ViewBag.ProjectManagerId = new SelectList(roleHelper.UsersIn2Role("Project Manager", "Demo Project Manager"), "Id", "FullName");
             }
 
             //Lets create a View Model for purposes of displaying User's and their Associated Projects
@@ -107,6 +109,9 @@ namespace Dchang_BugTracker.Controllers
                 userVm = new UserProjectListViewModel
                 {
                     Name = $"{user.LastName}, {user.FirstName}",
+                    Email = $"{user.Email}",
+                    AvatarPath = $"{user.AvatarPath}",
+                    RoleName = roleHelper.ListUserRoles(user.Id).FirstOrDefault(),
                     ProjectNames = projHelper.ListUserProjects(user.Id).Select(p => p.Name).ToList()
                 };
 

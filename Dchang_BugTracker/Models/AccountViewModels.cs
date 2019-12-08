@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Dchang_BugTracker.Models
 {
@@ -7,6 +8,8 @@ namespace Dchang_BugTracker.Models
     {
         public string UserName { get; set; }
         public string RoleName { get; set; }
+        public string Email { get; set; }
+        public string AvatarPath { get; set; }
     }
 
 
@@ -134,6 +137,10 @@ namespace Dchang_BugTracker.Models
     public class UserProjectListViewModel 
     {
         public string Name { get; set; }
+        public string Email { get; set; }
+        public string AvatarPath { get; set; }
+        public string RoleName { get; set; }
+
         public List<string> ProjectNames { get; set; }
         public UserProjectListViewModel() 
         {

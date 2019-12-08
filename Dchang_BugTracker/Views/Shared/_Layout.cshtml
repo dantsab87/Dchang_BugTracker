@@ -227,37 +227,37 @@
                                 {
                                     <div class="thescrollbar force-overflow" id="scroll-notif" style="margin:0; padding:0">
                                          @foreach (var unreadNotification in NotificationHelper.GetUnreadNotifications().OrderByDescending(c => c.Created))
-                                    {
-                                        <li>
-                                            @using (Html.BeginForm("Dismiss", "TicketNotifications", FormMethod.Post))
                                             {
-                                                @Html.AntiForgeryToken()
-                                                @Html.Hidden("Id", unreadNotification.Id)
+                                                <li>
+                                                    @using (Html.BeginForm("Dismiss", "TicketNotifications", FormMethod.Post))
+                                                    {
+                                                        @Html.AntiForgeryToken()
+                                                        @Html.Hidden("Id", unreadNotification.Id)
 
-                                                <div>
+                                                        <div>
 
-                                                    <div class="notif-center" id="notif_top">
-                                                        <div class="text-right"><button type="submit" class="xbtn">&times;</button></div>
-                                                        <a href="#notif_top">
-                                                            <div class="notif-icon notif-primary"> <img src="@unreadNotification.Sender.AvatarPath" class="avatar avatar-img rounded-circle"> </div>
-                                                            <div class="notif-content">
-                                                                <span class="block ntfy-message">
-                                                                    <strong>@unreadNotification.Sender.DisplayName:</strong> @unreadNotification.NotificationBody
-                                                                </span>
-                                                                <div class="ntfy-time">
-                                                                    <span>@unreadNotification.Created.ToString("MMM dd, yyyy")</span>
-                                                                </div>
+                                                            <div class="notif-center" id="notif_top">
+                                                                <div class="text-right"><button type="submit" class="xbtn">&times;</button></div>
+                                                                <a href="#notif_top">
+                                                                    <div class="notif-icon notif-primary"> <img src="@unreadNotification.Sender.AvatarPath" class="avatar avatar-img rounded-circle"> </div>
+                                                                    <div class="notif-content">
+                                                                        <span class="block ntfy-message">
+                                                                            <strong>@unreadNotification.Sender.DisplayName:</strong> @unreadNotification.NotificationBody
+                                                                        </span>
+                                                                        <div class="ntfy-time">
+                                                                            <span>@unreadNotification.Created.ToString("MMM dd, yyyy")</span>
+                                                                        </div>
+                                                                    </div>
+                                                                </a>
+                                                                <hr class="msg-line" />
+
+
                                                             </div>
-                                                        </a>
-                                                        <hr class="msg-line" />
+                                                        </div>
+                                                    }
 
-
-                                                    </div>
-                                                </div>
+                                                </li>
                                             }
-
-                                        </li>
-                                    }
                                     </div>
                                     <li>
                                         <a class="see-all" href="@Url.Action("Index", "TicketNotifications")">See all notifications<i class="fa fa-angle-right"></i></a>

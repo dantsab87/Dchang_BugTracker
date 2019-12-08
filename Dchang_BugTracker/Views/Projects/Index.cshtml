@@ -10,6 +10,21 @@
         text-transform: uppercase;
         text-decoration: none;
     }
+    .grow {
+        transition: all .3s ease-in-out;
+    }
+
+    .grow:hover {
+        transform: scale(1.2);
+    }
+    .icon-padding {
+        padding: 5px;
+    }
+    .icon-img{
+        width: 16px;
+        height: 16px;
+    }
+
 </style>
 <h4 class="page-title">@ViewBag.Title</h4>
 
@@ -53,10 +68,25 @@
                         @Html.DisplayFor(modelItem => item.Created)
                     </td>
                     <td class="links">
-                        @Html.ActionLink("Edit", "Edit", new { id = item.Id }) <br />
-                        @Html.ActionLink("Details", "Details", new { id = item.Id }) <br />
-                        @*@Html.ActionLink("Delete", "Delete", new { id = item.Id }) <br />*@
-                        @Html.ActionLink("Manage Users", "ManageUsers", "Projects", new { id = item.Id }, null)
+
+                        <div class="row">
+                            <div class="col icon-padding">
+                                <a href="@Url.Action("Edit", "Projects", new { id = item.Id })">
+                                    <img src="~/Images/pencil24x24.png" class="icon-img grow" data-toggle="tooltip" data-placement="bottom" title="Edit">
+                                </a>
+                            </div>
+                            <div class="col icon-padding">
+                                <a href="@Url.Action("Details", "Projects", new { id = item.Id })">
+                                    <img src="~/Images/file24x24.png" class="icon-img grow" data-toggle="tooltip" data-placement="bottom" title="Details">
+                                </a>
+                            </div>
+                            <div class="col icon-padding">
+                                <a href="@Url.Action("ManageUsers", "Projects", new { id = item.Id })">
+                                    <img src="~/Images/user_add_2.png" class="icon-img grow" data-toggle="tooltip" data-placement="bottom" title="Manage Users">
+                                </a>
+                            </div>
+                        </div>
+
                     </td>
                 </tr>
             }

@@ -1,36 +1,224 @@
 ﻿@model Dchang_BugTracker.Models.Project
 @{
-    ViewBag.Title = "Manage Users";
+    ViewBag.Title = "Manage Users on Project";
 }
 
+<style>
+    .btn-attach, .btn-attach a:hover, .btn-attach a:hover, .btn-attach a:link, .btn-attach a:active, .btn-attach a:visited {
+        color: #1f283e;
+        font-size: 9pt;
+        text-transform: uppercase;
+        text-decoration: none;
+    }
+    .padded {
+        padding: 30px 40px 20px 30px;
+    }
+    .Wide {
+        width: 100%;
+        height: 80px;
+    }
+
+    .ticket-top {
+        background-color: #1f283e;
+        background-image: linear-gradient(135deg, #1f283e, #556385);
+        color: #FFFFFF;
+        padding: 8px 8px 8px 8px;
+    }
+
+    .ticket_bg {
+        background-image: url('../../Images/ticket_bg.jpg');
+        background-repeat: no-repeat;
+        background-position: top right;
+        background-color: #FFFFFF;
+    }
+
+    .head1 {
+        color: #FFFFFF;
+        text-shadow: 1px 1px 3px black;
+        font-size: 14px;
+        font-weight: 700;
+    }
+
+    .subhead1 {
+        margin: -5px 0px 3px 8px;
+        color: #999999;
+        font-size: 11px;
+        text-shadow: 1px 1px 3px black;
+        text-transform: uppercase;
+    }
+
+    .subhead-role {
+        color: #999999;
+        font-size: 9px;
+        text-transform: uppercase;
+    }
+
+    .btn-mrgn {
+        margin: 0;
+    }
+
+    .btn:hover {
+        background-color: #808caa;
+        background-image: linear-gradient(145deg, #c6ccdb, #808caa);
+        text-shadow: 1px 1px 3px black;
+        border-color: #1f283e;
+    }
+
+    .inputbox {
+        margin: 0px;
+        padding: 5px;
+        font-size: 10pt;
+        background-color: rgba(242, 242, 242, 0.75);
+    }
+
+    .user-img {
+        border-radius: 11px;
+        border: solid #FFFFFF 3px;
+        box-shadow: 3px 3px 2px #556385;
+        width: 40px;
+        height: 40px;
+        margin: 0px 10px 0px 0px;
+    }
+</style>
 
 <div class="page-header">
-    <h4 class="page-title">@Model.Name project</h4>
-
+    <h4 class="page-title">@ViewBag.Title</h4>
 </div>
-<div class="card">
-    <div class="card-body">
-        @using (Html.BeginForm())
-        {
-            @Html.AntiForgeryToken()
 
-            @Html.Hidden("ProjectId", (int)ViewBag.ProjectId)
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-4">Prj Mgr
-                        @Html.DropDownList("ProjectManagerId", null, "--select--", new { @class = "form-control" })
-                    </div>
-                    <div class="col-md-4">Dev
-                        @Html.ListBox("Developers", null, new { @class = "form-control" })
-                    </div>
-                    <div class="col-md-4">Sub
-                        @Html.ListBox("Submitters", null, new { @class = "form-control" })
+
+
+<div class="row">
+    <div class="col">
+        <div class="card">
+
+            @using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
+                @Html.Hidden("ProjectId", (int)ViewBag.ProjectId)
+
+                <div class="ticket-top">
+                    <div class="row">
+                        <div class="col">
+                            <div class="row">
+                                <div class="col head1">Project: @Model.Name</div>
+                            </div>
+                            <div class="row">
+                                <div class="col subhead1">Assign users to Project</div>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div class="row">
-                    <button type="submit" class="btn btn-primary">Submit</button>
+                <div class="card-body ticket_bg">
+                    <div class="row">
+                        @if (User.IsInRole("Project Manager") || User.IsInRole("Demo Project Manager"))
+                        {
+                            <div class="col-4">
+                                @Html.DisplayName("Project Managers")
+                                @Html.DropDownList("ProjectManagerId", null, "--select--", new { @class = "form-control inputbox", disabled = "disabled" })
+                            </div>
+                        }
+                        @if (User.IsInRole("Admin") || User.IsInRole("Demo Admin"))
+                        {
+                            <div class="col-4">
+                                @Html.DisplayName("Project Managers")
+                                @Html.DropDownList("ProjectManagerId", null, "--select--", new { @class = "form-control inputbox" })
+                            </div>
+                        }
+                            <div class="col-4">
+                                @Html.DisplayName("Developers")
+                                @Html.ListBox("Developers", null, new { @class = "form-control inputbox" })
+                            </div>
+                            <div class="col-4">
+                                @Html.DisplayName("Submitters")
+                                @Html.ListBox("Submitters", null, new { @class = "form-control inputbox" })
+                            </div>
+                        </div>
+
+
+                    <div class="row" style="padding-top:20px">
+                        <div class="col-3"></div>
+                        <div class="col">
+                            <button type="submit" class="btn btn-sm btn-dark btn-mrgn btn-block">Assign</button>
+                        </div>
+                        <div class="col-3"></div>
+                    </div>
+
+                </div>
+
+            }
+
+
+            <div class="row">
+                <div class="col padded">
+                    <button class="btn-attach">@Html.ActionLink("Back to List", "Index")</button>
                 </div>
             </div>
-        }
+
+
+
         </div>
+    </div>
+
+
+
 </div>
+
+
+        <!--Project Directory with DataTables START-->
+        <div class="col">
+                <div class="card">
+                    <div class="ticket-top">
+                        <div class="row">
+                            <div class="col">
+                                <div class="row">
+                                    <div class="col head1">Users Currently on Project</div>
+                                </div>
+                                <div class="row">
+                                    <div class="col subhead1">List of Users on Project</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body ticket_bg">
+
+                        <table class="table table-hover table-head-bg-primary table-striped Dtable">
+                            <thead>
+                                <tr>
+                                    <th scope="col">
+                                        @Html.DisplayName("Name")
+                                    </th>
+                                    <th scope="col">
+                                        @Html.DisplayName("Role")
+                                    </th>
+                                </tr>
+                            </thead>
+                            @foreach (var item in Model.Users)
+                            {
+                                <tr>
+                                    <td>
+
+                                            <div class="row">
+                                                <div class="col-xs-1"><img src="@Html.DisplayFor(model => item.AvatarPath)" class="user-img"></div>
+                                                <div class="col">
+                                                    <div class="row">
+                                                        @Html.DisplayFor(model => item.FullName) &nbsp;&nbsp;
+
+                                                    </div>
+                                                    <div class="row"><small>@Html.DisplayFor(model => item.Email)</small></div>
+                                                </div>
+                                            </div>
+                                         
+                                    </td>
+
+                                    <td>
+                                        @Html.DisplayFor(model => item.MyRole)
+                                    </td>
+                                </tr>
+                            }
+
+                        </table>
+
+                    </div>
+                </div>
+            </div>
+        <!--Project Directory with DataTables END-->
