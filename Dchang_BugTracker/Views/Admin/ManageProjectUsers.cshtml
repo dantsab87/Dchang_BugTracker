@@ -9,10 +9,6 @@
         height: 80px;
     }
 
-    .sWide {
-        width: 100%;
-    }
-
     .ticket-top {
         background-color: #1f283e;
         background-image: linear-gradient(135deg, #1f283e, #556385);
@@ -102,7 +98,7 @@
                 <div class="card-body ticket_bg">
                     <div class="row">
                         <div class="col">
-                            @Html.ListBox("Projects", null, new { @class = "Wide inputbox" })
+                            @Html.ListBox("Projects", null, new { @class = "form-control Wide inputbox" })
                         </div>
                     </div>
 
@@ -181,7 +177,7 @@
             </div>
             <div class="row">
                 <div class="col">
-                    <p class="text-danger" align="center" style="font-weight:500; padding-top:10px">
+                    <p class="text-danger" align="center" style="font-weight:500;">
                         *Selecting a Project while having no user(s) selected, will REMOVE user(s) from that Project*
                     </p>
                 </div>

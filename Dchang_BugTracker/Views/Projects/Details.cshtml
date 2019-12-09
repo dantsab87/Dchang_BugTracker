@@ -27,6 +27,13 @@
         padding-left: 0px
     }
 
+    .ticket-top {
+        background-color: #1f283e;
+        background-image: linear-gradient(135deg, #1f283e, #556385);
+        color: #FFFFFF;
+        padding: 8px 8px 8px 8px;
+    }
+
     .ticket_create {
         position: relative;
         display: -ms-flexbox;
@@ -96,114 +103,382 @@
         height: 40px;
         margin: 0px 3px 8px 9px;
     }
+
     .font-role {
         font-size: 9pt;
-        font-weight:bold;
+        font-weight: bold;
         padding-bottom: 0px;
         margin-bottom: -8px;
+    }
+
+    .grow {
+        transition: all .3s ease-in-out;
+    }
+
+    .grow:hover {
+        transform: scale(1.2);
+    }
+    .icon-padding {
+        padding: 0 0 5px 0;
+    }
+    .icon-img{
+        width: 16px;
+        height: 16px;
+    }
+
+    .head1 {
+        color: #FFFFFF;
+        text-shadow: 1px 1px 3px black;
+        font-size: 14px;
+        font-weight: 700;
+        margin-left: 30px;
+    }
+
+    .subhead1 {
+        margin: -5px 0px 3px 8px;
+        color: #999999;
+        font-size: 11px;
+        text-shadow: 1px 1px 3px black;
+        text-transform: uppercase;
+        margin-left: 35px;
     }
 </style>
 
 <h6 class="page-title">@ViewBag.Title</h6>
 
 
-
-<div class="container ticket_create ticket_bg">
-    <div class="row">
-        <div class="col-1 tk_sidebg" style="width:30px"></div>
-        <div class="col-11">
-
-            <div class="padded">
-                <div class="row">
-                    <div class="col pad-right pad-bottom">
-                        <small>@Html.DisplayNameFor(model => model.Name)</small>
-                        <BR>
-                        @Html.DisplayFor(model => model.Name)
+<div class="row">
+    <div class="col">
+        <div class="container ticket_create ticket_bg">
+        <div class="row">
+            <div class="col-1 tk_sidebg" style="width:30px"></div>
+            <div class="col-11">
+                <div class="padded">
+                    <div class="row">
+                        <div class="col pad-right pad-bottom">
+                            <small>@Html.DisplayNameFor(model => model.Name)</small>
+                            <BR>
+                            @Html.DisplayFor(model => model.Name)
+                        </div>
+                        <div class="col pad-right pad-bottom">
+                            <small>@Html.DisplayNameFor(model => model.Description)</small>
+                            <BR>
+                            @Html.DisplayFor(model => model.Description)
+                        </div>
+                        <div class="col pad-right pad-bottom">
+                            <small>@Html.DisplayNameFor(model => model.Created)</small>
+                            <BR>
+                            @Html.DisplayFor(model => model.Created)
+                        </div>
                     </div>
-                    <div class="col pad-right pad-bottom">
-                        <small>@Html.DisplayNameFor(model => model.Description)</small>
-                        <BR>
-                        @Html.DisplayFor(model => model.Description)
+                    <div class="row padded">
+                        <div class="col">
+                            <div class="row between">
+                                <div class="col-xs font-role">
+                                    Project Manager:
+                                </div>
+                            </div>
+                            <div class="row between bottom">
+                                <div class="col-xs">
+                                    @foreach (var item in Model.Users)
+                                    {
+                                        if (item.MyRole.Contains("Project Manager") || item.MyRole.Contains("Demo Project Manager"))
+                                        {
+                                            <span>
+                                                <img src="@Html.DisplayFor(model => item.AvatarPath)" class="ticket-assigned-img" />
+                                                <small>@Html.DisplayFor(modelItem => item.DisplayName)</small>
+                                            </span>
+                                        }
+                                    }
+                                </div>
+                            </div>
+
+
+
+                            <div class="row between">
+                                <div class="col-xs font-role">
+                                    Developer(s):
+                                </div>
+                            </div>
+                            <div class="row between">
+                                <div class="col-xs">
+                                    @foreach (var item in Model.Users)
+                                    {
+                                        if (item.MyRole.Contains("Developer") || item.MyRole.Contains("Demo Developer"))
+                                        {
+                                            <span>
+                                                <img src="@Html.DisplayFor(model => item.AvatarPath)" class="ticket-assigned-img" />
+                                                <small>@Html.DisplayFor(modelItem => item.DisplayName)</small>
+                                            </span>
+                                        }
+                                    }
+                                </div>
+                            </div>
+
+
+                            <div class="row between">
+                                <div class="col-xs font-role">
+                                    Submitter(s):
+                                </div>
+                            </div>
+                            <div class="row between">
+                                <div class="col-xs">
+                                    @foreach (var item in Model.Users)
+                                    {
+                                        if (item.MyRole.Contains("Submitter") || item.MyRole.Contains("Demo Submitter"))
+                                        {
+                                            <span>
+                                                <img src="@Html.DisplayFor(model => item.AvatarPath)" class="ticket-assigned-img" />
+                                                <small>@Html.DisplayFor(modelItem => item.DisplayName)</small>
+                                            </span>
+                                        }
+                                    }
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="col pad-right pad-bottom">
-                        <small>@Html.DisplayNameFor(model => model.Created)</small>
-                        <BR>
-                        @Html.DisplayFor(model => model.Created)
+                    <div class="row">
+                        <div class="col">
+                            <button class="btn-attach">@Html.ActionLink("Edit", "Edit", new { id = Model.Id })</button> <button class="btn-attach">@Html.ActionLink("Back to List", "Index")</button>
+                        </div>
                     </div>
                 </div>
-                <div class="row padded">
-                    <div class="col">
-                        <div class="row between">
-                            <div class="col-xs font-role">
-                                Project Manager:
+            </div>
+        </div>
+    </div>
+    </div>
+</div>
+<div class="row" style="height:30px">
+</div>
+<div class="row">
+    <div class="col">
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    <div class="card">
+                        <div class="ticket-top">
+                            <div class="row">
+                                <div class="col">
+                                    <div class="row">
+                                        <div class="col head1">Ticket(s)</div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col subhead1">List of all Tickets inside the Project</div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                        <div class="row between bottom">
-                            <div class="col-xs">
-                                @foreach (var item in Model.Users)
-                                {
-                                    if (item.MyRole.Contains("Project Manager") || item.MyRole.Contains("Demo Project Manager"))
+                        <div class="card-body ticket_bg">
+
+
+
+                            <div class="table-responsive">
+                                <table class="table Dtable table-head-bg-primary">
+                                    <thead>
+                                        <tr>
+                                            <th width="5%">
+                                                @Html.DisplayName("Developer")
+                                            </th>
+                                            <th width="5%">
+                                                @Html.DisplayName("Submitter")
+                                            </th>
+                                            <th width="5%">
+                                                @Html.DisplayName("Priority")
+                                            </th>
+                                            <th width="5%">
+                                                @Html.DisplayName("Status")
+                                            </th>
+                                            <th width="5%">
+                                                @Html.DisplayName("Type")
+                                            </th>
+                                            <th width="10%">
+                                                @Html.DisplayName("Title")
+                                            </th>
+                                            <th width="45%">
+                                                @Html.DisplayName("Description")
+                                            </th>
+                                            <th width="5%">
+                                                @Html.DisplayName("Created")
+                                            </th>
+                                            <th width="5%">
+                                                @Html.DisplayName("Updated")
+                                            </th>
+                                            <th width="5%">
+                                                @Html.DisplayName("Manage")
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    @foreach (var item in Model.Tickets)
                                     {
-                                        <span>
-                                            <img src="@Html.DisplayFor(model => item.AvatarPath)" class="ticket-assigned-img" />
-                                            <small>@Html.DisplayFor(modelItem => item.DisplayName)</small>
-                                        </span>
+                                        var prty = item.TicketPriority.PriorityName;
+                                        var arch = item.TicketStatus.StatusName;
+                                        var none = "badge badge-count";
+                                        var low = "badge badge-low";
+                                        var med = "badge badge-warning";
+                                        var high = "badge badge-orange";
+                                        var urgent = "badge badge-danger";
+                                        var nonopen = arch.Contains("Assigned") || arch.Contains("In Progress") || arch.Contains("Resolved") || arch.Contains("Archived");
+
+                                        if (arch.Contains("Archived") || arch.Contains("Resolved"))
+                                        {
+                                            <tr class="opacity">
+                                                <td class="text-center">
+                                                    @Html.DisplayFor(modelItem => item.AssignedToUser.FirstName)
+                                                </td>
+                                                <td class="text-center">
+                                                    @Html.DisplayFor(modelItem => item.OwnerUser.FirstName)
+                                                </td>
+                                                <td>
+
+                                                    @if (prty.Contains("None"))
+                                                    {
+                                                        <span class="@none">@Html.DisplayFor(modelItem => item.TicketPriority.PriorityName)</span>
+                                                    }
+                                                    else if (prty.Contains("Low"))
+                                                    {
+                                                        <span class="@low">@Html.DisplayFor(modelItem => item.TicketPriority.PriorityName)</span>
+                                                    }
+                                                    else if (prty.Contains("Medium"))
+                                                    {
+                                                        <span class="@med">@Html.DisplayFor(modelItem => item.TicketPriority.PriorityName)</span>
+                                                    }
+                                                    else if (prty.Contains("High"))
+                                                    {
+                                                        <span class="@high">@Html.DisplayFor(modelItem => item.TicketPriority.PriorityName)</span>
+                                                    }
+                                                    else if (prty.Contains("Urgent"))
+                                                    {
+                                                        <span class="@urgent">@Html.DisplayFor(modelItem => item.TicketPriority.PriorityName)</span>
+                                                    }
+
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.TicketStatus.StatusName)
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.TicketType.TypeName)
+                                                </td>
+                                                <td>
+                                                    <strong>@Html.DisplayFor(modelItem => item.Title)</strong>
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.Description)
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.Created)
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.Updated)
+                                                </td>
+                                                <td class="links text-center">
+
+                                                    <div class="col icon-padding" data-toggle="tooltip" data-placement="bottom" title="Details">
+                                                        <a href="@Url.Action("Details", "Tickets", new { id = item.Id })">
+                                                            <img src="~/Images/file24x24.png" class="icon-img grow">
+                                                        </a>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        }
+                                        else if (arch.Contains("Open") || arch.Contains("Assigned") || arch.Contains("In Progress"))
+                                        {
+                                            <tr>
+                                                <td class="text-center">
+                                                    @if (arch.Contains("Open"))
+                                                    {
+                                                        <div class="col icon-padding" data-toggle="tooltip" data-placement="bottom" title="Assign">
+                                                            <a href="@Url.Action("AssignTicket", "Tickets", new { id = item.Id })">
+                                                                <img src="~/Images/user_add_2.png" class="icon-img grow">
+                                                            </a>
+                                                        </div>
+                                                    }
+                                                    else
+                                                    {
+                                                        @Html.DisplayFor(modelItem => item.AssignedToUser.FirstName)
+                                                    }
+
+                                                </td>
+                                                <td class="text-center">
+                                                    @Html.DisplayFor(modelItem => item.OwnerUser.FirstName)
+                                                </td>
+                                                <td>
+
+                                                    @if (prty.Contains("None"))
+                                                    {
+                                                        <span class="@none">@Html.DisplayFor(modelItem => item.TicketPriority.PriorityName)</span>
+                                                    }
+                                                    else if (prty.Contains("Low"))
+                                                    {
+                                                        <span class="@low">@Html.DisplayFor(modelItem => item.TicketPriority.PriorityName)</span>
+                                                    }
+                                                    else if (prty.Contains("Medium"))
+                                                    {
+                                                        <span class="@med">@Html.DisplayFor(modelItem => item.TicketPriority.PriorityName)</span>
+                                                    }
+                                                    else if (prty.Contains("High"))
+                                                    {
+                                                        <span class="@high">@Html.DisplayFor(modelItem => item.TicketPriority.PriorityName)</span>
+                                                    }
+                                                    else if (prty.Contains("Urgent"))
+                                                    {
+                                                        <span class="@urgent">@Html.DisplayFor(modelItem => item.TicketPriority.PriorityName)</span>
+                                                    }
+
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.TicketStatus.StatusName)
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.TicketType.TypeName)
+                                                </td>
+                                                <td>
+                                                    <strong>@Html.DisplayFor(modelItem => item.Title)</strong>
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.Description)
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.Created)
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.Updated)
+                                                </td>
+                                                <td class="links text-center">
+                                                    <div class="row">
+
+                                                        <div class="col icon-padding" data-toggle="tooltip" data-placement="bottom" title="Edit">
+                                                            <a href="@Url.Action("Edit", "Tickets", new { id = item.Id })">
+                                                                <img src="~/Images/pencil24x24.png" class="icon-img grow">
+                                                            </a>
+                                                        </div>
+                                                        <div class="col icon-padding" data-toggle="tooltip" data-placement="bottom" title="Details">
+                                                            <a href="@Url.Action("Details", "Tickets", new { id = item.Id })">
+                                                                <img src="~/Images/file24x24.png" class="icon-img grow">
+                                                            </a>
+                                                        </div>
+
+                                                        <div class="col icon-padding" data-toggle="tooltip" data-placement="bottom" title="Assign">
+                                                            <a href="@Url.Action("AssignTicket", "Tickets", new { id = item.Id })">
+                                                                <img src="~/Images/user_add_2.png" class="icon-img grow">
+                                                            </a>
+                                                        </div>
+
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        }
                                     }
-                                }
+
+                                </table>
                             </div>
-                        </div>
 
 
 
-                        <div class="row between">
-                            <div class="col-xs font-role">
-                                Developer(s):
-                            </div>
-                        </div>
-                        <div class="row between">
-                            <div class="col-xs">
-                                @foreach (var item in Model.Users)
-                                {
-                                    if (item.MyRole.Contains("Developer") || item.MyRole.Contains("Demo Developer"))
-                                    {
-                                        <span>
-                                            <img src="@Html.DisplayFor(model => item.AvatarPath)" class="ticket-assigned-img" />
-                                            <small>@Html.DisplayFor(modelItem => item.DisplayName)</small>
-                                        </span>
-                                    }
-                                }
-                            </div>
-                        </div>
 
-
-                        <div class="row between">
-                            <div class="col-xs font-role">
-                                Submitter(s):
-                            </div>
                         </div>
-                        <div class="row between">
-                            <div class="col-xs">
-                                @foreach (var item in Model.Users)
-                                {
-                                    if (item.MyRole.Contains("Submitter") || item.MyRole.Contains("Demo Submitter"))
-                                    {
-                                        <span>
-                                            <img src="@Html.DisplayFor(model => item.AvatarPath)" class="ticket-assigned-img" />
-                                            <small>@Html.DisplayFor(modelItem => item.DisplayName)</small>
-                                        </span>
-                                    }
-                                }
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col">
-                        <button class="btn-attach">@Html.ActionLink("Edit", "Edit", new { id = Model.Id })</button> <button class="btn-attach">@Html.ActionLink("Back to List", "Index")</button>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
-

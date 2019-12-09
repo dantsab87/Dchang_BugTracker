@@ -39,7 +39,7 @@
 }
 
 <div class="table-responsive">
-    <table class="table table-hover table-head-bg-primary table-striped Dtable">
+    <table class="table Dtable table-head-bg-primary ">
         <thead>
             <tr>
                 <th>
@@ -51,7 +51,7 @@
                 <th width="15%">
                     @Html.DisplayNameFor(model => model.Created)
                 </th>
-                <th></th>
+                <th><center>@Html.DisplayName("Manage")</center></th>
             </tr>
         </thead>
         <tbody>
@@ -68,25 +68,25 @@
                         @Html.DisplayFor(modelItem => item.Created)
                     </td>
                     <td class="links">
-
-                        <div class="row">
-                            <div class="col icon-padding">
-                                <a href="@Url.Action("Edit", "Projects", new { id = item.Id })">
-                                    <img src="~/Images/pencil24x24.png" class="icon-img grow" data-toggle="tooltip" data-placement="bottom" title="Edit">
-                                </a>
+                        <center>
+                            <div class="row">
+                                <div class="col-sm icon-padding">
+                                    <a href="@Url.Action("Edit", "Projects", new { id = item.Id })">
+                                        <img src="~/Images/pencil24x24.png" class="icon-img grow" data-toggle="tooltip" data-placement="bottom" title="Edit">
+                                    </a>
+                                </div>
+                                <div class="col-sm icon-padding">
+                                    <a href="@Url.Action("Details", "Projects", new { id = item.Id })">
+                                        <img src="~/Images/file24x24.png" class="icon-img grow" data-toggle="tooltip" data-placement="bottom" title="Details">
+                                    </a>
+                                </div>
+                                <div class="col-sm icon-padding">
+                                    <a href="@Url.Action("ManageUsers", "Projects", new { id = item.Id })">
+                                        <img src="~/Images/user_add_2.png" class="icon-img grow" data-toggle="tooltip" data-placement="bottom" title="Manage Users">
+                                    </a>
+                                </div>
                             </div>
-                            <div class="col icon-padding">
-                                <a href="@Url.Action("Details", "Projects", new { id = item.Id })">
-                                    <img src="~/Images/file24x24.png" class="icon-img grow" data-toggle="tooltip" data-placement="bottom" title="Details">
-                                </a>
-                            </div>
-                            <div class="col icon-padding">
-                                <a href="@Url.Action("ManageUsers", "Projects", new { id = item.Id })">
-                                    <img src="~/Images/user_add_2.png" class="icon-img grow" data-toggle="tooltip" data-placement="bottom" title="Manage Users">
-                                </a>
-                            </div>
-                        </div>
-
+                        </center>
                     </td>
                 </tr>
             }
