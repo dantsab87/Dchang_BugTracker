@@ -52,12 +52,12 @@ namespace Dchang_BugTracker.Controllers
             var user = db.Users.Find(userId);
             var projects = user.Projects;
 
-            ViewBag.xProject = new SelectList(projects, "Id", "Name");
+            ViewBag.ProjectId = new SelectList(projects, "Id", "Name");
             ViewBag.AssignedToUserId = new SelectList(db.Users, "Id", "FirstName");
-            //ViewBag.OwnerUserId = new SelectList(db.Users, "Id", "FirstName");
-            ViewBag.ProjectId = new SelectList(db.Projects, "Id", "Name");
+            ViewBag.OwnerUserId = new SelectList(db.Users, "Id", "FirstName");
+            //ViewBag.ProjectId = new SelectList(db.Projects, "Id", "Name");
             ViewBag.TicketPriorityId = new SelectList(db.TicketPriorities, "Id", "PriorityName");
-            //ViewBag.TicketStatusId = new SelectList(db.TicketStatus, "Id", "StatusName");
+            ViewBag.TicketStatusId = new SelectList(db.TicketStatus, "Id", "StatusName");
             ViewBag.TicketTypeId = new SelectList(db.TicketTypes, "Id", "TypeName");
             return View();
         }
@@ -85,10 +85,10 @@ namespace Dchang_BugTracker.Controllers
             var userId = User.Identity.GetUserId();
             var user = db.Users.Find(userId);
             var projects = user.Projects;
-            ViewBag.xProject = new SelectList(projects, "Id", "Name", ticket.ProjectId);
+            ViewBag.ProjectId = new SelectList(projects, "Id", "Name", ticket.ProjectId);
             //ViewBag.AssignedToUserId = new SelectList(db.Users, "Id", "FirstName", ticket.AssignedToUserId);
             //ViewBag.OwnerUserId = new SelectList(db.Users, "Id", "FirstName", ticket.OwnerUserId);
-            ViewBag.ProjectId = new SelectList(db.Projects, "Id", "Name", ticket.ProjectId);
+            //ViewBag.ProjectId = new SelectList(db.Projects, "Id", "Name", ticket.ProjectId);
             //ViewBag.TicketPriorityId = new SelectList(db.TicketPriorities, "Id", "PriorityName", ticket.TicketPriorityId);
             //ViewBag.TicketStatusId = new SelectList(db.TicketStatus, "Id", "StatusName", ticket.TicketStatusId);
             ViewBag.TicketTypeId = new SelectList(db.TicketTypes, "Id", "TypeName", ticket.TicketTypeId);

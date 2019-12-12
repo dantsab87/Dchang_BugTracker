@@ -239,6 +239,12 @@
 
                     <div class="col">
                         <button class="btn-attach">@Html.ActionLink("Back to Ticket Index", "Index")</button>
+                        @if (User.IsInRole("Submitter") || User.IsInRole("Demo Submitter"))
+                        {
+                            <span class="text-primary" align="center" style="font-weight:500;">
+                            &nbsp;&nbsp;<small>*As long as the Ticket is still open, you can edit it*</small>
+                            </span>
+                        }
                     </div>
 
                 }

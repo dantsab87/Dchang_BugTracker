@@ -173,7 +173,7 @@
             {
                 <tr>
                     <td class="text-center">
-                        @if (arch.Contains("Open"))
+                        @if (arch.Contains("Open") && User.IsInRole("Admin") || User.IsInRole("Demo Admin") || User.IsInRole("Project Manager") || User.IsInRole("Demo Project Manager"))
                         {
                             <div class="col icon-padding" data-toggle="tooltip" data-placement="bottom" title="Assign">
                                 <a href="@Url.Action("AssignTicket", "Tickets", new { id = item.Id })">
