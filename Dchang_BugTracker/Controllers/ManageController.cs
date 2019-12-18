@@ -215,6 +215,7 @@ namespace Dchang_BugTracker.Controllers
 
         //
         // GET: /Manage/ChangePassword
+        [Authorize(Roles = "Admin, Project Manager, Developer, Submitter, Unregistered")]
         public ActionResult ChangePassword()
         {
             return View();
@@ -232,13 +233,16 @@ namespace Dchang_BugTracker.Controllers
             }
             var result = await UserManager.ChangePasswordAsync(User.Identity.GetUserId(), model.OldPassword, model.NewPassword);
             if (result.Succeeded)
-            {
+            {   
+
                 var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
                 if (user != null)
                 {
                     await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
                 }
-                return RedirectToAction("Index", new { Message = ManageMessageId.ChangePasswordSuccess });
+                TempData["ChangedPassword"] = "You have successfully changed your password!";
+                return RedirectToAction("EditProfile", "Home");
+                //return RedirectToAction("Index", new { Message = ManageMessageId.ChangePasswordSuccess });
             }
             AddErrors(result);
             return View(model);

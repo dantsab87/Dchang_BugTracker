@@ -214,9 +214,9 @@
                                 <i class="fa fa-bell"></i>
                                 @if (NotificationHelper.GetUnreadNotifications().Count() != 0)
                                 {
-                                <span class="notification">@NotificationHelper.GetUnreadNotifications().Count()</span>
+                                    <span class="notification">@NotificationHelper.GetUnreadNotifications().Count()</span>
                                 }
-                                else 
+                                else
                                 { }
                             </a>
                             <ul class="dropdown-menu notif-box animated fadeIn" aria-labelledby="notifDropdown">
@@ -226,38 +226,38 @@
                                 @if (NotificationHelper.GetUnreadNotifications().Count() != 0)
                                 {
                                     <div class="thescrollbar force-overflow" id="scroll-notif" style="margin:0; padding:0">
-                                         @foreach (var unreadNotification in NotificationHelper.GetUnreadNotifications().OrderByDescending(c => c.Created))
-                                            {
-                                                <li>
-                                                    @using (Html.BeginForm("Dismiss", "TicketNotifications", FormMethod.Post))
-                                                    {
-                                                        @Html.AntiForgeryToken()
-                                                        @Html.Hidden("Id", unreadNotification.Id)
+                                        @foreach (var unreadNotification in NotificationHelper.GetUnreadNotifications().OrderByDescending(c => c.Created))
+                                        {
+                                            <li>
+                                                @using (Html.BeginForm("Dismiss", "TicketNotifications", FormMethod.Post))
+                                                {
+                                                    @Html.AntiForgeryToken()
+                                                    @Html.Hidden("Id", unreadNotification.Id)
 
-                                                        <div>
+                                                    <div>
 
-                                                            <div class="notif-center" id="notif_top">
-                                                                <div class="text-right"><button type="submit" class="xbtn">&times;</button></div>
-                                                                <a href="#notif_top">
-                                                                    <div class="notif-icon notif-primary"> <img src="@unreadNotification.Sender.AvatarPath" class="avatar avatar-img rounded-circle"> </div>
-                                                                    <div class="notif-content">
-                                                                        <span class="block ntfy-message">
-                                                                            <strong>@unreadNotification.Sender.DisplayName:</strong> @unreadNotification.NotificationBody
-                                                                        </span>
-                                                                        <div class="ntfy-time">
-                                                                            <span>@unreadNotification.Created.ToString("MMM dd, yyyy")</span>
-                                                                        </div>
+                                                        <div class="notif-center" id="notif_top">
+                                                            <div class="text-right"><button type="submit" class="xbtn">&times;</button></div>
+                                                            <a href="#notif_top">
+                                                                <div class="notif-icon notif-primary"> <img src="@unreadNotification.Sender.AvatarPath" class="avatar avatar-img rounded-circle"> </div>
+                                                                <div class="notif-content">
+                                                                    <span class="block ntfy-message">
+                                                                        <strong>@unreadNotification.Sender.DisplayName:</strong> @unreadNotification.NotificationBody
+                                                                    </span>
+                                                                    <div class="ntfy-time">
+                                                                        <span>@unreadNotification.Created.ToString("MMM dd, yyyy")</span>
                                                                     </div>
-                                                                </a>
-                                                                <hr class="msg-line" />
+                                                                </div>
+                                                            </a>
+                                                            <hr class="msg-line" />
 
 
-                                                            </div>
                                                         </div>
-                                                    }
+                                                    </div>
+                                                }
 
-                                                </li>
-                                            }
+                                            </li>
+                                        }
                                     </div>
                                     <li>
                                         <a class="see-all" href="@Url.Action("Index", "TicketNotifications")">See all notifications<i class="fa fa-angle-right"></i></a>
@@ -354,9 +354,9 @@
                                     <li>
                                         @Html.ActionLink("Home", "Dashboard", "Home", null, new { @class = "sub-item" })
                                     </li>
-                                  @*<li>
-                                        @Html.ActionLink("Directory", "Contacts", "Home", null, new { @class = "sub-item" })
-                                    </li>*@
+                                    @*<li>
+                                            @Html.ActionLink("Directory", "Contacts", "Home", null, new { @class = "sub-item" })
+                                        </li>*@
                                     <li>@Html.ActionLink("Notifications", "Index", "TicketNotifications", null, new { @class = "sub-item" })</li>
                                     <li>@Html.ActionLink("Log off", "LogOut", "Account", null, new { @class = "sub-item" })</li>
                                 </ul>
@@ -512,7 +512,7 @@
 
 
 
-    <!--Datatabbles JS-->
+    <!--Datatables JS-->
     <script src="~/Scripts/jquery.dataTables.min.js"></script>
     <script src="~/Scripts/jquery.dataTables.js"></script>
 
@@ -541,7 +541,16 @@
         }
     </script>
 
-
+    <script>
+        var chg_pass = '@TempData["ChangedPassword"]';
+        if (chg_pass != '') {
+            Swal.fire({
+                icon: 'success',
+                title: 'Success!',
+                text: chg_pass
+            })
+        }
+    </script>
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")

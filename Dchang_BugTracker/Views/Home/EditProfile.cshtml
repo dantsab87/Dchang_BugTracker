@@ -95,6 +95,15 @@
                         </div>
                         <div class="pull-left">
                             <button type="button" class="btn btn-primary btn-sm" id="showedit">Edit Profile</button>
+                            &nbsp;&nbsp;
+                            @if (User.IsInRole("Demo Admin") || User.IsInRole("Demo Project Manager") || User.IsInRole("Demo Developer") || User.IsInRole("Demo Submitter"))
+                            {
+                                <span>&nbsp;&nbsp;</span>
+                            }
+                            else
+                            {
+                                <a href="@Url.Action("ChangePassword","Manage")" type="button" class="btn btn-primary btn-sm">Change Password</a>
+                            }
                         </div>
                     }
                     else

@@ -10,25 +10,29 @@ using Microsoft.AspNet.Identity;
 
 namespace Dchang_BugTracker.Controllers
 {
-    [Authorize]
+
     public class HomeController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
         private RoleHelper roleHelper = new RoleHelper();
         private ProjectHelper projHelper = new ProjectHelper();
 
-       [AllowAnonymous]
         public ActionResult Index()
         {
+            if (User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("LogOut", "Account");
+            }
             return View();
         }
-
+        [Authorize]
         public ActionResult Dashboard() 
         {
             ViewBag.Role = new SelectList(db.Roles, "Name", "Name");
             return View();
         }
 
+        [Authorize]
         //GET Home/EditProfile
         public ActionResult EditProfile()
         {
@@ -50,6 +54,7 @@ namespace Dchang_BugTracker.Controllers
             return View(userVM);
         }
         //POST Home/EditProfile
+        [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult EditProfile([Bind(Include = "Id, FirstName, LastName, DisplayName, Email, AvatarPath")] ProfileViewModel user, HttpPostedFileBase avatar)

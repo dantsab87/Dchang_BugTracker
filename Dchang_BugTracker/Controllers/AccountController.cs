@@ -61,6 +61,11 @@ namespace Dchang_BugTracker.Controllers
         [AllowAnonymous]
         public ActionResult Login(string returnUrl)
         {
+            if (User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("LogOut", "Account");
+            }
+
             ViewBag.ReturnUrl = returnUrl;
             return View();
         }
@@ -73,6 +78,8 @@ namespace Dchang_BugTracker.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Login(LoginViewModel model, string returnUrl)
         {
+
+
             if (!ModelState.IsValid)
             {
                 return View(model);
@@ -106,6 +113,7 @@ namespace Dchang_BugTracker.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DemoLogin(string emailKey)
         {
+
             var email = WebConfigurationManager.AppSettings[emailKey];
             var password = WebConfigurationManager.AppSettings["DemoPassword"];
 
@@ -271,7 +279,10 @@ namespace Dchang_BugTracker.Controllers
             if (ModelState.IsValid)
             {
                 var user = await UserManager.FindByNameAsync(model.Email);
-                if (user == null)
+                if (user == null || user.Id.Contains("05e4787b-df57-403c-a8bb-82620b497dde") 
+                                 || user.Id.Contains("7a915817-12fb-488c-8230-2a454dc9c5b1")
+                                 || user.Id.Contains("88106bac-5bdf-459a-9f33-b27c33d2606c")
+                                 || user.Id.Contains("c8ba56df-ef54-4156-af30-e6c744f643bb"))
                 {
                     // Don't reveal that the user does not exist or is not confirmed
                     return View("ForgotPasswordConfirmation");
@@ -467,6 +478,7 @@ namespace Dchang_BugTracker.Controllers
         }
 
 
+        // My custom Log out
         public ActionResult LogOut()
         {
             AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
